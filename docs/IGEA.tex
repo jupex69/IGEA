@@ -4,12 +4,36 @@
 % Preamble
 \documentclass[11pt]{article}
 
-% Packages
-\usepackage{amsmath}
+% Carica i pacchetti necessari
+\usepackage{graphicx}   % Per includere immagini
+\usepackage{fancyhdr}    % Per la gestione dell'intestazione e piè di pagina
+\usepackage{geometry}    % Per la gestione delle dimensioni della pagina
+\geometry{top=4cm, bottom=2cm, left=2.5cm, right=2.5cm} % Impostazioni margini pagina
 
-% Document
+\pagestyle{empty}  % Rimuovi numerazione delle pagine
+
 \begin{document}
 
+% Intestazione
+    \begin{center}
+        \Large{UNIVERSITÀ DEGLI STUDI DI SALERNO} \\[0.5cm]
+        \Large Corso di Laurea in Informatica \\
+        \Large Fondamenti di Intelligenza Artificiale \\[1cm]
 
+        % Logo
+        \includegraphics[width=0.4\textwidth]{images/logo_IGEA} \\[0.5]
+
+        \Huge \textbf{IGEA} \\[1.5cm]
+
+        % Elenco degli autori
+        \Large
+        Gennaro Pio Albano (Mat. 0512119547) \\[0.3cm]
+        Giuseppe Annunziata (Mat. 0512120144) \\[0.3cm]
+        Alessandro Bonelli (Mat. 0512119640) \\[0.3cm]
+        Samuele Nacchia (Mat. 0512119128) \\[1cm]
+
+        % Logo dell'UNISA in basso
+        \includegraphics[width=0.2\textwidth]{images/unisa}  % Inserisci il logo UNISA con il percorso corretto
+    \end{center}
 
 \end{document}
