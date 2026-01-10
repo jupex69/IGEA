@@ -170,8 +170,49 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
             \caption{Specifica PEAS dell'agente IGEA}\label{tab:table}
         \end{table}
 
-    \subsection{Analisi del problema}
-    Scrivere qui l'analisi...
+
+    \subsection{Specifiche dell'ambiente}
+
+        L’ambiente operativo in cui agisce il sistema \textit{IGEA}
+        è costituito dall’insieme dei dati relativi agli studenti universitari, provenienti da questionari
+        autocompilati. Il modello di machine learning interagisce con tale ambiente analizzando i dati disponibili
+        al fine di stimare il livello di rischio di disagio psicologico, con particolare riferimento a stati
+        depressivi.
+
+        L’ambiente di IGEA può essere classificato come segue:
+
+        \begin{itemize}
+            \item \textbf{Parzialmente osservabile}:
+            l’agente non ha accesso diretto allo stato psicologico reale dello studente, ma solo a informazioni
+            indirette e parziali, spesso soggettive e rumorose, come risposte a questionari.
+            Di conseguenza, lo stato dell’ambiente non è completamente osservabile.
+
+            \item \textbf{Non deterministico}:
+            la relazione tra i dati osservabili e il reale stato emotivo dello studente non è deterministica.
+            A parità di input possono corrispondere stati psicologici differenti, a causa di fattori esterni
+            non completamente modellabili e dell’elevata variabilità individuale.
+
+            \item \textbf{Episodico}:
+            ogni valutazione prodotta dal sistema è indipendente dalle precedenti. Il modello analizza le
+            osservazioni raccolte in un determinato istante temporale senza mantenere uno stato interno che
+            tenga traccia delle valutazioni passate. Ciascun episodio corrisponde pertanto a una singola
+            compilazione del questionario, e la decisione non influenza né dipende da episodi futuri.
+
+            \item \textbf{Statico}:
+            durante l’elaborazione dei dati relativi a una singola compilazione del questionario, l’ambiente
+            non cambia: le percezioni fornite all’agente e lo stato interno considerato restano invariati fino al
+            termine dell’analisi. Eventuali variazioni nello stato emotivo dello studente o nei dati disponibili
+            si verificano solo tra episodi distinti, e non influenzano il processo decisionale in corso.
+
+            \item \textbf{Discreto}:
+            poiché il sistema produce esclusivamente una classificazione binaria e opera su percezioni,
+            stati e azioni discreti
+
+            \item \textbf{Singolo agente}:
+            il sistema IGEA opera come agente singolo e non interagisce direttamente con altri agenti
+            intelligenti. Esso fornisce supporto decisionale a figure umane quali psicologi e servizi di
+            supporto universitari, che rimangono responsabili degli interventi finali.
+        \end{itemize}
 
     % ------------------------------------------
 
