@@ -147,13 +147,24 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
                 \hline
                 \textbf{Componente} & \textbf{Descrizione} \\
                 \hline
-                \textbf{Performance} & La misura di prestazione adottata prevede la minimizzazione dei tempi per la ricerca di una mossa che sia valida e, al tempo stesso, la migliore possibile. \\
+                \textbf{Performance} & La misura di performance del sistema si basa sulla capacità
+                                       dell'agente di distinguere correttamente studenti inclini alla
+                                       depressione e studenti non inclini, con particolare attenzione
+                                       all'identificazione accurata della classe Depressione (True). \\
+
                 \hline
-                \textbf{Environment} & L'ambiente in cui opera l'agente è costituito dall'insieme di tutte le possibili configurazioni che la scacchiera può assumere. \\
+                \textbf{Environment} & L'ambiente consiste negli studenti universitari, i quali
+                                       completano un questionario psicologico per valutare il loro benessere emotivo. \\
+
                 \hline
-                \textbf{Actuators} & L'agente agisce sull'ambiente tramite la mossa migliore trovata. \\
+                \textbf{Actuators} & Gli attuatori consistono in un sistema di classificazione che
+                                     assegna un'etichetta (\("\)Depresso\("\) o \("\)Non depresso\("\)) e segnala
+                                     gli studenti identificati come a rischio con una panoramica chiara dei diversi report.
+                                     Questi attuatori permettono di attivare interventi per supportare gli studenti. \\
+
                 \hline
-                \textbf{Sensors} & L'agente percepisce l'ambiente tramite la scacchiera virtuale a cui sono associate tutte le informazioni della partita (giocatore attuale, mosse possibili...). \\
+                \textbf{Sensors} & I sensori consistono nelle risposte al questionario psicologico
+                                   fornito dagli studenti, che vengono analizzate dal sistema. \\
                 \hline
             \end{tabular}
             \caption{Specifica PEAS dell'agente IGEA}\label{tab:table}
