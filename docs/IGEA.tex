@@ -4,36 +4,189 @@
 % Preamble
 \documentclass[11pt]{article}
 
-% Carica i pacchetti necessari
-\usepackage{graphicx}   % Per includere immagini
-\usepackage{fancyhdr}    % Per la gestione dell'intestazione e piè di pagina
-\usepackage{geometry}    % Per la gestione delle dimensioni della pagina
-\geometry{top=4cm, bottom=2cm, left=2.5cm, right=2.5cm} % Impostazioni margini pagina
+% --- PACCHETTI ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{changepage}
+\usepackage{titlesec}
+\usepackage{fancyhdr} % Per l'intestazione personalizzata
 
-\pagestyle{empty}  % Rimuovi numerazione delle pagine
+% --- GEOMETRIA PAGINA ---
+% headheight=40pt serve per fare spazio al logo nell'header
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm, headheight=40pt}
 
+% --- DEFINIZIONE COLORI ---
+\definecolor{igeaPurple}{HTML}{AE4FDD}
+
+% --- CONFIGURAZIONE LINK (NERI) ---
+\usepackage[colorlinks=true, linkcolor=black, urlcolor=black, citecolor=black]{hyperref}
+
+% --- CONFIGURAZIONE INTESTAZIONE (HEADER) ---
+% Definiamo lo stile che apparirà su TUTTE le pagine tranne la copertina
+\pagestyle{fancy}
+\fancyhf{} % Pulisce header e footer precedenti
+
+% 1. Logo a sinistra (Dip-Inf)
+\lhead{\includegraphics[height=1.2cm]{images/dip-Inf.png}}
+
+% 2. Testo a destra (Laurea e Prof. Palomba)
+\rhead{\footnotesize
+Laurea Triennale in Informatica - Università di Salerno \\
+Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
+
+% 3. Numero di pagina in basso al centro
+\cfoot{\thepage}
+
+% Ridefiniamo lo stile "plain" (usato dall'indice) per avere lo stesso header
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \lhead{\includegraphics[height=1.2cm]{images/dip-Inf.png}}
+    \rhead{\footnotesize Laurea Triennale in Informatica - Università di Salerno \\ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
+    \cfoot{\thepage}
+}
+
+% --- INIZIO DOCUMENTO ---
 \begin{document}
 
-% Intestazione
-    \begin{center}
-        \Large{UNIVERSITÀ DEGLI STUDI DI SALERNO} \\[0.5cm]
+    % ==========================================
+    %               COPERTINA
+    % ==========================================
+    % \thispagestyle{empty} Rimuove header, footer e numero pagina SOLO da questa pagina
+    \begin{titlepage}
+        \thispagestyle{empty}
+        \centering
+
+        % Testo Istituzionale (Come nella versione originale)
+        \Large UNIVERSITÀ DEGLI STUDI DI SALERNO \\[0.5cm]
         \Large Corso di Laurea in Informatica \\
         \Large Fondamenti di Intelligenza Artificiale \\[1cm]
 
-        % Logo
-        \includegraphics[width=0.4\textwidth]{images/logo_IGEA} \\[0.5]
+        % Logo del progetto IGEA
+        \includegraphics[width=0.4\textwidth]{images/logo_IGEA} \\[0.5cm]
 
-        \Huge \textbf{IGEA} \\[1.5cm]
+        % Titolo Progetto
+        \Huge \textbf{IGEA}\\[0.5cm]
 
-        % Elenco degli autori
+        % Autori
         \Large
+        \textbf{Gruppo di Progetto:} \\[0.5cm]
         Gennaro Pio Albano (Mat. 0512119547) \\[0.3cm]
         Giuseppe Annunziata (Mat. 0512120144) \\[0.3cm]
         Alessandro Bonelli (Mat. 0512119640) \\[0.3cm]
-        Samuele Nacchia (Mat. 0512119128) \\[1cm]
+        Samuele Nacchia (Mat. 0512119128) \\[1.5cm]
 
-        % Logo dell'UNISA in basso
-        \includegraphics[width=0.2\textwidth]{images/unisa}  % Inserisci il logo UNISA con il percorso corretto
-    \end{center}
+        % Logo Unisa in basso
+        \includegraphics[width=0.2\textwidth]{images/unisa}
+
+        \vfill
+        \large Anno Accademico 2025/2026
+    \end{titlepage}
+
+    \newpage
+
+    % ==========================================
+    %               INDICE
+    % ==========================================
+    % Da qui in poi appare l'Header con dip-Inf e Prof. Palomba
+    \tableofcontents
+    \newpage
+
+    % ==========================================
+    %               CONTENUTO
+    % ==========================================
+
+    \section{Introduzione}
+
+        Il benessere psicologico degli studenti universitari rappresenta una tematica di crescente rilevanza nel
+        panorama accademico e sanitario. Il percorso universitario, spesso caratterizzato da elevate pressioni
+        performative, transizioni sociali significative e incertezza verso il futuro, costituisce una fase critica
+        che può favorire l'insorgenza di disturbi dell'umore, tra cui la depressione.
+        Tale disagio, se trascurato, può aggravarsi fino a livelli insostenibili, portando nei casi più drammatici a
+        gesti estremi.
+
+
+
+
+    \subsection{Sistema attuale}
+
+        Attualmente, l’individuazione di studenti universitari a rischio di depressione avviene
+        principalmente tramite autosegnalazione o osservazioni indirette da parte di docenti e tutor.
+        I servizi di supporto psicologico operano in maniera reattiva, intervenendo solo quando il disagio è
+        già esplicitamente manifestato. Non sono presenti strumenti automatici di analisi o predizione basati sui dati,
+        rendendo difficile un’identificazione precoce e sistematica degli studenti potenzialmente vulnerabili.
+
+
+    \subsection{Obiettivi}
+
+        Il sistema IGEA - Intelligent Guide for Emotional Assessment è stato progettato con l’obiettivo
+        di fornire un supporto proattivo nella rilevazione precoce della depressione tra gli studenti universitari,
+        al fine di favorire interventi tempestivi e mirati da parte dell'università e degli psicologi dell'ateneo.
+        IGEA è un alleato nel monitoraggio del benessere psicologico, ma non sostituisce il lavoro degli esperti.
+        Il sistema non ha l'intento di diagnosticare o curare la depressione, ma piuttosto di identificare segnali di
+        rischio che possano indicare uno stato di disagio emotivo o mentale, permettendo una valutazione iniziale
+        della salute psicologica degli studenti.
+
+
+    % ------------------------------------------
+
+    \section{Descrizione agente}
+    Scrivere qui la descrizione...
+
+    \subsection{Specifica PEAS}
+    Scrivere qui la specifica PEAS...
+
+    \subsection{Analisi del problema}
+    Scrivere qui l'analisi...
+
+    % ------------------------------------------
+
+    \section{Raccolta e scelta del dataset}
+    Scrivere qui la raccolta dati...
+
+    % ------------------------------------------
+
+    \section{Data preparation}
+    Scrivere qui la preparazione...
+
+    \subsection{Data cleaning}
+    Scrivere qui il cleaning...
+
+    \subsection{Feature scaling}
+    Scrivere qui lo scaling...
+
+    \subsection{Feature engineering}
+    Scrivere qui l'engineering...
+
+    \subsection{Data balancing}
+    Scrivere qui il bilanciamento...
+
+    % ------------------------------------------
+
+    \section{Modeling}
+    Scrivere qui il modeling...
+
+    \subsection{Scelta algoritmo}
+    Scrivere qui la scelta...
+
+    \subsection{Implementazione / addestramento}
+    Scrivere qui l'implementazione...
+
+    % ------------------------------------------
+
+    \section{Conclusioni}
+    Scrivere qui le conclusioni...
+
+    \subsection{Metriche di valutazioni}
+    Scrivere qui le metriche...
+
+    \subsection{Valutazioni}
+    Scrivere qui le valutazioni...
+
+    \subsection{Considerazioni finali}
+    Scrivere qui le considerazioni...
 
 \end{document}
