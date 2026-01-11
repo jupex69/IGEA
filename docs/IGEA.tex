@@ -227,7 +227,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
     % ------------------------------------------
 
-    \section{Identificazione dataset }
+    \section{Individuazione dataset }
     Nella fase iniziale del progetto, abbiamo valutato due diverse strategie per l'acquisizione dei
     dati necessari all'addestramento del modello di Machine Learning:
     \begin{enumerate}
@@ -266,7 +266,30 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
     % ------------------------------------------
 
-    \section{Analisi dataset}
+    \subsection{Limiti del dataset}
+    Tale dataset presenta i seguenti limiti:
+    \begin{itemize}
+
+        \item
+        \textbf{Provenienza culturale}: Il dataset proviene da studenti indiani, e le esperienze psicologiche e
+        comportamentali potrebbero differire da quelle degli studenti italiani, influenzando i risultati.
+
+        \item
+        \textbf{Fattori socio-culturali e accademici}: Sebbene il dataset descriva variabili psicologiche e
+        comportamentali legate alla vita universitaria, che non sono specifiche di un singolo contesto nazionale,
+        le dinamiche socio-culturali e accademiche in India potrebbero comunque influenzare la rilevazione del rischio di depressione.
+
+        \item
+        \textbf{Validità limitata}: Senza una validazione su dati italiani, il modello potrebbe non riflettere
+        accuratamente il rischio di depressione tra gli studenti italiani.
+
+    \end{itemize}
+
+    Sebbene il dataset quindi sia stato raccolto su studenti indiani, le informazioni disponibili
+    descrivono aspetti psicologici e comportamentali legati alla vita universitaria che non sono
+    specifici di un singolo contesto nazionale. Il modello viene pertanto utilizzato come studio
+    preliminare per valutare la fattibilità di un sistema predittivo del rischio di depressione,
+    riconoscendo che una validazione su dati italiani reali sarebbe necessaria per un impiego operativo.
 
     \section{Data preparation}
     Scrivere qui la preparazione...
