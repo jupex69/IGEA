@@ -21,6 +21,7 @@
     linkcolor=black, % L'indice resta nero
     urlcolor=blue,   % I link web diventano blu
     citecolor=black]{hyperref}
+\usepackage{color}
 
 % --- GEOMETRIA PAGINA ---
 % headheight=40pt serve per fare spazio al logo nell'header
@@ -291,11 +292,121 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     preliminare per valutare la fattibilità di un sistema predittivo del rischio di depressione,
     riconoscendo che una validazione su dati italiani reali sarebbe necessaria per un impiego operativo.
 
-    \section{Data preparation}
-    Scrivere qui la preparazione...
 
+
+    \section{Data preparation}
+
+    La fase di \textit{data preparation} consente di trasformare il dataset grezzo in un insieme di dati
+    coerente e idoneo all’addestramento del modello di Machine Learning.
+
+    In questa fase iniziale si procede a una comprensione approfondita dei dati disponibili,
+    al fine di valutarne qualità, completezza e rilevanza rispetto al problema di classificazione affrontato.
+
+    L’approccio adottato per la preparazione dei dati si articola nelle seguenti attività principali:
+    \begin{itemize}
+        \item analisi preliminare del dataset e delle variabili disponibili;
+        \item operazioni di \textit{data cleaning} per la rimozione di dati mancanti, incoerenti o irrilevanti;
+        \item applicazione di tecniche di \textit{feature scaling} sulle variabili numeriche;
+        \item trasformazione e costruzione di nuove feature significative (\textit{feature engineering});
+        \item gestione dello sbilanciamento delle classi tramite tecniche di \textit{data balancing}.
+    \end{itemize}
+
+    \subsection{Analisi preliminare del dataset}
+
+    Prima di procedere con le operazioni di pulizia dei dati, è stata condotta
+    un’analisi preliminare del dataset per comprenderne la struttura e le principali caratteristiche statistiche.
+
+    L’analisi si è concentrata su:
+
+    \begin{itemize}
+        \item ricerca di valori mancanti in ciascuna colonna del dataset.
+        \item calcolo della dipendenza delle feature numeriche e categoriche dalla variabile target \textit{Depression};
+        \item analisi delle distribuzioni delle feature numeriche e categoriche per identificare variabili sbilanciate o a bassa variabilità.
+    \end{itemize}
+
+    \newpage
+    \paragraph{Valori mancanti}
+    L’analisi ha evidenziato che non sono presenti valori mancanti.
+
+    \paragraph{Dipendenza dalla variabile target}
+
+    Per le feature numeriche, è stata calcolata la correlazione di Pearson con la variabile target.
+    Per le feature categoriche, la dipendenza è stata stimata come la massima differenza
+    tra le percentuali di studenti depressi e non depressi all'interno delle categorie di ciascuna variabile.
+    In altre parole, indica quanto la presenza di una determinata categoria sia associata allo stato di depressione.
+
+    I risultati principali sono i seguenti:
+
+    \textbf{Correlazione delle feature numeriche con la target \textit{Depression}:}
+    \begin{itemize}
+        \item Academic Pressure: 0.475
+        \item Age: -0.226
+        \item Work/Study Hours: 0.209
+        \item Study Satisfaction: -0.168
+        \item CGPA: 0.022
+        \item Job Satisfaction: -0.003
+        \item Work Pressure: -0.003
+    \end{itemize}
+
+    \textbf{Correlazione delle feature categoriche con la target \textit{Depression}:}
+    \begin{itemize}
+        \item Profession: 1.000
+        \item Financial Stress: 0.626
+        \item Have you ever had suicidal thoughts ?: 0.581
+        \item Degree: 0.415
+        \item Dietary Habits: 0.415
+        \item Sleep Duration: 0.290
+        \item Family History of Mental Illness: 0.225
+        \item Gender: 0.173
+    \end{itemize}
+
+    \paragraph{Analisi delle distribuzioni}
+
+    Per ciascuna feature, oltre a valutare la correlazione o la dipendenza dalla target, è stata analizzata la distribuzione dei valori:
+
+    \begin{itemize}
+        \item \textbf{Feature numeriche}: sono state calcolate media, deviazione standard, skewness e kurtosis.
+        Feature con skew > 1, kurtosis > 5 o deviazione standard molto bassa (<0.01) sono state considerate \textit{anomale},
+        poiché potrebbero non fornire informazioni significative al modello.
+        \item \textbf{Feature categoriche}: sono state valutate la numerosità delle categorie e la distribuzione percentuale.
+        Variabili con una sola categoria o con una categoria dominante (>90\%) sono considerate sbilanciate e poco informative.
+    \end{itemize}
+
+    \newpage
     \subsection{Data cleaning}
-    Scrivere qui il cleaning...
+
+    La fase di \textit{data cleaning} è finalizzata a rimuovere elementi potenzialmente dannosi per il processo
+    di apprendimento del modello, con l’obiettivo di migliorare la qualità e l’affidabilità complessiva del dataset.
+
+    In primo luogo, sono state eliminate le colonne non informative o non utilizzabili per il nostro studio:
+
+    \begin{itemize}
+        \item \textit{id}: attributo identificativo degli studenti, irrilevante per la predizione del rischio di depressione;
+        \item \textit{City}: rappresenta un'informazione geografica specifica del contesto indiano
+        e quindi non generalizzabile agli studenti italiani.
+    \end{itemize}
+
+    Successivamente, sono state rimosse le feature numeriche e categoriche con distribuzioni anomale o bassa dipendenza dalla target:
+
+    \begin{itemize}
+        \item \textbf{Numeriche}: Work Pressure, CGPA, Job Satisfaction
+        \item \textbf{Categoriali}: Profession
+    \end{itemize}
+
+    Al termine della fase di \textit{data cleaning}, il dataset risultante appare coerente,
+    privo di incongruenze significative e adeguato per le successive fasi di trasformazione e addestramento del modello.
+
+    \paragraph{Caso della feature CGPA}
+
+    La feature \textit{CGPA} è stata inizialmente considerata per l'eliminazione poichè la correlazione lineare tra CGPA
+    e la variabile target risulta praticamente nulla (0.022), indicando che CGPA non presenta una relazione lineare
+    significativa con il rischio di depressione nel dataset a disposizione.
+
+    \textit{CGPA} è stata rimossa nella fase preliminare di \textit{data cleaning},
+    poiché la sua presenza avrebbe fornito informazioni minime al modello e potenzialmente aumentato il rumore nei dati.
+
+    Va comunque sottolineato che in fasi successive di sperimentazione con modelli più complessi,
+    la feature potrebbe essere reinserita per valutare eventuali effetti non lineari o interazioni con altre variabili.
 
     \subsection{Feature scaling}
     Scrivere qui lo scaling...
