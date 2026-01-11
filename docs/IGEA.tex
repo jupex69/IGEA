@@ -15,6 +15,12 @@
 \usepackage{titlesec}
 \usepackage{fancyhdr} % Per l'intestazione personalizzata
 \usepackage{float}
+\usepackage[none]{hyphenat}
+\usepackage{parskip}
+\usepackage[colorlinks=true,
+    linkcolor=black, % L'indice resta nero
+    urlcolor=blue,   % I link web diventano blu
+    citecolor=black]{hyperref}
 
 % --- GEOMETRIA PAGINA ---
 % headheight=40pt serve per fare spazio al logo nell'header
@@ -22,9 +28,6 @@
 
 % --- DEFINIZIONE COLORI ---
 \definecolor{igeaPurple}{HTML}{AE4FDD}
-
-% --- CONFIGURAZIONE LINK (NERI) ---
-\usepackage[colorlinks=true, linkcolor=black, urlcolor=black, citecolor=black]{hyperref}
 
 % --- CONFIGURAZIONE INTESTAZIONE (HEADER) ---
 % Definiamo lo stile che apparirà su TUTTE le pagine tranne la copertina
@@ -105,7 +108,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
         Il benessere psicologico degli studenti universitari rappresenta una tematica di crescente rilevanza nel
         panorama accademico e sanitario. Il percorso universitario, spesso caratterizzato da elevate pressioni
         performative, transizioni sociali significative e incertezza verso il futuro, costituisce una fase critica
-        che può favorire l'insorgenza di disturbi dell'umore, tra cui la depressione.
+        che può favorire l'insorgenza di disturbi dell'umore, tra cui la depressione.\newline
         Tale disagio, se trascurato, può aggravarsi fino a livelli insostenibili, portando nei casi più drammatici a
         gesti estremi.
 
@@ -115,7 +118,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     \subsection{Sistema attuale}
 
         Attualmente, l’individuazione di studenti universitari a rischio di depressione avviene
-        principalmente tramite autosegnalazione o osservazioni indirette da parte di docenti e tutor.
+        principalmente tramite autosegnalazione o osservazioni indirette da parte di docenti e tutor.\newline
         I servizi di supporto psicologico operano in maniera reattiva, intervenendo solo quando il disagio è
         già esplicitamente manifestato. Non sono presenti strumenti automatici di analisi o predizione basati sui dati,
         rendendo difficile un’identificazione precoce e sistematica degli studenti potenzialmente vulnerabili.
@@ -201,7 +204,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
             \newpage
             \item \textbf{Episodico}:
-            ogni valutazione prodotta dal sistema è indipendente dalle precedenti. Il modello analizza le
+            ogni valutazione prodotta dal sistema è indipendente dalle precedenti.\newline Il modello analizza le
             osservazioni raccolte in un determinato istante temporale senza mantenere uno stato interno che
             tenga traccia delle valutazioni passate. Ciascun episodio corrisponde pertanto a una singola
             compilazione del questionario, e la decisione non influenza né dipende da episodi futuri.
@@ -225,7 +228,41 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     % ------------------------------------------
 
     \section{Identificazione dataset }
-    Scrivere qui la raccolta dati...
+    Nella fase iniziale del progetto, abbiamo valutato due diverse strategie per l'acquisizione dei
+    dati necessari all'addestramento del modello di Machine Learning:
+    \begin{enumerate}
+        \item \textbf{Creare} un dataset da zero, sottoponendo un questionario ad un campione di studenti;
+
+        \item \textbf{Cercare} sulla rete un dataset già formato,
+                    e adeguarlo alle nostre esigenze;
+
+    \end{enumerate}
+
+    Dopo un'analisi comparativa, la prima opzione è stata scartata a causa di limitazioni metodologiche
+    critiche. In primo luogo, la raccolta di un numero di campioni statisticamente significativo avrebbe
+    richiesto tempi eccessivamente lunghi.
+
+    Tuttavia, l'ostacolo principale è rappresentato dalla \textbf{mancanza di un esperto di dominio}.\newline
+    Per addestrare un modello di classificazione accurato, ogni record deve essere etichettato correttamente
+    (es. "Depresso: Sì/No"). Senza la supervisione di un professionista in grado di valutare clinicamente
+    le risposte dei candidati, il dataset prodotto sarebbe risultato privo di validità scientifica,
+    rendendo il modello inaffidabile.
+
+    Di conseguenza, si è deciso di procedere con la seconda soluzione, individuando sulla
+    piattaforma \textbf{Kaggle} il dataset: \href{https://www.kaggle.com/datasets/adilshamim8/student-depression-dataset/data}{\textcolor{blue}{\underline{\textit{"Student Depression Dataset"}}}}
+
+
+
+    \subsection{Punti di forza del dataset}
+    La scelta è ricaduta su questo archivio per i seguenti motivi:
+    \begin{itemize}
+        \item \textbf{Varietà dei parametri:}
+            Include fattori determinanti come la pressione accademica,
+            la soddisfazione nello studio, le ore di sonno e la storia clinica familiare.
+        \item \textbf{Ampiezza dei dati:} Le migliaia di osservazioni forniscono una base solida
+            per l'addestramento, permettendo all'algoritmo di riconoscere pattern complessi con
+            maggiore precisione.
+    \end{itemize}
 
     % ------------------------------------------
 
