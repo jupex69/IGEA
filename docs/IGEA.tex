@@ -416,20 +416,32 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     \end{itemize}
 
     \section{Data preparation}
-    La fase di \textit{data preparation} consente di trasformare il dataset grezzo in un insieme di dati
-    coerente e idoneo all’addestramento del modello di Machine Learning.
+    Al fine di analizzare in modo più approfondito l’impatto delle scelte di preparazione dei dati sul comportamento
+    e sulle prestazioni dei modelli di classificazione, sono state definite due pipeline alternative di preprocessing.
+    L’obiettivo non è individuare una pipeline intrinsecamente migliore dell’altra, ma valutare come differenti strategie
+    di selezione e trasformazione delle feature influenzino i risultati del sistema proposto.
 
-    In questa fase iniziale si procede a una comprensione approfondita dei dati disponibili,
-    al fine di valutarne qualità, completezza e rilevanza rispetto al problema di classificazione affrontato.
+    Le due pipeline rappresentano approcci complementari alla preparazione del dataset. La prima adotta una strategia
+    più conservativa, basata sulla rimozione delle variabili potenzialmente ridondanti, poco informative o fortemente
+    dipendenti dal contesto di origine del dataset. Questa pipeline consente di valutare le prestazioni dei modelli
+    in una configurazione minimale, riducendo il rischio di bias e di dipendenza da specifiche assunzioni sul dominio.
 
-    L’approccio adottato per la preparazione dei dati si articola nelle seguenti attività principali:
+    La seconda pipeline, invece, mantiene alcune variabili di contesto accademico, introducendo trasformazioni
+    controllate volte a migliorarne l’interpretabilità e la trasferibilità nel contesto universitario di riferimento.
+    In particolare, tale pipeline consente di analizzare l’effetto di una rappresentazione più informata dei dati, pur
+    senza introdurre assunzioni forti o modifiche che alterino il significato originale delle informazioni.
+
+    L’adozione di due pipeline permette quindi di:
     \begin{itemize}
-        \item analisi preliminare del dataset e delle variabili disponibili;
-        \item operazioni di \textit{data cleaning} per la rimozione di dati mancanti, incoerenti o irrilevanti;
-        \item applicazione di tecniche di \textit{feature scaling} sulle variabili numeriche;
-        \item trasformazione e costruzione di nuove feature significative (\textit{feature engineering});
-        \item gestione dello sbilanciamento delle classi tramite tecniche di \textit{data balancing}.
+        \item valutare la robustezza dei modelli rispetto a diverse scelte di preprocessing;
+        \item analizzare la sensibilità dei modelli alla presenza o assenza di specifiche feature;
+        \item confrontare le prestazioni dei modelli a parità di algoritmo, isolando l’effetto della preparazione dei dati;
+        \item ottenere una valutazione sperimentale più solida e meno dipendente da una singola configurazione del dataset.
     \end{itemize}
+
+    Per garantire un confronto corretto e controllato, gli stessi algoritmi di classificazione sono stati applicati
+    a entrambe le pipeline. In questo modo, è possibile attribuire eventuali differenze nei risultati esclusivamente
+    alle diverse strategie di preparazione dei dati, mantenendo invariata la componente di apprendimento.
 
     % ==========================================
     %              DATA CLEANING
