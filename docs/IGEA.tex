@@ -474,6 +474,13 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     % ==========================================
 
     \subsection{Feature scaling}
+        In questa fase di preparazione dei dati si è scelto di mantenere le variabili numeriche nelle loro scale originali.
+        Tale scelta è motivata dalle seguenti considerazion:
+
+        \begin{itemize}
+            \item \textbf{Conservazione del significato fisico}: l'utilizzo dei valori non normalizzati consente di preservare il significato fisico delle variabili, facilitando sia l'analisi esplorativa dei dati sia l’interpretazione dei risultati del modello, in quanto l’effetto delle caratteristiche sul target può essere valutato direttamente nelle rispettive unità di misura.
+            \item \textbf{Coerenza con i modelli adottati}: le pipeline di progetto prevedono l'utilizzo di algoritmi \textit{classificazione} che non basano il proprio funzionamento su metriche di distanza o combinazioni lineari delle caratteristiche.
+        \end{itemize}
 
     % ==========================================
     %              PIPELINE 1
