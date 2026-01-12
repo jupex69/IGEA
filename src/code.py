@@ -21,6 +21,18 @@ print("\nVerifica valori null nel dataset:")
 missing_values = df.isnull().sum()
 print(missing_values[missing_values > 0])
 
+# Controllo bilanciamento
+print("Controllo bilanciamento dei dati")
+print("Numero di elementi per la classe Depressi")
+print(len(df[(df['Depression'] == 1)]))
+
+print("Numero di elementi per la classe Non depressi")
+print(len(df[(df['Depression'] == 0)]))
+
+print("Totale")
+print(len(df))
+
+
 
 # Feature numeriche vs target
 numerical_cols = df.select_dtypes(include=['int64', 'float64']).columns.tolist()
@@ -92,3 +104,11 @@ df = df.drop(columns=columns_to_drop, errors='ignore')
 
 print("\nDataset dopo Data Cleaning:")
 print(df.head())
+
+
+ct = pd.crosstab(
+    df['Have you ever had suicidal thoughts ?'],
+    df['Depression'],
+    normalize='index'
+)
+print(ct)

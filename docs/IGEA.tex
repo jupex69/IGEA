@@ -277,7 +277,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
         \item
         \textbf{Fattori socio-culturali e accademici}: Sebbene il dataset descriva variabili psicologiche e
-        comportamentali legate alla vita universitaria, che non sono specifiche di un singolo contesto nazionale,
+        comportamentali legate alla vita universitaria (che non sono specifiche di un singolo contesto nazionale),
         le dinamiche socio-culturali e accademiche in India potrebbero comunque influenzare la rilevazione del rischio di depressione.
 
         \item
@@ -363,13 +363,36 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
     \begin{itemize}
         \item ricerca di valori mancanti in ciascuna colonna del dataset.
+        \item controllo del bilanciamento dei dati.
         \item calcolo della dipendenza delle feature numeriche e categoriche dalla variabile target \textit{Depression};
         \item analisi delle distribuzioni delle feature numeriche e categoriche per identificare variabili sbilanciate o a bassa variabilità.
+        \item identificazione di possibili data leakage.
     \end{itemize}
 
     \newpage
     \paragraph{Valori mancanti}
     L’analisi ha evidenziato che non sono presenti valori mancanti.
+
+    \paragraph{Bilanciamento dei dati}
+    La Tabella~\ref{tab:class_distribution_depression_pct} riporta la distribuzione delle osservazioni tra le due classi della variabile
+    target \textit{Depression}, da cui si osserva un moderato sbilanciamento a favore della classe positiva.
+    \begin{table}[h]
+        \centering
+        \caption{Distribuzione delle classi della variabile target \textit{Depression}}
+        \label{tab:class_distribution_depression_pct}
+        \begin{tabular}{lcc}
+            \hline
+            \textbf{Classe} & \textbf{Numero di elementi} & \textbf{Percentuale (\%)} \\
+            \hline
+            Depressi (1)      & 16336 & 58.55 \\
+            Non depressi (0)  & 11565 & 41.45 \\
+            \hline
+            Totale            & 27901 & 100.00 \\
+            \hline
+        \end{tabular}
+    \end{table}
+
+
 
     \paragraph{Dipendenza dalla variabile target}
 
@@ -414,6 +437,28 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
         \item \textbf{Feature categoriche}: sono state valutate la numerosità delle categorie e la distribuzione percentuale.
         Variabili con una sola categoria o con una categoria dominante (>90\%) sono considerate sbilanciate e poco informative.
     \end{itemize}
+
+    \paragraph{Data leakage}
+    Al fine di verificare la presenza di potenziali fenomeni di data leakage, è stata analizzata separatamente la feature
+    \textit{Have you ever had suicidal thoughts ?} tramite una tabella di contingenza normalizzata rispetto alla variabile
+    target \textit{Depression}. I risultati mostrano una dipendenza estremamente marcata tra le due variabili, suggerendo che la
+    feature possa fornire informazione quasi deterministica sulla classe target.
+
+    \begin{table}[h]
+        \centering
+        \caption{Distribuzione percentuale della variabile \textit{Depression} in funzione della feature \textit{Have you ever had suicidal thoughts ?}}
+        \label{tab:suicidal_thoughts_depression_pct}
+        \begin{tabular}{lcc}
+            \hline
+            \textbf{Have you ever had suicidal thoughts ?} & \textbf{Depression = 0 (\%)} & \textbf{Depression = 1 (\%)} \\
+            \hline
+            No  & 76.8 & 23.2 \\
+            Yes & 21.0 & 79.0 \\
+            \hline
+        \end{tabular}
+    \end{table}
+
+
 
     \section{Data preparation}
     Al fine di analizzare in modo più approfondito l’impatto delle scelte di preparazione dei dati sul comportamento
