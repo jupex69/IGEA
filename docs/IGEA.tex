@@ -294,29 +294,72 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
 
 
-    \section{Data preparation}
+    % ==========================================
+%          DATA UNDERSTANDING
+% ==========================================
+    \section{Data Understanding}
 
-    La fase di \textit{data preparation} consente di trasformare il dataset grezzo in un insieme di dati
-    coerente e idoneo all’addestramento del modello di Machine Learning.
+    Prima di procedere con le  fasi di preparazione dei dati, è stata svolta una fase di \textit{data understanding},
+    con l’obiettivo di comprendere la struttura del dataset, il significato delle variabili e la loro coerenza con il
+    dominio applicativo del sistema.
 
-    In questa fase iniziale si procede a una comprensione approfondita dei dati disponibili,
-    al fine di valutarne qualità, completezza e rilevanza rispetto al problema di classificazione affrontato.
+    In questa fase sono state analizzate tutte le colonne del dataset, identificandone il ruolo e il tipo di
+    informazione rappresentata. In particolare, le variabili sono state suddivise nelle seguenti categorie:
 
-    L’approccio adottato per la preparazione dei dati si articola nelle seguenti attività principali:
     \begin{itemize}
-        \item analisi preliminare del dataset e delle variabili disponibili;
-        \item operazioni di \textit{data cleaning} per la rimozione di dati mancanti, incoerenti o irrilevanti;
-        \item applicazione di tecniche di \textit{feature scaling} sulle variabili numeriche;
-        \item trasformazione e costruzione di nuove feature significative (\textit{feature engineering});
-        \item gestione dello sbilanciamento delle classi tramite tecniche di \textit{data balancing}.
+        \item \textbf{Variabili demografiche}: \textit{Gender}, \textit{Age};
+        \item \textbf{Variabili psicologiche e autovalutative}: \textit{Academic Pressure}, \textit{Study Satisfaction}, \textit{Job Satisfaction}, \textit{Have you ever had suicidal thoughts?}, \textit{Family History of Mental Illness}, \textit{Financial Stress};
+        \item \textbf{Variabili di contesto accademico e personale}: \textit{Degree}, \textit{Profession}, \textit{Work/Study Hours}, \textit{CGPA}, \textit{Sleep Duration}, \textit{Dietary Habits}, \textit{Work Pressure}, \textit{City}.
     \end{itemize}
 
+    È stata inoltre individuata la variabile target del problema di classificazione, identificata nella colonna
+    \textit{Depression}, che rappresenta se lo studente è a rischio di depressione.
+
+    \paragraph{Descrizione semantica delle variabili}
+
+    La Tabella~\ref{tab:semantic_features} riporta una breve descrizione semantica delle variabili presenti nel
+    dataset, al fine di chiarirne il significato e il ruolo nel contesto del problema affrontato.
+
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|l|p{10cm}|}
+            \hline
+            \textbf{Variabile} & \textbf{Descrizione semantica} \\
+            \hline
+            Gender & Genere dichiarato dallo studente. \\
+            Age & Età dello studente espressa in anni. \\
+            Academic Pressure & Livello di pressione percepita legata alle attività accademiche. \\
+            Study Satisfaction & Livello di soddisfazione dello studente rispetto allo studio. \\
+            Job Satisfaction & Livello di soddisfazione rispetto ad attività lavorative eventualmente svolte. \\
+            CGPA & Media accademica riportata su scala numerica. \\
+            Work/Study Hours & Numero medio di ore dedicate quotidianamente a studio e lavoro. \\
+            Sleep Duration & Durata media del sonno giornaliero dichiarata. \\
+            Dietary Habits & Indicatore delle abitudini alimentari dichiarate. \\
+            Degree & Livello di istruzione dichiarato dallo studente. \\
+            Financial Stress & Livello di stress percepito legato alla situazione finanziaria. \\
+            Have you ever had suicidal thoughts? & Indicatore della presenza di pensieri suicidari auto-riferiti. \\
+            Family History of Mental Illness & Presenza di precedenti familiari di disturbi mentali. \\
+            Profession & Stato occupazionale dichiarato (nel dataset: Student). \\
+            City & Città di residenza dichiarata dallo studente. \\
+            Depression & Variabile target che indica la presenza o assenza di depressione. \\
+            \hline
+        \end{tabular}
+        \caption{Descrizione semantica delle variabili del dataset}
+        \label{tab:semantic_features}
+    \end{table}
+
+    Questa fase di data understanding ha consentito di validare la coerenza del dataset rispetto all’obiettivo
+    del sistema e di impostare correttamente l’analisi preliminare e le successive fasi di preparazione dei dati,
+    senza introdurre modifiche al dataset originale.
+
+
+
+
+
+
     \subsection{Analisi preliminare del dataset}
-
-    Prima di procedere con le operazioni di pulizia dei dati, è stata condotta
-    un’analisi preliminare del dataset per comprenderne la struttura e le principali caratteristiche statistiche.
-
-    L’analisi si è concentrata su:
+    L’analisi preliminare del dataset per comprenderne la struttura e le principali caratteristiche statistiche
+    si è concentrata su:
 
     \begin{itemize}
         \item ricerca di valori mancanti in ciascuna colonna del dataset.
@@ -372,9 +415,28 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
         Variabili con una sola categoria o con una categoria dominante (>90\%) sono considerate sbilanciate e poco informative.
     \end{itemize}
 
-    \newpage
-    \subsection{Data cleaning}
+    \section{Data preparation}
+    La fase di \textit{data preparation} consente di trasformare il dataset grezzo in un insieme di dati
+    coerente e idoneo all’addestramento del modello di Machine Learning.
 
+    In questa fase iniziale si procede a una comprensione approfondita dei dati disponibili,
+    al fine di valutarne qualità, completezza e rilevanza rispetto al problema di classificazione affrontato.
+
+    L’approccio adottato per la preparazione dei dati si articola nelle seguenti attività principali:
+    \begin{itemize}
+        \item analisi preliminare del dataset e delle variabili disponibili;
+        \item operazioni di \textit{data cleaning} per la rimozione di dati mancanti, incoerenti o irrilevanti;
+        \item applicazione di tecniche di \textit{feature scaling} sulle variabili numeriche;
+        \item trasformazione e costruzione di nuove feature significative (\textit{feature engineering});
+        \item gestione dello sbilanciamento delle classi tramite tecniche di \textit{data balancing}.
+    \end{itemize}
+
+    % ==========================================
+    %              PIPELINE 1
+    % ==========================================
+    \subsection{Pipeline 1}
+
+    \subsubsection{Data cleaning}
     La fase di \textit{data cleaning} è finalizzata a rimuovere elementi potenzialmente dannosi per il processo
     di apprendimento del modello, con l’obiettivo di migliorare la qualità e l’affidabilità complessiva del dataset.
 
@@ -408,27 +470,53 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     Va comunque sottolineato che in fasi successive di sperimentazione con modelli più complessi,
     la feature potrebbe essere reinserita per valutare eventuali effetti non lineari o interazioni con altre variabili.
 
-    \subsection{Feature scaling}
-    Scrivere qui lo scaling...
+    \subsubsection{Feature engineering}
 
-    \subsection{Feature engineering}
-    Scrivere qui l'engineering...
+    \subsubsection{Feature scaling}
 
-    \subsection{Data balancing}
-    Scrivere qui il bilanciamento...
+    \subsubsection{Data balancing}
 
-    % ------------------------------------------
+
+    % ==========================================
+    %              PIPELINE 2
+    % ==========================================
+    \subsection{Pipeline 2}
+
+    \subsubsection{Data cleaning}
+
+    \subsubsection{Feature engineering}
+
+    \subsubsection{Feature scaling}
+
+    \subsubsection{Data balancing}
+
+
+% ------------------------------------------
 
     \section{Modeling}
-    Scrivere qui il modeling...
+    Scrivere qui le conclusioni...
 
-    \subsection{Scelta algoritmo}
-    Scrivere qui la scelta...
+    % ==========================================
+    %              PIPELINE 1
+    % ==========================================
+    \subsection{Pipeline 1}
 
-    \subsection{Implementazione / addestramento}
-    Scrivere qui l'implementazione...
+    \subsubsection{Scelta algoritmo}
 
-    % ------------------------------------------
+    \subsubsection{Implementazione/addestramento}
+
+
+    % ==========================================
+    %              PIPELINE 2
+    % ==========================================
+    \subsection{Pipeline 2}
+
+    \subsubsection{Scelta algoritmo}
+
+    \subsubsection{Implementazione/addestramento}
+
+
+% ------------------------------------------
 
     \section{Conclusioni}
     Scrivere qui le conclusioni...
