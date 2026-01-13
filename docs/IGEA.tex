@@ -462,15 +462,19 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     L’obiettivo non è individuare una pipeline intrinsecamente migliore dell’altra, ma valutare come differenti strategie
     di selezione e trasformazione delle feature influenzino i risultati del sistema proposto.
 
-    Le due pipeline rappresentano approcci complementari alla preparazione del dataset. La prima adotta una strategia
-    più conservativa, basata sulla rimozione delle variabili potenzialmente ridondanti, poco informative o fortemente
-    dipendenti dal contesto di origine del dataset. Questa pipeline consente di valutare le prestazioni dei modelli
-    in una configurazione minimale, riducendo il rischio di bias e di dipendenza da specifiche assunzioni sul dominio.
 
-    La seconda pipeline, invece, mantiene alcune variabili di contesto accademico, introducendo trasformazioni
-    controllate volte a migliorarne l’interpretabilità e la trasferibilità nel contesto universitario di riferimento.
-    In particolare, tale pipeline consente di analizzare l’effetto di una rappresentazione più informata dei dati, pur
-    senza introdurre assunzioni forti o modifiche che alterino il significato originale delle informazioni.
+    Le due pipeline rappresentano approcci complementari alla preparazione del dataset.
+    \textbf{La prima pipeline} mantiene alcune variabili di contesto accademico,
+    introducendo trasformazioni controllate volte a migliorarne l’interpretabilità e la trasferibilità
+    nel contesto universitario di riferimento. In particolare, tale pipeline consente di analizzare
+    l’effetto di una rappresentazione più informata dei dati, pur senza introdurre assunzioni forti
+    o modifiche che alterino il significato originale delle informazioni.
+
+    \textbf{La seconda pipeline, invece,} adotta una strategia più conservativa,
+    basata sulla rimozione delle variabili potenzialmente ridondanti, poco informative o fortemente dipendenti
+    dal contesto di origine del dataset. Questa pipeline consente di valutare le prestazioni dei modelli
+    in una configurazione minimale, riducendo il rischio di bias e di dipendenza da specifiche assunzioni
+    sul dominio.
 
     L’adozione di due pipeline permette quindi di:
     \begin{itemize}
@@ -527,9 +531,57 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
     \subsubsection{Feature engineering}
 
+    \paragraph{Feature Construction}
+    In questa fase, l'analisi si è spostata dalla semplice selezione delle variabili esistenti alla generazione di nuove feature sintetiche (\textit{Derived Features}). L'obiettivo è stato quello di catturare relazioni non lineari e interazioni complesse tra le variabili, basandosi su ipotesi derivanti dalla conoscenza del dominio psicologico (\textit{Domain Knowledge}).
+
+    Si è ipotizzato che il rischio di depressione non dipenda unicamente dalla somma lineare dei singoli fattori di stress, ma dalla loro interazione sinergica, aggravata da condizioni fisiologiche precarie come la privazione del sonno. Per modellare questo fenomeno, sono state costruite le seguenti variabili.
+
+    \paragraph{Calcolo del Debito di Sonno (Sleep Debt)}
+    La variabile originale \texttt{Sleep Duration} presenta una relazione inversa rispetto al rischio depressivo (una maggiore durata del sonno è generalmente protettiva). Per allineare la metrica alla direzione del rischio e penalizzare specificamente la carenza di riposo, è stata introdotta la variabile \texttt{Sleep\_Debt}.
+
+    Il debito è calcolato rispetto alla soglia raccomandata di 8 ore giornaliere. La funzione applicata assicura che valori superiori alle 8 ore non generino un debito negativo, ma siano considerati pari a zero.
+
+    \begin{equation}
+        \text{Sleep\_Debt} = \max(0, 8 - \text{Sleep Duration})
+    \end{equation}
+
+    Questa trasformazione permette al modello di quantificare linearmente la gravità della privazione del sonno, dove un valore più alto indica una condizione peggiore.
+
+    \paragraph{Modellazione dello Stress Amplificato (Stress Amplified)}
+    La principale innovazione introdotta nella pipeline è la variabile \texttt{Stress\_Amplified}.
+    Questa feature nasce dall'ipotesi che la stanchezza cronica agisca come un \textbf{moltiplicatore dello stress}:
+    la capacità di resilienza psicologica di uno studente diminuisce drasticamente all'aumentare del debito di sonno.
+
+    Invece di considerare \texttt{Academic Pressure} e \texttt{Financial Stress} come addendi indipendenti,
+    è stato modellato un termine di interazione in cui la pressione esterna totale viene amplificata
+    dal fattore fisiologico del sonno:
+
+    \begin{equation}
+        \text{Pressione\_Totale} = \text{Academic Pressure} + \text{Financial Stress}
+    \end{equation}
+
+    \begin{equation}
+        \text{Stress\_Amplified} = \text{Pressione\_Totale} \times (1 + \text{Sleep\_Debt})
+    \end{equation}
+
+    L'interpretazione della formula \((2)\) è la seguente:
+    \begin{itemize}
+        \item Se lo studente è riposato (\(\text{Sleep\_Debt} \approx 0\)),
+            lo stress percepito coincide con la somma delle pressioni reali.
+        \item All'aumentare del debito di sonno, il termine \((1 + \text{Sleep\_Debt})\) cresce,
+            agendo come coefficiente moltiplicativo. Ad esempio, con 4 ore di debito,
+            il carico di stress viene amplificato di un fattore 5.
+    \end{itemize}
+
+    Questa operazione di \textit{Feature Engineering} ha permesso di sintetizzare informazioni eterogenee
+    in un unico indicatore ad alto potenziale predittivo, migliorando la capacità del modello di
+    identificare soggetti a rischio che presentano una combinazione critica di stress moderato e
+    grave deprivazione del sonno.
+
     \paragraph{Feature Selection}
 
-    Successivamente, sono state rimosse le feature numeriche e categoriche con distribuzioni anomale o bassa dipendenza dalla target:
+    Successivamente, sono state rimosse le feature numeriche e categoriche con distribuzioni anomale
+    o bassa dipendenza dalla target:
 
     \begin{itemize}
         \item \textbf{Numeriche}: Work Pressure, CGPA, Job Satisfaction
@@ -538,8 +590,6 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
     Al termine della fase di \textit{feature selection}, il dataset risultante appare coerente,
     privo di incongruenze significative e adeguato per le successive fasi di trasformazione e addestramento del modello.
-
-    \paragraph{Feature Construction}
 
     \subsubsection{Data balancing}
 
