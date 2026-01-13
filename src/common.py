@@ -1,66 +1,39 @@
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-import numpy as np
 from scipy.stats import skew, kurtosis
 
 # ==================
 #   DATA CLEANING
 # ==================
+
+
 def getCleanedData(df_input):
     """
-    Esegue la logica di cleaning definita:
+    Esegue SOLO l'azione di pulizia sui dati:
     - Rimozione colonne manuali
-    - Rimozione Null
-    - Rimozione Duplicati
+    - Rimozione Null e Duplicati
     - Rimozione Outlier (IQR 0.30 - 0.70)
     """
-    # Lavoriamo su una copia
+    # 1. Copia e parametri locali
     df = df_input.copy()
     target = 'Depression'
 
-    print("\n=== DATA CLEANING ===")
-
-    # Dimensioni iniziali del dataset
-    print("\nDimensioni iniziali del dataset:", df.shape)
-
-    # Rimuovo colonne non informative
+    # 2. Rimozione colonne non informative
     columns_to_drop = ['id', 'City', 'Have you ever had suicidal thoughts ?']
     df = df.drop(columns=columns_to_drop, errors='ignore')
 
-    print(f"Totale valori nulli nel dataset: {df.isnull().sum().sum()}")
-
-    # Rimuovo i null (aggiunto per coerenza con il calcolo successivo)
+    # 3. Pulizia righe: Null e Duplicati
     df = df.dropna()
+    df = df.drop_duplicates()
 
-    # Controllo duplicati
-    num_duplicates = df.duplicated().sum()
-    print(f"Numero di righe duplicate: {num_duplicates}")
-    # Nota: il codice originale contava i duplicati ma non li rimuoveva esplicitamente col drop_duplicates.
-    # Rispetto la logica originale e non aggiungo df.drop_duplicates() se non c'era.
-
-    # Controllo coerenza target (es. binario)
-    if target in df.columns:
-        print("\nValori unici del target:", df[target].unique())
-
-    # Controllo valori anomali (outlier) per colonne numeriche
-    print("\nControllo outlier (IQR 0.30-0.70) per colonne numeriche:")
+    # 4. Rimozione Outlier (IQR 0.30-0.70)
     numeric_cols = df.select_dtypes(include=['int64', 'float64']).columns
-
-    # Escludiamo il target dalla rimozione outlier se è numerico (binario)
     if target in numeric_cols:
         numeric_cols = numeric_cols.drop(target)
 
-    # Salviamo la lunghezza iniziale per il calcolo delle righe rimosse
-    len_before_outliers = len(df)
-
-
-    righe_iniziali = len(df)
     for col in numeric_cols:
         Q1 = df[col].quantile(0.30)
         Q3 = df[col].quantile(0.70)
         IQR = Q3 - Q1
-
         lower = Q1 - 1.5 * IQR
         upper = Q3 + 1.5 * IQR
 
@@ -68,124 +41,112 @@ def getCleanedData(df_input):
 
         """ STAMPA OUTLIER
         print(f"\nOutlier per la colonna '{col}': {outliers.shape[0]}")
-
         if not outliers.empty:
             print(outliers[[col]])
         """
 
-        # Rimozione outlier SOLO per quella colonna
+        # Filtro progressivo
         df = df[(df[col] >= lower) & (df[col] <= upper)]
-
-    righe_finali = len(df)
-    print(f"Righe rimosse complessivamente: {righe_iniziali - righe_finali}")
-
-    print("\nControllo valori negativi nelle colonne numeriche:")
-    colonne_con_negativi = []
-
-    for col in numeric_cols:
-        if (df[col] < 0).any():
-            print(f"{col}: contiene valori negativi")
-            colonne_con_negativi.append(col)
-
-    if not colonne_con_negativi:
-        print("Nessuna colonna contiene valori negativi")
-
-    # Dimensioni finali del dataset
-    print("\nDimensioni finali del dataset:", df.shape, "\n")
 
     return df
 
-
-# ===================================
-#   DATA UNDERSTANDING & EXECUTION
-# ===================================
+ # ========================
+ #  DATA UNDERSTANDING
+ # ========================
 if __name__ == "__main__":
 
-    print("\n=== DATA UNDERSTANDING ===")
+    df = pd.read_csv('../student_depression.csv')
 
-    # Caricamento dataset
-    # Usa try/except per gestire i percorsi se lanci da cartelle diverse
-    try:
-        df = pd.read_csv('../student_depression.csv')
-    except FileNotFoundError:
-        df = pd.read_csv('student_depression.csv')
-
-    # Target
     target = 'Depression'
 
-    # Controllo bilanciamento
-    print("\nControllo bilanciamento dei dati")
-    print("Numero di elementi per la classe Depressi", len(df[(df['Depression'] == 1)]))
-    print("Numero di elementi per la classe Non depressi", len(df[(df['Depression'] == 0)]))
+    # --- ANALISI ---
+    print("\n=== DATA UNDERSTANDING ===")
+    print(f"Dimensioni iniziali del dataset: {df.shape}")
+    print(f"Totale valori nulli rilevati: {df.isnull().sum().sum()}")
+    print(f"Numero di righe duplicate: {df.duplicated().sum()}")
 
-    # Feature numeriche vs target
-    numerical_cols = df.select_dtypes(include=['int64', 'float64']).columns.tolist()
-    if target in numerical_cols:
-        numerical_cols.remove(target)
+    # Controllo bilanciamento
+    if target in df.columns:
+        print("\nBilanciamento Target:")
+        print(f" - Classe Depressi (1): {len(df[df[target] == 1])}")
+        print(f" - Classe Non depressi (0): {len(df[df[target] == 0])}")
+
+
+    # Controllo finale valori negativi
+    num_cols = df.select_dtypes(include=['number']).columns
+    neg_cols = [c for c in num_cols if (df[c] < 0).any()]
+
+    if neg_cols:
+        print(f"\nColonne con negativi: {neg_cols}")
+    else:
+        print("\nNessun valore negativo trovato.")
+
+    # --- ANALISI FEATURE NUMERICHE ---
+    numerical_cols = df.select_dtypes(include=['number']).columns.tolist()
+    if target in numerical_cols: numerical_cols.remove(target)
 
     numerical_corr = {}
     numerical_anomaly = {}
 
     for col in numerical_cols:
         col_data = df[col].dropna()
-        # Correlazione con la target
-        corr = col_data.corr(df[target])
-        numerical_corr[col] = corr
+        numerical_corr[col] = col_data.corr(df[target])
 
         # Statistiche distribuzione
-        mean = col_data.mean()
-        std = col_data.std()
-        skewness = skew(col_data)
-        kurt = kurtosis(col_data)
-        # Flag anomalie basate sulla distribuzione
-        flag_dist = abs(skewness) > 1 or kurt > 5 or std < 0.01
-        numerical_anomaly[col] = flag_dist
+        skewness_val = skew(col_data)
+        kurt_val = kurtosis(col_data)
+        std_val = col_data.std()
 
-    # Ordina feature numeriche per correlazione assoluta
-    sorted_corr = dict(sorted(numerical_corr.items(), key=lambda x: abs(x[1]), reverse=True))
+        # Flag anomalie (tua logica originale)
+        numerical_anomaly[col] = abs(skewness_val) > 1 or kurt_val > 5 or std_val < 0.01
 
-    print("\nFeature numeriche più correlate alla target 'Depression':")
-    for col, corr in sorted_corr.items():
-        print(f"{col}: {corr:.3f}")
-
-    # Feature categoriche vs target
+    # --- ANALISI FEATURE CATEGORICHE ---
     categorical_cols = df.select_dtypes(include=['object']).columns.tolist()
     categorical_dependence = {}
     categorical_anomaly = {}
 
     for col in categorical_cols:
         col_data = df[col].dropna()
-        # Percentuale differenza massima tra le classi della target
+        # Calcolo dipendenza tramite crosstab
         ct = pd.crosstab(col_data, df[target], normalize='index')
         max_diff = abs(ct[1] - ct[0]).max()
         categorical_dependence[col] = max_diff
 
-        # Distribuzione feature
+        # Flag distribuzione (tua logica originale)
         n_unique = col_data.nunique()
         value_counts = col_data.value_counts(normalize=True) * 100
-        flag_dist = n_unique <= 1 or value_counts.max() > 90
-        categorical_anomaly[col] = flag_dist
+        categorical_anomaly[col] = n_unique <= 1 or value_counts.max() > 90
 
-    # Ordina feature categoriche per dipendenza
+    # --- STAMPE RISULTATI ANALISI ---
+    sorted_corr = dict(sorted(numerical_corr.items(), key=lambda x: abs(x[1]), reverse=True))
+    print("\nFeature numeriche più correlate alla target:")
+    for col, corr in sorted_corr.items():
+        print(f"{col}: {corr:.3f}")
+
     sorted_dep = dict(sorted(categorical_dependence.items(), key=lambda x: x[1], reverse=True))
-
-    print("\nFeature categoriche con maggiore dipendenza dalla target 'Depression':")
+    print("\nFeature categoriche con maggiore dipendenza dalla target:")
     for col, dep in sorted_dep.items():
         print(f"{col}: {dep:.3f}")
 
+    # --- IDENTIFICAZIONE CANDIDATI ALLA RIMOZIONE ---
     numerical_candidates = [col for col in numerical_cols if numerical_anomaly[col] or abs(numerical_corr[col]) < 0.05]
-    print("\nFeature numeriche anomale candidate per rimozione (distribuzione o bassa correlazione):", numerical_candidates)
+    print("\nFeature numeriche anomale candidate per rimozione:", numerical_candidates)
 
     categorical_candidates = [col for col in categorical_cols if categorical_anomaly[col] or categorical_dependence[col] < 0.05]
-    print("\nFeature categoriche anomale candidate per rimozione (distribuzione o bassa dipendenza):", categorical_candidates, "\n")
+    print("Feature categoriche anomale candidate per rimozione:", categorical_candidates)
 
     if 'Have you ever had suicidal thoughts ?' in df.columns:
         ct = pd.crosstab(
-            df['Have you ever had suicidal thoughts ?'],
-            df['Depression'],
-            normalize='index'
+        df['Have you ever had suicidal thoughts ?'],
+        df['Depression'],
+        normalize='index'
         )
-        print(ct)
+        print("\n", ct)
 
-    # TEST DELLA FUNZIONE
+    # --- ESECUZIONE CLEANING ---
+    print("\n=== ESECUZIONE DATA CLEANING ===")
     df_cleaned = getCleanedData(df)
+
+    # Analisi Post-Cleaning
+    print(f"Righe rimosse totali: {len(df) - len(df_cleaned)}")
+    print(f"Dimensioni finali del dataset: {df_cleaned.shape}")
