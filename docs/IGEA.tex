@@ -361,7 +361,6 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     si è concentrata su:
 
     \begin{itemize}
-        \item ricerca di valori mancanti in ciascuna colonna del dataset.
         \item controllo del bilanciamento dei dati.
         \item calcolo della dipendenza delle feature numeriche e categoriche dalla variabile target \textit{Depression};
         \item analisi delle distribuzioni delle feature numeriche e categoriche per identificare variabili sbilanciate o a bassa variabilità.
@@ -369,8 +368,6 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     \end{itemize}
 
     \newpage
-    \paragraph{Valori mancanti}
-    L’analisi ha evidenziato che non sono presenti valori mancanti.
 
     \paragraph{Bilanciamento dei dati}
     La Tabella~\ref{tab:class_distribution_depression_pct} riporta la distribuzione delle osservazioni tra le due classi della variabile
@@ -501,7 +498,24 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
         \item \textit{id}: attributo identificativo degli studenti, irrilevante per la predizione del rischio di depressione;
         \item \textit{City}: rappresenta un'informazione geografica specifica del contesto indiano
         e quindi non generalizzabile agli studenti italiani.
+        \item \textit{Have you ever had suicidal thoughts ?}: variabile fortemente correlata al target che potrebbe
+        introdurre un fenomeno di \textit{data leakage}, fornendo al modello informazioni non realisticamente
+        disponibili in fase di predizione.
     \end{itemize}
+
+    Successivamente, è stata condotta un’analisi dei valori mancanti. Dall’ispezione del dataset non sono emerse
+    osservazioni con valori nulli, pertanto non si è resa necessaria alcuna operazione di imputazione o rimozione
+    di record incompleti.
+
+    È stato inoltre effettuato un controllo sulla presenza di osservazioni duplicate. Anche in questo caso,
+    non sono state individuate righe duplicate, confermando la coerenza e l’unicità delle istanze presenti nel dataset.
+
+    È stata inoltre condotta un’analisi dei valori anomali (\textit{outlier}) sulle variabili numeriche mediante
+    il metodo dell’Interquartile Range (IQR). L’analisi ha evidenziato la presenza di 22 outlier nella variabile
+    \textit{Age}, relativi a studenti con età significativamente superiore rispetto alla distribuzione centrale,
+    3 outlier nella variabile \textit{Work Pressure}, 6 nella variabile \textit{CGPA} (valori pari a zero) e
+    2 nella variabile \textit{Job Satisfaction}. Non sono stati rilevati outlier nelle restanti variabili numeriche.
+    Complessivamente, la rimozione dei valori anomali ha comportato l’eliminazione di 33 osservazioni dal dataset.
 
 
 
@@ -522,7 +536,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
         \item \textbf{Categoriali}: Profession
     \end{itemize}
 
-    Al termine della fase di \textit{data cleaning}, il dataset risultante appare coerente,
+    Al termine della fase di \textit{feature selection}, il dataset risultante appare coerente,
     privo di incongruenze significative e adeguato per le successive fasi di trasformazione e addestramento del modello.
 
     \paragraph{Feature Construction}

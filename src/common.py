@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import skew, kurtosis
 
-# ==============================================================================
-# 1. FUNZIONE DI PULIZIA (Importabile)
-# ==============================================================================
+# ==================
+#   DATA CLEANING
+# ==================
 def getCleanedData(df_input):
     """
     Esegue la logica di cleaning definita:
@@ -54,15 +54,30 @@ def getCleanedData(df_input):
     # Salviamo la lunghezza iniziale per il calcolo delle righe rimosse
     len_before_outliers = len(df)
 
+
+    righe_iniziali = len(df)
     for col in numeric_cols:
         Q1 = df[col].quantile(0.30)
         Q3 = df[col].quantile(0.70)
         IQR = Q3 - Q1
 
-        filtro = (df[col] >= Q1 - 1.5 * IQR) & (df[col] <= Q3 + 1.5 * IQR)
-        df = df[filtro]
+        lower = Q1 - 1.5 * IQR
+        upper = Q3 + 1.5 * IQR
 
-    print(f"Righe rimosse per outlier: {len_before_outliers - len(df)}")
+        outliers = df[(df[col] < lower) | (df[col] > upper)]
+
+        """ STAMPA OUTLIER
+        print(f"\nOutlier per la colonna '{col}': {outliers.shape[0]}")
+
+        if not outliers.empty:
+            print(outliers[[col]])
+        """
+
+        # Rimozione outlier SOLO per quella colonna
+        df = df[(df[col] >= lower) & (df[col] <= upper)]
+
+    righe_finali = len(df)
+    print(f"Righe rimosse complessivamente: {righe_iniziali - righe_finali}")
 
     print("\nControllo valori negativi nelle colonne numeriche:")
     colonne_con_negativi = []
@@ -81,10 +96,9 @@ def getCleanedData(df_input):
     return df
 
 
-# ==============================================================================
-# 2. DATA UNDERSTANDING & EXECUTION
-# (Questo viene eseguito SOLO se lanci questo file, non se lo importi)
-# ==============================================================================
+# ===================================
+#   DATA UNDERSTANDING & EXECUTION
+# ===================================
 if __name__ == "__main__":
 
     print("\n=== DATA UNDERSTANDING ===")
@@ -174,5 +188,4 @@ if __name__ == "__main__":
         print(ct)
 
     # TEST DELLA FUNZIONE
-    # Passiamo il df caricato nel main alla funzione per verificare che funzioni
     df_cleaned = getCleanedData(df)
