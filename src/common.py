@@ -6,33 +6,20 @@ from scipy.stats import skew, kurtosis
 
 # Analisi del dataset e Data Preparation
 
+
+print("\n=== DATA UNDERSTANDING ===")
+
+# Caricamento dataset
 df = pd.read_csv('../student_depression.csv')
 
 # Target
 target = 'Depression'
 
-# Rimuovo colonne non informative
-columns_to_drop = ['id','City']
-df = df.drop(columns=columns_to_drop, errors='ignore')
-
-
-# Controllo valori null
-print("\nVerifica valori null nel dataset:")
-missing_values = df.isnull().sum()
-print(missing_values[missing_values > 0])
-
 # Controllo bilanciamento
-print("Controllo bilanciamento dei dati")
-print("Numero di elementi per la classe Depressi")
-print(len(df[(df['Depression'] == 1)]))
+print("\nControllo bilanciamento dei dati")
+print("Numero di elementi per la classe Depressi", len(df[(df['Depression'] == 1)]))
 
-print("Numero di elementi per la classe Non depressi")
-print(len(df[(df['Depression'] == 0)]))
-
-print("Totale")
-print(len(df))
-
-
+print("Numero di elementi per la classe Non depressi", len(df[(df['Depression'] == 0)]))
 
 # Feature numeriche vs target
 numerical_cols = df.select_dtypes(include=['int64', 'float64']).columns.tolist()
@@ -60,7 +47,7 @@ for col in numerical_cols:
 # Ordina feature numeriche per correlazione assoluta
 sorted_corr = dict(sorted(numerical_corr.items(), key=lambda x: abs(x[1]), reverse=True))
 
-print("Feature numeriche più correlate alla target 'Depression':")
+print("\nFeature numeriche più correlate alla target 'Depression':")
 for col, corr in sorted_corr.items():
     print(f"{col}: {corr:.3f}")
 
@@ -90,21 +77,11 @@ for col, dep in sorted_dep.items():
     print(f"{col}: {dep:.3f}")
 
 
-print("\nFeature numeriche anomale candidate per rimozione (distribuzione o bassa correlazione):")
 numerical_candidates = [col for col in numerical_cols if numerical_anomaly[col] or abs(numerical_corr[col]) < 0.05]
-print(numerical_candidates)
+print("\nFeature numeriche anomale candidate per rimozione (distribuzione o bassa correlazione):", numerical_candidates)
 
-print("\nFeature categoriche anomale candidate per rimozione (distribuzione o bassa dipendenza):")
 categorical_candidates = [col for col in categorical_cols if categorical_anomaly[col] or categorical_dependence[col] < 0.05]
-print(categorical_candidates)
-
-# Rimuovo colonne non informative
-columns_to_drop = ['Work Pressure', 'CGPA', 'Job Satisfaction','Profession']
-df = df.drop(columns=columns_to_drop, errors='ignore')
-
-print("\nDataset dopo Data Cleaning:")
-print(df.head())
-
+print("\nFeature categoriche anomale candidate per rimozione (distribuzione o bassa dipendenza):", categorical_candidates, "\n")
 
 ct = pd.crosstab(
     df['Have you ever had suicidal thoughts ?'],
@@ -112,3 +89,60 @@ ct = pd.crosstab(
     normalize='index'
 )
 print(ct)
+
+
+def getCleanedData(df):
+
+    print("\n=== DATA CLEANING ===")
+
+    # Dimensioni iniziali del dataset
+    print("\nDimensioni iniziali del dataset:", df.shape)
+
+    # Rimuovo colonne non informative
+    columns_to_drop = ['id','City','Have you ever had suicidal thoughts ?']
+    df = df.drop(columns=columns_to_drop, errors='ignore')
+
+    print(f"Totale valori nulli nel dataset: {df.isnull().sum().sum()}")
+
+    # Controllo duplicati
+    num_duplicates = df.duplicated().sum()
+    print(f"Numero di righe duplicate: {num_duplicates}")
+
+    # Controllo coerenza target (es. binario)
+    print("\nValori unici del target:", df[target].unique())
+
+    # Controllo valori anomali (outlier) per colonne numeriche
+    print("\nControllo outlier (IQR) per colonne numeriche:")
+    numeric_cols = df.select_dtypes(include=['int64', 'float64']).columns
+
+    # Creiamo una copia per non sporcare l'originale subito
+    for col in numeric_cols:
+        Q1 = df[col].quantile(0.30)
+        Q3 = df[col].quantile(0.70)
+        IQR = Q3 - Q1
+
+        filtro = (df[col] >= Q1 - 1.5 * IQR) & (df[col] <= Q3 + 1.5 * IQR)
+        df= df[filtro]
+
+    print(f"Righe rimosse: {len(df) - len(df)}")
+
+    print("\nControllo valori negativi nelle colonne numeriche:")
+    colonne_con_negativi = []
+
+    for col in numeric_cols:
+        if (df[col] < 0).any():
+            print(f"{col}: contiene valori negativi")
+            colonne_con_negativi.append(col)
+
+    # Questo controllo va fuori dal ciclo for
+    if not colonne_con_negativi:
+        print("Nessuna colonna contiene valori negativi")
+
+
+    # Dimensioni iniziali del dataset
+        print("\nDimensioni iniziali del dataset:", df.shape, "\n")
+
+    return df
+
+
+df = getCleanedData(df)
