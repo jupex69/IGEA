@@ -72,8 +72,6 @@ print("\n--- FASE 3: SELEZIONE, SCALING E ANALISI ---")
 # A) Rimozione "Rumore" (Feature poco informative per il contesto)
 cols_noise = ['Profession', 'CGPA', 'Job Satisfaction', 'Work Pressure']
 
-
-
 # B) Rimozione "Ridondanze" (Genitori di Stress_Amplified)
 #    Se teniamo sia la Madre (Academic Pressure) che la Figlia (Stress_Amplified),
 #    creiamo multicollinearità. Rimuoviamo le originali per forzare l'uso della nuova feature.
@@ -81,10 +79,10 @@ cols_redundant = []
 if 'Stress_Amplified' in df.columns:
     cols_redundant = ['Academic Pressure', 'Financial Stress', 'Sleep Duration', 'Sleep_Debt']
 
-# Esecuzione rimozione
-# C) 'Degree' viene eliminata perche non relativa al contesto italiano
+# C) Esecuzione rimozione feature non relative al contesto italiano
+cols_lowInformation = ['id', 'Degree', 'City']
 
-cols_to_drop = cols_noise + cols_redundant + ['Degree']
+cols_to_drop = cols_noise + cols_redundant + cols_lowInformation
 print(f"📉 Rimozione manuale feature: {cols_to_drop}")
 df = df.drop(columns=cols_to_drop, errors='ignore')
 

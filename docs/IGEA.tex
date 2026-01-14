@@ -114,8 +114,6 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
         gesti estremi.
 
 
-
-
     \subsection{Sistema attuale}
 
         Attualmente, l’individuazione di studenti universitari a rischio di depressione avviene
@@ -498,16 +496,9 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     La fase di \textit{data cleaning} è finalizzata a rimuovere elementi potenzialmente dannosi per il processo
     di apprendimento del modello, con l’obiettivo di migliorare la qualità e l’affidabilità complessiva del dataset.
 
-    In primo luogo, sono state eliminate le colonne non informative o non utilizzabili per il nostro studio:
-
-    \begin{itemize}
-        \item \textit{id}: attributo identificativo degli studenti, irrilevante per la predizione del rischio di depressione;
-        \item \textit{City}: rappresenta un'informazione geografica specifica del contesto indiano
-        e quindi non generalizzabile agli studenti italiani.
-        \item \textit{Have you ever had suicidal thoughts ?}: considerata la natura semantica della feature,
-        che rappresenta un sintomo clinico direttamente associato alla depressione e il rischio di performance
-        artificialemnte gonfiate, la variabile è stata identificata come leaky predictor ed esclusa dalla fase di modellazione.
-    \end{itemize}
+    È stata eliminata la feature \textit{Have you ever had suicidal thoughts ?} considerata la natura semantica della feature,
+    che rappresenta un sintomo clinico direttamente associato alla depressione e il rischio di performance
+    artificialemnte gonfiate, la variabile è stata identificata come leaky predictor ed esclusa dalla fase di modellazione.
 
     Successivamente, è stata condotta un’analisi dei valori mancanti. Dall’ispezione del dataset non sono emerse
     osservazioni con valori nulli, pertanto non si è resa necessaria alcuna operazione di imputazione o rimozione
@@ -582,25 +573,27 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
     \paragraph{Feature Selection}
 
-    Successivamente, sono state rimosse le feature numeriche e categoriche con distribuzioni anomale
-    o bassa dipendenza dalla target:
+    Inizialmente sono state rimosse le feature non informative o dipendenti dal contesto di origine del dataset:
+    \begin{itemize}
+        \item \textit{id}: attributo identificativo degli studenti, irrilevante per la predizione del rischio di depressione.
+        \item \textit{City}: rappresenta un'informazione geografica specifica del contesto indiano e quindi non generalizzabile agli studenti italiani.
+        \item \textit{Degree}: poichè non relativa al contesto italiano
+    \end{itemize}
+
+    Successivamente, sono state rimosse le feature numeriche e categoriche con distribuzioni anomale o bassa dipendenza dalla target:
 
     \begin{itemize}
         \item \textbf{Numeriche}: Work Pressure, CGPA, Job Satisfaction
         \item \textbf{Categoriali}: Profession
     \end{itemize}
 
-    Sono state inoltre rimosse le feature utilizzate per la creazione di \textit{Stress_Amplified}:
+    Sono state inoltre rimosse le feature utilizzate per la creazione di \textit{Stress Amplified}:
 
     \begin{itemize}
-        \item Academic Pressure, Financial Stress, Sleep Duration, Sleep_Debt
+        \item Academic Pressure, Financial Stress, Sleep Duration, Sleep Debt.
     \end{itemize}
 
-    È stata rimossa anche la feature \textit{Degree} poichè non relativa al contesto italiano
 
-    \begin{itemize}
-        \item Academic Pressure, Financial Stress, Sleep Duration, Sleep_Debt
-    \end{itemize}
 
     Al termine della fase di \textit{feature selection}, il dataset risultante appare coerente,
     privo di incongruenze significative e adeguato per le successive fasi di trasformazione e addestramento del modello.

@@ -18,7 +18,7 @@ def getCleanedData(df_input):
     target = 'Depression'
 
     # 2. Rimozione colonne non informative
-    columns_to_drop = ['id', 'City', 'Have you ever had suicidal thoughts ?']
+    columns_to_drop = ['Have you ever had suicidal thoughts ?']
     df = df.drop(columns=columns_to_drop, errors='ignore')
 
     # 3. Pulizia righe: Null e Duplicati
