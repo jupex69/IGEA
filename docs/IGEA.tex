@@ -498,7 +498,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
     \begin{itemize}
         \item \textit{id}: attributo identificativo degli studenti, irrilevante per la predizione del rischio di depressione
-        \item \textit{Have you ever had suicidal thoughts ?} considerata la natura semantica della feature,
+        \item \textit{Have you ever had suicidal thoughts?}: considerata la natura semantica della feature,
         che rappresenta un sintomo clinico direttamente associato alla depressione e il rischio di performance
         artificialemnte gonfiate, la variabile è stata identificata come leaky predictor ed esclusa dalla fase di modellazione.
     \end{itemize}
@@ -642,9 +642,9 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     trasformazione lineare, definita a partire dai punti di riferimento della scala ($10 \rightarrow 30$ e $5 \rightarrow 18$).
     La formula applicata è la seguente:
 
-    \[
-        CGPA_{30} = 2.4 \cdot CGPA + 6
-    \]
+    \begin{equation}
+        \text{CGPA_{30}}  = 2.4 \cdot \text{CGPA} + 6
+    \end{equation}
 
     Tale trasformazione preserva l’ordine e le proprietà statistiche della variabile originale e non altera la sua capacità
     predittiva, ma ha esclusivamente una finalità descrittiva e interpretativa.
@@ -654,7 +654,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
 
     \paragraph{Feature Selection}
-            Analogamente alla pipeline 1 è rimossa la feature \textbf {city}: fortemente dipendente dal contesto geografico indiano e quindi non generalizzabile ad altri contesti universitari;
+            Analogamente alla pipeline 1, è stata rimossa la feature \textbf {city}: fortemente dipendente dal contesto geografico indiano e quindi non generalizzabile ad altri contesti universitari;
 
 
             Mentre sono state escluse tra le feature caratterizzate da una bassa dipendenza dalla variabile target e da distribuzioni anomale:
