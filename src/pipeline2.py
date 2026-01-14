@@ -52,7 +52,6 @@ print(df['CGPA_30'].describe())
 print("\n--- FASE 4: FEATURE SELECTION ---")
 
 columns_to_drop = [
-    'id',
     'City',
     'Work Pressure',
     'Job Satisfaction',

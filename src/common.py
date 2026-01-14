@@ -1,5 +1,7 @@
 import pandas as pd
 from scipy.stats import skew, kurtosis
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # ==================
 #   DATA CLEANING
@@ -12,13 +14,14 @@ def getCleanedData(df_input):
     - Rimozione colonne manuali
     - Rimozione Null e Duplicati
     - Rimozione Outlier (IQR 0.30 - 0.70)
+    - Rimozione righe con CGPA < 4
     """
     # 1. Copia e parametri locali
     df = df_input.copy()
     target = 'Depression'
 
     # 2. Rimozione colonne non informative
-    columns_to_drop = ['Have you ever had suicidal thoughts ?']
+    columns_to_drop = ['id', 'Have you ever had suicidal thoughts ?']
     df = df.drop(columns=columns_to_drop, errors='ignore')
 
     # 3. Pulizia righe: Null e Duplicati
@@ -48,6 +51,10 @@ def getCleanedData(df_input):
         # Filtro progressivo
         df = df[(df[col] >= lower) & (df[col] <= upper)]
 
+    # 5. Rimozione righe con CGPA < 4
+        if 'CGPA' in df.columns:
+            df = df[df['CGPA'] >= 4]
+
     return df
 
  # ========================
@@ -64,13 +71,6 @@ if __name__ == "__main__":
     print(f"Dimensioni iniziali del dataset: {df.shape}")
     print(f"Totale valori nulli rilevati: {df.isnull().sum().sum()}")
     print(f"Numero di righe duplicate: {df.duplicated().sum()}")
-
-    # Controllo bilanciamento
-    if target in df.columns:
-        print("\nBilanciamento Target:")
-        print(f" - Classe Depressi (1): {len(df[df[target] == 1])}")
-        print(f" - Classe Non depressi (0): {len(df[df[target] == 0])}")
-
 
     # Controllo finale valori negativi
     num_cols = df.select_dtypes(include=['number']).columns
@@ -127,6 +127,71 @@ if __name__ == "__main__":
     print("\nFeature categoriche con maggiore dipendenza dalla target:")
     for col, dep in sorted_dep.items():
         print(f"{col}: {dep:.3f}")
+
+
+    print("\n=== DISTRIBUZIONE DELLA TARGET ===")
+    print(df[target].value_counts())
+    print(df[target].value_counts(normalize=True) * 100)
+
+    print("\n=== ANALISI DISTRIBUZIONE FEATURE NUMERICHE ===")
+
+    for col in numerical_cols:
+        col_data = df[col].dropna()
+
+        print(f"\n--- {col} ---")
+        print(col_data.describe())
+        print(f"Skewness: {skew(col_data):.3f}")
+        print(f"Kurtosis: {kurtosis(col_data):.3f}")
+        """
+        # Istogramma
+        plt.figure(figsize=(12,4))
+
+        plt.subplot(1,3,1)
+        sns.histplot(col_data, kde=True)
+        plt.title(f"Distribuzione {col}")
+
+        # Boxplot
+        plt.subplot(1,3,2)
+        sns.boxplot(x=col_data)
+        plt.title(f"Boxplot {col}")
+
+        # Distribuzione rispetto alla target
+        plt.subplot(1,3,3)
+        sns.boxplot(x=df[target], y=df[col])
+        plt.title(f"{col} vs {target}")
+
+        plt.tight_layout()
+        plt.show()
+        """
+
+    print("\n=== ANALISI DISTRIBUZIONE FEATURE CATEGORICHE ===")
+
+    for col in categorical_cols:
+        col_data = df[col].dropna()
+
+        print(f"\n--- {col} ---")
+        print("Numero categorie:", col_data.nunique())
+        print("Distribuzione percentuale:")
+        print(col_data.value_counts(normalize=True) * 100)
+        """
+        plt.figure(figsize=(12,4))
+
+        # Barplot generale
+        plt.subplot(1,2,1)
+        sns.countplot(x=col_data, order=col_data.value_counts().index)
+        plt.title(f"Distribuzione {col}")
+        plt.xticks(rotation=45)
+
+        # Barplot rispetto alla target
+        plt.subplot(1,2,2)
+        ct = pd.crosstab(df[col], df[target], normalize='index')
+        ct.plot(kind='bar', stacked=True, ax=plt.gca())
+        plt.title(f"{col} vs {target}")
+        plt.xticks(rotation=45)
+
+        plt.tight_layout()
+        plt.show()
+        """
 
     # --- IDENTIFICAZIONE CANDIDATI ALLA RIMOZIONE ---
     numerical_candidates = [col for col in numerical_cols if numerical_anomaly[col] or abs(numerical_corr[col]) < 0.05]

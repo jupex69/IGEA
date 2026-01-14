@@ -80,7 +80,7 @@ if 'Stress_Amplified' in df.columns:
     cols_redundant = ['Academic Pressure', 'Financial Stress', 'Sleep Duration', 'Sleep_Debt']
 
 # C) Esecuzione rimozione feature non relative al contesto italiano
-cols_lowInformation = ['id', 'Degree', 'City']
+cols_lowInformation = ['Degree', 'City']
 
 cols_to_drop = cols_noise + cols_redundant + cols_lowInformation
 print(f"📉 Rimozione manuale feature: {cols_to_drop}")
