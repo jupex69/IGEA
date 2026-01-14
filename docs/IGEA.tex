@@ -629,16 +629,15 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
         \paragraph{Feature Transformation CGPA}
 
-            La variabile \textit{CGPA}, originariamente espressa su scala decimale, è stata convertita in una rappresentazione su scala trentesimale,
-            al fine di rendere i valori più facilmente interpretabili nel contesto universitario italiano.
-            La conversione è stata effettuata mediante una trasformazione lineare,
-            mantenendo invariata la relazione tra i valori:
+            La variabile \textit{CGPA}, originariamente espressa su scala decimale (dove, secondo le specifiche del dataset, un valore di 4.0 rappresenta il massimo punteggio  e 10.0 il minimo),
+            è stata convertita in una rappresentazione su scala trentesimale,
+            al fine di rendere i valori interpretabili nel contesto universitario italiano.
+            La conversione è stata effettuata mediante una trasformazione lineare inversa, mappando i punti noti della scala (4.0 \to 30 e 10.0 \to 18).
+            La formulaapplicata è la seguente:
 
-            [
-                CGPA_{30} = CGPA \times 3
-            ]
+            \[ CGPA_{30} = -2 \cdot CGPA + 38 \]
 
-            Tale trasformazione non altera le proprietà statistiche della variabile né influisce sul processo di apprendimento del modello,
+            Tale trasformazione preserva le proprietà statistiche della variabile e la sua capacità predittiva,
             ma ha esclusivamente una finalità descrittiva e interpretativa.
 
             Nel dataset finale, la variabile originale \textit{CGPA} è stata sostituita dalla nuova rappresentazione \textit{CGPA\_30},
