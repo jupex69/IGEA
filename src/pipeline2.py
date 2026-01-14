@@ -40,9 +40,10 @@ df['Degree_level'] = df['Degree'].apply(map_degree)
 print("Distribuzione Degree_level:")
 print(df['Degree_level'].value_counts())
 
-print("\n--- FASE 3: TRASFORMAZIONE CGPA (mapping corretto) ---")
+print("\n--- FASE 3: TRASFORMAZIONE CGPA ---")
 
-df['CGPA_30'] = -2 * df['CGPA'] + 38
+df['CGPA_30'] = 2.4 * df['CGPA'] + 6
+
 
 print("Statistiche CGPA_30:")
 print(df['CGPA_30'].describe())

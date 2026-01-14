@@ -96,7 +96,6 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     % ==========================================
     %               INDICE
     % ==========================================
-    % Da qui in poi appare l'Header con dip-Inf e Prof. Palomba
     \tableofcontents
     \newpage
 
@@ -227,7 +226,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     % ------------------------------------------
 
     \section{Individuazione dataset }
-    Nella fase iniziale del progetto, abbiamo valutato due diverse strategie per l'acquisizione dei
+    Nella fase iniziale del progetto, sono state valutate due diverse strategie per l'acquisizione dei
     dati necessari all'addestramento del modello di Machine Learning:
     \begin{enumerate}
         \item \textbf{Creare} un dataset da zero, sottoponendo un questionario ad un campione di studenti;
@@ -328,7 +327,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
             Academic Pressure & Livello di pressione percepita legata alle attività accademiche. \\
             Study Satisfaction & Livello di soddisfazione dello studente rispetto allo studio. \\
             Job Satisfaction & Livello di soddisfazione rispetto ad attività lavorative eventualmente svolte. \\
-            CGPA & Media accademica riportata su scala numerica. \\
+            CGPA & Media accademica di tutti i voti ottenuti nel percorso di studi. \\
             Work/Study Hours & Numero medio di ore dedicate quotidianamente a studio e lavoro. \\
             Sleep Duration & Durata media del sonno giornaliero dichiarata. \\
             Dietary Habits & Indicatore delle abitudini alimentari dichiarate. \\
@@ -495,7 +494,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     \subsection{Data cleaning}
     La fase di \textit{data cleaning} è finalizzata a rimuovere elementi potenzialmente dannosi per il processo
     di apprendimento del modello, con l’obiettivo di migliorare la qualità e l’affidabilità complessiva del dataset.
-
+    Sono state eliminate la feature
 
     \begin{itemize}
         \item \textit{id}: attributo identificativo degli studenti, irrilevante per la predizione del rischio di depressione
@@ -503,8 +502,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
         che rappresenta un sintomo clinico direttamente associato alla depressione e il rischio di performance
         artificialemnte gonfiate, la variabile è stata identificata come leaky predictor ed esclusa dalla fase di modellazione.
     \end{itemize}
-    .
-    È stata eliminata la feature
+
 
     Successivamente, è stata condotta un’analisi dei valori mancanti. Dall’ispezione del dataset non sono emerse
     osservazioni con valori nulli, pertanto non si è resa necessaria alcuna operazione di imputazione o rimozione
@@ -603,7 +601,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     Al termine della fase di \textit{feature selection}, il dataset risultante appare coerente,
     privo di incongruenze significative e adeguato per le successive fasi di trasformazione e addestramento del modello.
 
-    \subsubsection{Data balancing}
+
 
 
     % ==========================================
@@ -612,8 +610,8 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
     \subsection{Pipeline 2}
 
-        La pipeline 2 mantiene le info accademiche ma le rende più trasferibili/leggibili (Degree aggregato, CGPA in 30),
-        evitando variabili non trasferibili (id/city) o ridondanti (Work Pressure, Job Satisfaction, Profession).
+        La pipeline 2 mantiene le info accademiche ma le rende più trasferibili/leggibili,
+        evitando variabili non trasferibili o ridondanti.
 
     \subsubsection{Feature engineering}
         \paragraph{Feature Transformation Degree}
@@ -632,23 +630,30 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
             Questa trasformazione consente di ridurre la dipendenza dal contesto accademico specifico del dataset,
             mantenendo al contempo un’informazione rilevante relativa al livello di istruzione dello studente.
 
-        \paragraph{Feature Transformation CGPA}
+    \paragraph{Feature Transformation CGPA}
 
-            La variabile \textit{CGPA}, originariamente espressa su scala decimale (dove, secondo le specifiche del dataset, un valore di 4.0 rappresenta il massimo punteggio  e 10.0 il minimo),
-            è stata convertita in una rappresentazione su scala trentesimale,
-            al fine di rendere i valori interpretabili nel contesto universitario italiano.
-            La conversione è stata effettuata mediante una trasformazione lineare inversa, mappando i punti noti della scala (4.0 \to 30 e 10.0 \to 18).
-            La formulaapplicata è la seguente:
+    La variabile \textit{CGPA} è espressa secondo una scala di valutazione specifica del sistema accademico di
+    origine del dataset, nella quale valori più elevati corrispondono a prestazioni accademiche migliori.
+    In particolare, secondo le specifiche del dataset, un valore di $10$ rappresenta il punteggio massimo,
+    mentre un valore di $5$ corrisponde alla soglia minima di superamento.
 
-            \[ CGPA_{30} = -2 \cdot CGPA + 38 \]
+    Al fine di rendere i valori maggiormente interpretabili nel contesto universitario italiano, la variabile è
+    stata convertita in una rappresentazione su scala trentesimale. La conversione è stata effettuata mediante una
+    trasformazione lineare, definita a partire dai punti di riferimento della scala ($10 \rightarrow 30$ e $5 \rightarrow 18$).
+    La formula applicata è la seguente:
 
-            Tale trasformazione preserva le proprietà statistiche della variabile e la sua capacità predittiva,
-            ma ha esclusivamente una finalità descrittiva e interpretativa.
+    \[
+        CGPA_{30} = 2.4 \cdot CGPA + 6
+    \]
 
-            Nel dataset finale, la variabile originale \textit{CGPA} è stata sostituita dalla nuova rappresentazione \textit{CGPA\_30},
-            al fine di evitare ridondanze informative.
+    Tale trasformazione preserva l’ordine e le proprietà statistiche della variabile originale e non altera la sua capacità
+    predittiva, ma ha esclusivamente una finalità descrittiva e interpretativa.
 
-        \paragraph{Feature Selection}
+    Nel dataset finale, la variabile originale \textit{CGPA} è stata sostituita dalla nuova rappresentazione
+    \textit{CGPA\_30}, al fine di evitare ridondanze informative.
+
+
+    \paragraph{Feature Selection}
             Analogamente alla pipeline 1 è rimossa la feature \textbf {city}: fortemente dipendente dal contesto geografico indiano e quindi non generalizzabile ad altri contesti universitari;
 
 
@@ -683,20 +688,24 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
 
 
-    \paragraph{Naive Bayes (NB)}
-    Il Naive Bayes è un classificatore probabilistico basato sull'applicazione del Teorema di Bayes
-    con l'assunzione di indipendenza tra le variabili.
+    \paragraph{Naive Bayes} Il Naive Bayes è un classificatore probabilistico basato sull’applicazione del
+    Teorema di Bayes, che assume l’indipendenza condizionata tra le variabili date le classi.
+
+    Nel progetto è stata adottata una variante di tipo Bernoulli, particolarmente adatta a feature
+    binari ottenuti tramite One-Hot Encoding. Tale scelta risulta coerente con la rappresentazione
+    dei dati utilizzata nella pipeline di modellazione e con la natura delle variabili derivate da
+    questionari.
+
     \begin{itemize}
-        \item \textbf{Modellazione delle Variabili Continue:} L'algoritmo assume che le feature
-        numeriche seguano una distribuzione normale (Gaussiana). Tale assunzione è coerente con la fase di \textit{Standardization}
-        applicata al dataset, che trasforma le variabili per avere media nulla e varianza unitaria.
-        \item \textbf{Efficienza Computazionale:} Il modello richiede un numero ridotto di parametri da stimare,
-        risultando estremamente rapido sia in fase di addestramento che di inferenza,
-        pur mantenendo buone capacità di generalizzazione.
-        \item \textbf{Approccio Generativo:} A differenza della regressione logistica (modello discriminativo),
-        il Naive Bayes offre una prospettiva diversa modellando la distribuzione congiunta $P(x,y)$,
-        fornendo un utile termine di confronto per la validazione dei risultati.
+        \item \textbf{Natura Probabilistica}: Il modello restituisce una stima esplicita della probabilità
+        di appartenenza alla classe di interesse, permettendo una valutazione graduale del rischio.
+        \item \textbf{Efficienza Computazionale}: Il numero ridotto di parametri da stimare rende il
+        modello estremamente efficiente sia in fase di addestramento che di inferenza.
+        \item \textbf{Approccio Generativo}: A differenza della regressione logistica, il Naive Bayes
+        modella la distribuzione congiunta $P(x, y)$, offrendo una prospettiva complementare e un
+        utile termine di confronto per la validazione dei risultati.
     \end{itemize}
+
 
     \subsection{Train-Test Split}
 
@@ -731,14 +740,14 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     per evitare fenomeni di \textit{Data Leakage}.
 
     \subsection{Data Balancing}
-        Il dataset non presenta uno sbilanciamento marcato delle classi; tuttavia,
-        per aumentare la robustezza del modello durante la fase di addestramento,
-        è stato utilizzato il parametro \textit{class weight='balanced'}.
-        Questo metodo assegna automaticamente pesi inversamente proporzionali
-        alla frequenza delle classi, consentendo di mitigare eventuali effetti
-        dello sbilanciamento senza modificare la distribuzione originale dei dati.
+    Il dataset non presenta uno sbilanciamento marcato delle classi; tuttavia,
+    per aumentare la robustezza del modello durante la fase di addestramento,
+    è stato utilizzato il parametro \textit{class weight='balanced'}.
+    Questo metodo assegna automaticamente pesi inversamente proporzionali
+    alla frequenza delle classi, consentendo di mitigare eventuali effetti
+    dello sbilanciamento senza modificare la distribuzione originale dei dati.
 
-    \subsubsection{Implementazione/addestramento}
+    \subsection{Implementazione/addestramento}
 
 % ------------------------------------------
 
