@@ -464,17 +464,17 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
 
     Le due pipeline rappresentano approcci complementari alla preparazione del dataset.
-    \textbf{La prima pipeline} mantiene alcune variabili di contesto accademico,
+
+    La prima adotta una strategia basata sulla rimozione delle variabili potenzialmente
+    ridondanti, poco informative o fortemente dipendenti dal contesto di origine del dataset.
+    Questa pipeline consente di valutare le prestazioni dei modelli in una configurazione minimale,
+    riducendo il rischio di bias e di dipendenza da specifiche assunzioni sul dominio.
+
+    La seconda pipeline, invece, mantiene alcune variabili di contesto accademico,
     introducendo trasformazioni controllate volte a migliorarne l’interpretabilità e la trasferibilità
     nel contesto universitario di riferimento. In particolare, tale pipeline consente di analizzare
-    l’effetto di una rappresentazione più informata dei dati, pur senza introdurre assunzioni forti
-    o modifiche che alterino il significato originale delle informazioni.
-
-    \textbf{La seconda pipeline, invece,} adotta una strategia più conservativa,
-    basata sulla rimozione delle variabili potenzialmente ridondanti, poco informative o fortemente dipendenti
-    dal contesto di origine del dataset. Questa pipeline consente di valutare le prestazioni dei modelli
-    in una configurazione minimale, riducendo il rischio di bias e di dipendenza da specifiche assunzioni
-    sul dominio.
+    l’effetto di una rappresentazione più informata dei dati, pur senza introdurre assunzioni forti o
+    modifiche che alterino il significato originale delle informazioni.
 
     L’adozione di due pipeline permette quindi di:
     \begin{itemize}
