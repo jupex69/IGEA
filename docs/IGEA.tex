@@ -408,10 +408,12 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
         \item CGPA: 0.022
         \item Job Satisfaction: -0.003
         \item Work Pressure: -0.003
+        \item id: 0.001
     \end{itemize}
 
     \textbf{Correlazione delle feature categoriche con la target \textit{Depression}:}
     \begin{itemize}
+        \item City: 1.000
         \item Profession: 1.000
         \item Financial Stress: 0.626
         \item Have you ever had suicidal thoughts ?: 0.581
@@ -502,9 +504,9 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
         \item \textit{id}: attributo identificativo degli studenti, irrilevante per la predizione del rischio di depressione;
         \item \textit{City}: rappresenta un'informazione geografica specifica del contesto indiano
         e quindi non generalizzabile agli studenti italiani.
-        \item \textit{Have you ever had suicidal thoughts ?}: variabile fortemente correlata al target che potrebbe
-        introdurre un fenomeno di \textit{data leakage}, fornendo al modello informazioni non realisticamente
-        disponibili in fase di predizione.
+        \item \textit{Have you ever had suicidal thoughts ?}: considerata la natura semantica della feature,
+        che rappresenta un sintomo clinico direttamente associato alla depressione e il rischio di performance
+        artificialemnte gonfiate, la variabile è stata identificata come leaky predictor ed esclusa dalla fase di modellazione.
     \end{itemize}
 
     Successivamente, è stata condotta un’analisi dei valori mancanti. Dall’ispezione del dataset non sono emerse
@@ -586,6 +588,18 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     \begin{itemize}
         \item \textbf{Numeriche}: Work Pressure, CGPA, Job Satisfaction
         \item \textbf{Categoriali}: Profession
+    \end{itemize}
+
+    Sono state inoltre rimosse le feature utilizzate per la creazione di \textit{Stress_Amplified}:
+
+    \begin{itemize}
+        \item Academic Pressure, Financial Stress, Sleep Duration, Sleep_Debt
+    \end{itemize}
+
+    È stata rimossa anche la feature \textit{Degree} poichè non relativa al contesto italiano
+
+    \begin{itemize}
+        \item Academic Pressure, Financial Stress, Sleep Duration, Sleep_Debt
     \end{itemize}
 
     Al termine della fase di \textit{feature selection}, il dataset risultante appare coerente,
