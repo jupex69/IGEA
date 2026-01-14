@@ -11,7 +11,11 @@ sys.path.append('.')
 # ==============================================================================
 # 0. CONFIGURAZIONE & IMPORT
 # ==============================================================================
-DATASET_PATH = '../student_depression.csv'
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATASET_PATH = BASE_DIR / "student_depression.csv"
+
 target = 'Depression'
 
 # ==============================================================================
@@ -22,9 +26,9 @@ print("--- FASE 1: CARICAMENTO & CLEANING ---")
 # 1. Caricamento Dataset Grezzo
 df_raw = pd.read_csv(DATASET_PATH)
 
-# 2. Importazione ed Esecuzione Pipeline di Pulizia (da common.py)
+# 2. Importazione ed Esecuzione Pipeline di Pulizia (da data_understanding.py)
 #    Questa funzione applica: drop ID/City, rimozione statistica outlier, ecc.
-from common import getCleanedData
+from data_cleaning import getCleanedData
 print("Richiesta dataset pulito...")
 
 df = getCleanedData(df_raw)

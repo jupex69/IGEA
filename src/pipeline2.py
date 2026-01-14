@@ -4,16 +4,20 @@ import pandas as pd
 # CONFIGURAZIONE INIZIALE
 # include il data Cleaning
 # =================================================================
-DATASET_PATH = '../student_depression.csv'
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATASET_PATH = BASE_DIR / "student_depression.csv"
+
 target = 'Depression'
 
-print("--- FASE 1: CARICAMENTO & CLEANING (Da Common) ---")
+print("--- FASE 1: CARICAMENTO & CLEANING ---")
 
 # 1. Carichiamo il dataset grezzo
 df_raw = pd.read_csv(DATASET_PATH)
 
-# 2. Importiamo la funzione di pulizia dal file 'common.py'
-from common import getCleanedData
+# 2. Importiamo la funzione di pulizia dal file 'data_understanding.py'
+from data_cleaning import getCleanedData
 
 print("Richiesta dataset pulito...")
 # Passiamo il dataframe grezzo alla funzione comune
