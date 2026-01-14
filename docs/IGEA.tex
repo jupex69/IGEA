@@ -657,33 +657,86 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
                 \item \textbf {Categoriali}: Profession
             \end{itemize}
 
-    \subsubsection{Data balancing}
-
-
 % ------------------------------------------
 
     \section{Modeling}
-    Scrivere qui le conclusioni...
 
-    % ==========================================
-    %              PIPELINE 1
-    % ==========================================
-    \subsection{Pipeline 1}
+    \subsection{Scelta degli Algoritmi}
+    Sono stati selezionati due algoritmi di classificazione appartenenti a paradigmi
+    statistici differenti: la \textbf{Logistic Regression} e il \textbf{Naive Bayes}.
+    La scelta è motivata dalla necessità di bilanciare accuratezza predittiva e trasparenza nell'analisi
+    dei fattori di rischio.
 
-    \subsubsection{Scelta algoritmo}
+    \paragraph{Logistic Regression}
+    La Logistic Regression rappresenta il modello \textit{baseline} per eccellenza nei problemi di
+    classificazione binaria. Le ragioni della sua inclusione nel progetto sono le seguenti:
+    \begin{itemize}
+        \item \textbf{Interpretabilità:} Attraverso l'analisi dei coefficienti $\beta$,
+        il modello permette di quantificare l'impatto relativo di ogni feature sulla probabilità del target.
+        \item \textbf{Natura Probabilistica:} Il modello restituisce un valore continuo nell'intervallo $[0, 1]$.
+        Questo approccio è fondamentale in ambito psicologico per valutare il grado di confidenza della previsione.
+        \item \textbf{Ottimizzazione:} Il modello beneficia della standardizzazione delle feature effettuata
+        nella pipeline di modelling, garantendo una convergenza efficiente dell'algoritmo di ottimizzazione.
+    \end{itemize}
+
+
+
+    \paragraph{Naive Bayes (NB)}
+    Il Naive Bayes è un classificatore probabilistico basato sull'applicazione del Teorema di Bayes
+    con l'assunzione di indipendenza tra le variabili.
+    \begin{itemize}
+        \item \textbf{Modellazione delle Variabili Continue:} L'algoritmo assume che le feature
+        numeriche seguano una distribuzione normale (Gaussiana). Tale assunzione è coerente con la fase di \textit{Standardization}
+        applicata al dataset, che trasforma le variabili per avere media nulla e varianza unitaria.
+        \item \textbf{Efficienza Computazionale:} Il modello richiede un numero ridotto di parametri da stimare,
+        risultando estremamente rapido sia in fase di addestramento che di inferenza,
+        pur mantenendo buone capacità di generalizzazione.
+        \item \textbf{Approccio Generativo:} A differenza della regressione logistica (modello discriminativo),
+        il Naive Bayes offre una prospettiva diversa modellando la distribuzione congiunta $P(x,y)$,
+        fornendo un utile termine di confronto per la validazione dei risultati.
+    \end{itemize}
+
+    \subsection{Train-Test Split}
+
+    Per valutare correttamente la capacità di generalizzazione dei modelli e prevenire il fenomeno dell'
+    \textit{overfitting}, il dataset è stato suddiviso secondo la metodologia del \textbf{Hold-out},
+    utilizzando una proporzione \textbf{80/20}.
+
+    Questa tecnica prevede la creazione di due sottoinsiemi indipendenti:
+    \begin{itemize}
+        \item \textbf{Training Set (80\%):} utilizzato per l'addestramento.
+        \item \textbf{Test Set (20\%):} permette di misurare le prestazioni su dati non visti,
+            assicurando che il modello non abbia semplicemente 'imparato a memoria' il dataset di
+            addestramento
+
+    \end{itemize}
+
+    \paragraph{Riproducibilità}
+        Al fine di garantire la riproducibilità dei risultati, la suddivisione è stata eseguita utilizzando
+        un seme di generazione casuale fissato (\textit{random\_state}).
+        Ciò permette di ottenere la stessa partizione di dati in ogni esecuzione del codice,
+        facilitando il confronto coerente tra i diversi modelli testati.
+
+    \subsection{Feature Scaling}
+    Al fine di garantire che tutte le variabili numeriche contribuiscano equamente al processo di apprendimento,
+    è stata applicata la tecnica della \textbf{Standardizzazione} (Z-score normalization).
+    Tale procedura è fondamentale per algoritmi come la \textit{Logistic Regression},
+    i cui processi di ottimizzazione sono sensibili alla scala dei dati.
+    Questa trasformazione proietta i dati su una scala con \textbf{media 0} e \textbf{varianza 1},
+    eliminando le disparità tra variabili con unità di misura differenti.
+    Coerentemente con le buone pratiche di Machine Learning,
+    i parametri dello scaler sono stati calcolati esclusivamente sul \textit{Training Set}
+    per evitare fenomeni di \textit{Data Leakage}.
+
+    \subsection{Data Balancing}
+        Il dataset non presenta uno sbilanciamento marcato delle classi; tuttavia,
+        per aumentare la robustezza del modello durante la fase di addestramento,
+        è stato utilizzato il parametro \textit{class weight='balanced'}.
+        Questo metodo assegna automaticamente pesi inversamente proporzionali
+        alla frequenza delle classi, consentendo di mitigare eventuali effetti
+        dello sbilanciamento senza modificare la distribuzione originale dei dati.
 
     \subsubsection{Implementazione/addestramento}
-
-
-    % ==========================================
-    %              PIPELINE 2
-    % ==========================================
-    \subsection{Pipeline 2}
-
-    \subsubsection{Scelta algoritmo}
-
-    \subsubsection{Implementazione/addestramento}
-
 
 % ------------------------------------------
 
