@@ -15,11 +15,12 @@ print("⏳ Caricamento pipeline...")
 
 datasets = {}
 
+# Caricamento pipeline1 e pipeline2
 try:
     import pipeline1
     datasets['Pipeline 1'] = (pipeline1.X, pipeline1.y, pipeline1.preprocessor)
 except ImportError:
-    print("❌ pipeline2.py non trovato")
+    print("❌ pipeline1.py non trovato")
     sys.exit()
 
 try:
@@ -29,8 +30,9 @@ except ImportError:
     print("❌ pipeline2.py non trovato")
     sys.exit()
 
-if not datasets: print("❌ Nessun dataset disponibile.")
-sys.exit()
+if not datasets:
+    print("❌ Nessun dataset disponibile.")
+    sys.exit()
 
 # ==============================================================================
 # 2. SETUP CV
@@ -50,11 +52,11 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
     # --------------------------------------------------------------------------
     # A. DECISION TREE
     # --------------------------------------------------------------------------
-    algo_name="Decision Tree"
+    algo_name = "Decision Tree"
     print(f"\n🔹 Modello: {algo_name}")
 
     pipe_tree = Pipeline(steps=[
-        ('preprocess', preprocessor),
+        ('preprocess', preprocessor),  # Preprocessing dentro della pipeline
         ('model', DecisionTreeClassifier(
             class_weight='balanced',
             random_state=42
@@ -76,6 +78,7 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
         scoring='accuracy',
         n_jobs=-1
     )
+
     grid.fit(X, y)
 
     best_tree = grid.best_estimator_
@@ -89,7 +92,7 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
     )
 
     for metric in ['accuracy', 'precision', 'recall', 'f1', 'roc_auc']:
-        print(f" {metric:10s}:{scores_tree[f'test_{metric}'].mean():.3f}")
+        print(f" {metric:10s}: {scores_tree[f'test_{metric}'].mean():.3f}")
 
     leaderboard_data.append({
         'Source': pipe_name,
@@ -108,7 +111,7 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
     print(f"\n🔹 Modello: {algo_name}")
 
     pipe_log = Pipeline(steps=[
-        ('preprocess', preprocessor),
+        ('preprocess', preprocessor),  # Preprocessing dentro della pipeline
         ('model', LogisticRegression(
             class_weight='balanced',
             max_iter=1000,
@@ -137,10 +140,11 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
         'ROC AUC': scores_log['test_roc_auc'].mean()
     })
 
-# # ==============================================================================
+# ==============================================================================
 # 4. LEADERBOARD FINALE
 # ==============================================================================
 df_results = pd.DataFrame(leaderboard_data).sort_values(by='Precision', ascending=False)
+
 print("\n" + "=" * 80)
 print("🏆 CLASSIFICA FINALE")
 print("=" * 80)
