@@ -740,24 +740,17 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
     \subsection{Train-Test Split}
 
-    Per valutare correttamente la capacità di generalizzazione dei modelli e prevenire il fenomeno dell'
-    \textit{overfitting}, il dataset è stato suddiviso secondo la metodologia del \textbf{Hold-out},
-    utilizzando una proporzione \textbf{80/20}.
+        Per valutare in modo robusto la capacità di generalizzazione dei modelli e ridurre il rischio di
+        \textit{overfitting}, è stata adottata la metodologia di \textbf{k-fold cross validation}
+        con $k = 5$.
 
-    Questa tecnica prevede la creazione di due sottoinsiemi indipendenti:
-    \begin{itemize}
-        \item \textbf{Training Set (80\%):} utilizzato per l'addestramento.
-        \item \textbf{Test Set (20\%):} permette di misurare le prestazioni su dati non visti,
-            assicurando che il modello non abbia semplicemente 'imparato a memoria' il dataset di
-            addestramento
+        Questa tecnica prevede la suddivisione del dataset in $k$ sottoinsiemi (fold) di dimensione
+        approssimativamente uguale. Per ciascuna iterazione, un fold viene utilizzato come insieme di
+        validazione, mentre i restanti $k-1$ fold costituiscono il training set.
+        Il processo viene ripetuto $k$ volte, consentendo a ciascun sottoinsieme di essere utilizzato
+        esattamente una volta come dati di validazione.
 
-    \end{itemize}
-
-    \paragraph{Riproducibilità}
-        Al fine di garantire la riproducibilità dei risultati, la suddivisione è stata eseguita utilizzando
-        un seme di generazione casuale fissato (\textit{random\_state}).
-        Ciò permette di ottenere la stessa partizione di dati in ogni esecuzione del codice,
-        facilitando il confronto coerente tra i diversi modelli testati.
+        \paragraph{Riproducibilità}
 
     \subsection{Feature Scaling}
     Al fine di garantire che tutte le variabili numeriche contribuiscano equamente al processo di apprendimento,
