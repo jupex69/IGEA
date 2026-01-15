@@ -700,43 +700,43 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     \section{Modeling}
 
     \subsection{Scelta degli Algoritmi}
-    Sono stati selezionati due algoritmi di classificazione appartenenti a paradigmi
-    statistici differenti: la \textbf{Logistic Regression} e il \textbf{Naive Bayes}.
-    La scelta è motivata dalla necessità di bilanciare accuratezza predittiva e trasparenza nell'analisi
-    dei fattori di rischio.
+        Sono stati selezionati due algoritmi di classificazione appartenenti a paradigmi
+        differenti: la \textbf{Logistic Regression} e il \textbf{Decision Tree}.
+        La scelta è motivata dalla necessità di bilanciare accuratezza predittiva e trasparenza
+        nell'analisi dei fattori di rischio.
 
-    \paragraph{Logistic Regression}
-    La Logistic Regression rappresenta il modello \textit{baseline} per eccellenza nei problemi di
-    classificazione binaria. Le ragioni della sua inclusione nel progetto sono le seguenti:
-    \begin{itemize}
-        \item \textbf{Interpretabilità:} Attraverso l'analisi dei coefficienti $\beta$,
-        il modello permette di quantificare l'impatto relativo di ogni feature sulla probabilità del target.
-        \item \textbf{Natura Probabilistica:} Il modello restituisce un valore continuo nell'intervallo $[0, 1]$.
-        Questo approccio è fondamentale in ambito psicologico per valutare il grado di confidenza della previsione.
-        \item \textbf{Ottimizzazione:} Il modello beneficia della standardizzazione delle feature effettuata
-        nella pipeline di modelling, garantendo una convergenza efficiente dell'algoritmo di ottimizzazione.
-    \end{itemize}
+        \paragraph{Logistic Regression}
+            La Logistic Regression rappresenta il modello \textit{baseline} per eccellenza nei problemi di
+            classificazione binaria. Le ragioni della sua inclusione nel progetto sono le seguenti:
 
+            \begin{itemize}
+                \item \textbf{Interpretabilità:} Attraverso l'analisi dei coefficienti $\beta$,
+                il modello permette di quantificare l'impatto relativo di ogni feature sulla probabilità del target.
+                \item \textbf{Natura Probabilistica:} Il modello restituisce un valore continuo nell'intervallo $[0, 1]$.
+                Questo approccio è fondamentale in ambito psicologico per valutare il grado di confidenza della previsione.
+                \item \textbf{Ottimizzazione:} Il modello beneficia della standardizzazione delle feature effettuata
+                nella pipeline di modelling, garantendo una convergenza efficiente dell'algoritmo di ottimizzazione.
+            \end{itemize}
 
+        \paragraph{Decision Tree}
+            Il Decision Tree è un algoritmo di apprendimento supervisionato non parametrico che modella
+            le decisioni attraverso una struttura gerarchica ad albero. A differenza della regressione
+            logistica, non assume una relazione lineare tra le variabili.
 
-    \paragraph{Naive Bayes} Il Naive Bayes è un classificatore probabilistico basato sull’applicazione del
-    Teorema di Bayes, che assume l’indipendenza condizionata tra le variabili date le classi.
+            L'inclusione di questo algoritmo è giustificata dai seguenti punti:
 
-    Nel progetto è stata adottata una variante di tipo Bernoulli, particolarmente adatta a feature
-    binari ottenuti tramite One-Hot Encoding. Tale scelta risulta coerente con la rappresentazione
-    dei dati utilizzata nella pipeline di modellazione e con la natura delle variabili derivate da
-    questionari.
-
-    \begin{itemize}
-        \item \textbf{Natura Probabilistica}: Il modello restituisce una stima esplicita della probabilità
-        di appartenenza alla classe di interesse, permettendo una valutazione graduale del rischio.
-        \item \textbf{Efficienza Computazionale}: Il numero ridotto di parametri da stimare rende il
-        modello estremamente efficiente sia in fase di addestramento che di inferenza.
-        \item \textbf{Approccio Generativo}: A differenza della regressione logistica, il Naive Bayes
-        modella la distribuzione congiunta $P(x, y)$, offrendo una prospettiva complementare e un
-        utile termine di confronto per la validazione dei risultati.
-    \end{itemize}
-
+            \begin{itemize}
+                \item \textbf{Interpretabilità visuale:} La struttura a nodi e rami permette di
+                visualizzare chiaramente le regole decisionali che conducono a una classificazione.
+                In ambito clinico, ciò facilita l'identificazione di soglie critiche nelle risposte
+                ai questionari.
+                \item \textbf{Cattura delle interazioni:} Il modello è in grado di identificare
+                automaticamente interazioni complesse tra le variabili senza la necessità di
+                specificarle manualmente in fase di feature engineering.
+                \item \textbf{Assenza di assunzioni distribuzionali:} I Decision Tree non richiedono
+                che i dati seguano una distribuzione specifica e risultano poco sensibili alla scala
+                delle feature, offrendo una prospettiva complementare alla Logistic Regression.
+            \end{itemize}
 
     \subsection{Train-Test Split}
 
