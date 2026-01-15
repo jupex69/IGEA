@@ -665,35 +665,56 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
                 \item \textbf {Numeriche}: Work Pressure, Job Satisfaction
                 \item \textbf {Categoriali}: Profession
             \end{itemize}
-    
-    \subsubsection{Feature Scaling}
-        Per garantire che tutte le feature abbiano la stessa importanza, si è deciso di normalizzare
+
+    \subsection{Feature Scaling}
+        Per garantire che tutte le feature abbiano la stessa importanza, si è deciso (per entrambe le Pipeline) di normalizzare
         le feature numeriche con media 0 e deviazione standard 1 attraverso l'adozione del \textbf{Z-score scaling}.
         Ciò consente di trasformare i dati in una forma che sia uniforme e comparabile, evitando che le variabili
         con valori estremi o unità diverse abbiano un impatto sproporzionato.
         Le feature scalate sono:
-        \begin{itemize}
-            \item \textit {Age}
-            \item \textit {Academic Pressure}
-            \item \textit {Study Satisfaction}
-            \item \textit {Work/Study Hours}
-            \item \textit {CGPA\_30}
-        \end{itemize}
+    \begin{table}[h!]
+        \centering
+        \caption{Confronto delle feature sottoposte a Scaling nelle due Pipeline}
+        \label{tab:feature_scaling_comparison}
+        \renewcommand{\arraystretch}{1.3} % Aumenta leggermente lo spazio tra le righe
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Pipeline 1} & \textbf{Pipeline 2} \\
+            \hline
+            \textit{Age} & \textit{Age} \\
+            \textit{Study Satisfaction} & \textit{Study Satisfaction} \\
+            \textit{Work/Study Hours} & \textit{Work/Study Hours} \\
+            \textit{Stress\_Amplified} & \textit{Academic Pressure} \\
+            & \textit{CGPA\_30} \\
+            \hline
+        \end{tabular}
+    \end{table}
 
-    \subsubsection{Encoding}
-        Poiché la maggior parte dei modelli di machine learning opera su numeri si è deciso di convertire
+    \newpage
+    \subsection{Encoding}
+        Poiché la maggior parte dei modelli di machine learning opera su numeri si è deciso (per entrambe le Pipeline) di convertire
         le variabili categoriche in variabili binarie attraverso l'adozione del \textbf{One-Hot encoder}.
         Ciò permette al modello di catturare le differenze tra le categorie senza pregiudizi, trattando ognuna
         come indipendente e riducendo il rischio di interpretare erroneamente le relazioni tra categorie diverse.
         Le feature trasformate sono:
-        \begin{itemize}
-            \item \textit {Gender}
-            \item \textit {Sleep Duration}
-            \item \textit {Dietary Habits}
-            \item \textit {Financial Stress}
-            \item \textit {Family History of Mental Illness}
-            \item \textit {Degree\_level}
-        \end{itemize}
+    \begin{table}[h!]
+        \centering
+        \caption{Confronto delle feature sottoposte a Encoding nelle due Pipeline}
+        \label{tab:feature_encoding_comparison}
+        \renewcommand{\arraystretch}{1.3} % Spaziatura migliore
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{Pipeline 1} & \textbf{Pipeline 2} \\
+            \hline
+            \textit{Gender} & \textit{Gender} \\
+            \textit{Dietary Habits} & \textit{Dietary Habits} \\
+            \textit{Family History of Mental Illness} & \textit{Family History of Mental Illness} \\
+            & \textit{Sleep Duration} \\
+            & \textit{Financial Stress} \\
+            & \textit{Degree\_level} \\
+            \hline
+        \end{tabular}
+    \end{table}
 
 % ------------------------------------------
 
@@ -751,25 +772,6 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
         esattamente una volta come dati di validazione.
 
         \paragraph{Riproducibilità}
-
-    \subsection{Feature Scaling}
-    Al fine di garantire che tutte le variabili numeriche contribuiscano equamente al processo di apprendimento,
-    è stata applicata la tecnica della \textbf{Standardizzazione} (Z-score normalization).
-    Tale procedura è fondamentale per algoritmi come la \textit{Logistic Regression},
-    i cui processi di ottimizzazione sono sensibili alla scala dei dati.
-    Questa trasformazione proietta i dati su una scala con \textbf{media 0} e \textbf{varianza 1},
-    eliminando le disparità tra variabili con unità di misura differenti.
-    Coerentemente con le buone pratiche di Machine Learning,
-    i parametri dello scaler sono stati calcolati esclusivamente sul \textit{Training Set}
-    per evitare fenomeni di \textit{Data Leakage}.
-
-    \subsection{Data Balancing}
-    Il dataset non presenta uno sbilanciamento marcato delle classi; tuttavia,
-    per aumentare la robustezza del modello durante la fase di addestramento,
-    è stato utilizzato il parametro \textit{class weight='balanced'}.
-    Questo metodo assegna automaticamente pesi inversamente proporzionali
-    alla frequenza delle classi, consentendo di mitigare eventuali effetti
-    dello sbilanciamento senza modificare la distribuzione originale dei dati.
 
     \subsection{Implementazione/addestramento}
 

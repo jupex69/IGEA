@@ -127,7 +127,7 @@ if __name__ == "__main__":
     try:
         plt.figure(figsize=(10, 6))
         sns.barplot(x=final_top_5.values, y=final_top_5.index, hue=final_top_5.index, legend=False, palette='viridis')
-        plt.title('Top 5 Features Pipeline 1 (Corretto)', fontsize=15)
+        plt.title('Top 5 Features Pipeline 1', fontsize=15)
         plt.xlabel('Correlazione Pearson')
         plt.grid(axis='x', alpha=0.3)
         plt.show()
