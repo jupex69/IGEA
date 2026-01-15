@@ -614,7 +614,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
         evitando variabili non trasferibili o ridondanti.
 
     \subsubsection{Feature engineering}
-        \paragraph{Feature Transformation Degree}
+        \paragraph{Feature Transformation - Degree}
             La variabile \textit{Degree} descrive il livello di istruzione dichiarato dallo studente secondo il sistema educativo del paese di origine del dataset.
             Poiché tale rappresentazione risulta fortemente dipendente dal contesto accademico indiano e caratterizzata da un’elevata frammentazione delle categorie,
             è stata effettuata un’operazione di aggregazione in tre macro-categorie,
@@ -630,7 +630,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
             Questa trasformazione consente di ridurre la dipendenza dal contesto accademico specifico del dataset,
             mantenendo al contempo un’informazione rilevante relativa al livello di istruzione dello studente.
 
-    \paragraph{Feature Transformation CGPA}
+    \paragraph{Feature Transformation - CGPA}
 
     La variabile \textit{CGPA} è espressa secondo una scala di valutazione specifica del sistema accademico di
     origine del dataset, nella quale valori più elevati corrispondono a prestazioni accademiche migliori.
@@ -654,15 +654,46 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
 
     \paragraph{Feature Selection}
-            Analogamente alla pipeline 1, è stata rimossa la feature \textbf {city}: fortemente dipendente dal contesto geografico indiano e quindi non generalizzabile ad altri contesti universitari;
+            Analogamente alla pipeline 1, è stata rimossa la feature \textbf {city}: fortemente dipendente dal contesto geografico
+            indiano e quindi non generalizzabile ad altri contesti universitari;
 
 
-            Mentre sono state escluse tra le feature caratterizzate da una bassa dipendenza dalla variabile target e da distribuzioni anomale:
+            Mentre sono state escluse tra le feature caratterizzate da una bassa dipendenza dalla variabile target e da
+            distribuzioni anomale:
 
             \begin{itemize}
                 \item \textbf {Numeriche}: Work Pressure, Job Satisfaction
                 \item \textbf {Categoriali}: Profession
             \end{itemize}
+    
+    \subsubsection{Feature Scaling}
+        Per garantire che tutte le feature abbiano la stessa importanza, si è deciso di normalizzare
+        le feature numeriche con media 0 e deviazione standard 1 attraverso l'adozione del \textbf{Z-score scaling}.
+        Ciò consente di trasformare i dati in una forma che sia uniforme e comparabile, evitando che le variabili
+        con valori estremi o unità diverse abbiano un impatto sproporzionato.
+        Le feature scalate sono:
+        \begin{itemize}
+            \item \textit {Age}
+            \item \textit {Academic Pressure}
+            \item \textit {Study Satisfaction}
+            \item \textit {Work/Study Hours}
+            \item \textit {CGPA\_30}
+        \end{itemize}
+
+    \subsubsection{Encoding}
+        Poiché la maggior parte dei modelli di machine learning opera su numeri si è deciso di convertire
+        le variabili categoriche in variabili binarie attraverso l'adozione del \textbf{One-Hot encoder}.
+        Ciò permette al modello di catturare le differenze tra le categorie senza pregiudizi, trattando ognuna
+        come indipendente e riducendo il rischio di interpretare erroneamente le relazioni tra categorie diverse.
+        Le feature trasformate sono:
+        \begin{itemize}
+            \item \textit {Gender}
+            \item \textit {Sleep Duration}
+            \item \textit {Dietary Habits}
+            \item \textit {Financial Stress}
+            \item \textit {Family History of Mental Illness}
+            \item \textit {Degree\_level}
+        \end{itemize}
 
 % ------------------------------------------
 
