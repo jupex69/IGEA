@@ -1,11 +1,13 @@
 import pandas as pd
+from pathlib import Path
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
 
 # =================================================================
 # CONFIGURAZIONE INIZIALE
 # include il data Cleaning
 # =================================================================
-from pathlib import Path
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATASET_PATH = BASE_DIR / "student_depression.csv"
 
@@ -53,7 +55,6 @@ print("Statistiche CGPA_30:")
 print(df['CGPA_30'].describe())
 
 
-
 print("\n--- FASE 4: FEATURE SELECTION ---")
 
 columns_to_drop = [
@@ -71,3 +72,33 @@ print(f"Feature rimosse: {columns_to_drop}")
 print(f"Dimensioni dopo Feature Selection: {df.shape}")
 
 
+# =================================================================
+# FASE 5: PREPROCESSING (Scaling e Encoding)
+# =================================================================
+
+print("\n--- FASE 5: PREPROCESSING ---")
+
+# Separiamo le feature numeriche e categoriche
+X = df.drop(columns=[target])
+y = df[target]
+
+# Identifichiamo le variabili categoriche e numeriche
+categorical_features = X.select_dtypes(include=['object']).columns
+numeric_features = X.select_dtypes(include=['int64', 'float64']).columns
+
+# Preprocessing: One-Hot Encoding per le variabili categoriche e StandardScaler per quelle numeriche
+preprocess = ColumnTransformer(
+    transformers=[
+        ('cat', OneHotEncoder(drop='first', handle_unknown='ignore'), categorical_features),
+        ('num', StandardScaler(), numeric_features)
+    ],
+    remainder='drop'
+)
+
+# Creiamo una pipeline di preprocessing (questa parte è per preparare i dati da usare nel modeling)
+preprocessing_pipeline = Pipeline(steps=[('preprocess', preprocess)])
+
+# Applichiamo la pipeline di preprocessing sui dati
+X_processed = preprocessing_pipeline.fit_transform(X)
+
+print("Trasformazione completata! Il dataset è ora pronto per essere utilizzato nel modello.")
