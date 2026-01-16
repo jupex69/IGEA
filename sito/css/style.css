@@ -1,4 +1,41 @@
+:root {
+    --primary-color: #AE4FDD;
+}
+
 * {
     margin: 0;
     padding: 0;
+}
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f7f5fb;
+}
+
+.hero-content {
+    max-width: 600px;
+    text-align: center;
+    padding: 2rem;
+}
+
+.hero-title {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: #555;
+}
+
+.hero-button {
+    padding: 0.8rem 1.6rem;
+    background-color: var(--primary-color);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
 }
