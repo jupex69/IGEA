@@ -106,7 +106,7 @@ preprocessor = ColumnTransformer(
     remainder='drop'
 )
 
-print("Pipeline 2 pronta (NO fit).")
+print("Pipeline 2 pronta.")
 
 # =================================================================
 # EXPORT

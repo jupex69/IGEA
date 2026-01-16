@@ -504,13 +504,16 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     \end{itemize}
 
 
-    Successivamente, è stata condotta un’analisi dei valori mancanti. Dall’ispezione del dataset non sono emerse
+    \paragraph{Valori nulli}
+    Dall’ispezione del dataset non sono emerse
     osservazioni con valori nulli, pertanto non si è resa necessaria alcuna operazione di imputazione o rimozione
     di record incompleti.
 
-    È stato inoltre effettuato un controllo sulla presenza di osservazioni duplicate. Anche in questo caso,
+    \paragraph{Osservazioni duplicate}
+    Anche in questo caso,
     non sono state individuate righe duplicate, confermando la coerenza e l’unicità delle istanze presenti nel dataset.
 
+    \paragraph{Outlier}
     È stata inoltre condotta un’analisi dei valori anomali (\textit{outlier}) sulle variabili numeriche mediante
     il metodo dell’\textit{Interquartile Range} (IQR). Tale analisi ha evidenziato la presenza di 22 \textit{outlier}
     nella variabile \textit{Age}, riferibili a studenti con età significativamente superiore rispetto alla
@@ -786,7 +789,43 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
         \paragraph{Riproducibilità}
 
-    \subsection{Implementazione/addestramento}
+    \subsection{Addestramento}
+
+    L’addestramento dei modelli è stato condotto adottando un approccio \textbf{pipeline-based}, al fine di
+    garantire una corretta separazione tra i dati utilizzati per l’apprendimento e quelli impiegati per la
+    validazione, evitando fenomeni di \textit{data leakage}.
+
+    In particolare, le operazioni di preprocessing (standardizzazione delle feature e codifica delle
+    variabili categoriche) sono state integrate all’interno di una pipeline di
+    \textit{scikit-learn} ed eseguite esclusivamente sui dati di training di ciascun fold durante la
+    cross-validation.
+    Questo approccio assicura che le trasformazioni apprese non siano influenzate dai dati di validazione,
+    preservando la correttezza metodologica del processo di addestramento.
+
+    Per entrambi i modelli è stata inoltre adottata una strategia di \textbf{bilanciamento delle classi}
+    attraverso l’impostazione del parametro \texttt{class\_weight = balanced}, al fine di mitigare l’effetto
+    dello sbilanciamento presente nella variabile target e migliorare la capacità dei modelli di individuare
+    correttamente i casi positivi.
+
+    Nel caso del \textbf{Decision Tree}, l’addestramento è stato preceduto da una fase di
+    \textbf{ottimizzazione degli iperparametri} mediante \textit{Grid Search}, integrata nel processo di
+    cross-validation. Sono state esplorate diverse configurazioni relative alla profondità massima
+    dell’albero, al numero minimo di campioni richiesti per effettuare uno split e per la creazione delle
+    foglie, nonché al criterio di impurità adottato.
+    La configurazione ottimale è stata selezionata sulla base delle prestazioni medie ottenute sui fold di
+    validazione.
+
+    Per la \textbf{Logistic Regression}, il processo di addestramento è stato condotto fissando un numero
+    contenuto di iterazioni dell’algoritmo di ottimizzazione. In particolare, sono state effettuate
+    \textbf{15 iterazioni}, in quanto verifiche empiriche preliminari hanno mostrato la convergenza del
+    modello e l’assenza di variazioni apprezzabili nelle prestazioni e nei coefficienti stimati al crescere
+    del numero di iterazioni. Tale scelta permette di contenere il costo computazionale senza compromettere
+    l’affidabilità del modello.
+
+    Al termine dell’addestramento, ciascun modello è stato valutato tramite cross-validation utilizzando
+    un insieme di metriche complementari, includendo accuracy, precision, recall, F1-score e ROC AUC, al
+    fine di fornire una valutazione completa delle prestazioni predittive e dei diversi tipi di errore.
+
 
 % ------------------------------------------
 

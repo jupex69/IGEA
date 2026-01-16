@@ -83,6 +83,9 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
 
     grid.fit(X, y)
     best_tree = grid.best_estimator_
+    print("\n✅ Migliore combinazione di iperparametri (Decision Tree)")
+    for param, value in grid.best_params_.items():
+        print(f"  {param}: {value}")
 
     scores_tree = cross_validate(
         best_tree,
@@ -167,7 +170,7 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
         n_jobs=-1
     )
 
-    # === STAMPE ORIGINALI ===
+    # === STAMPE RISULTATI ===
     for metric in ['accuracy', 'precision', 'recall', 'f1', 'roc_auc']:
         print(f" {metric:10s}: {scores_log[f'test_{metric}'].mean():.3f}")
 
@@ -207,13 +210,3 @@ print("🏆 CLASSIFICA FINALE")
 print("=" * 80)
 print(df_results.to_string(index=False, float_format="%.4f"))
 
-# ==============================================================================
-# 5. CONFRONTO STRUTTURATO PIPELINE
-# ==============================================================================
-print("\n📊 Confronto tra Pipeline")
-comparison = df_results.pivot(
-    index='Algorithm',
-    columns='Source',
-    values=['Accuracy', 'Precision', 'Recall', 'F1', 'ROC AUC']
-)
-print(comparison)
