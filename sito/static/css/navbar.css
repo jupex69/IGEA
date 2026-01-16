@@ -5,22 +5,36 @@ li, a, button {
     text-decoration: none;
 }
 
-header {
+body.home header {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
+}
 
+header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding: 30px 10%;
 }
 
 .logo {
-    width: 30px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
     cursor: pointer;
     margin-right: auto;
+}
+
+.logo img {
+    width: 30px;
+}
+
+.logo h1 {
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--primary-color);
 }
 
 .nav__links {
@@ -40,7 +54,7 @@ header {
     color: var(--primary-color);
 }
 
-button {
+.cta {
     margin-left: 20px;
     padding: 9px 25px;
     background-color: var(--primary-color);
@@ -51,6 +65,6 @@ button {
     transition: all 0.3s ease 0s;
 }
 
-button:hover {
+.cta:hover {
     background-color: #8a3fb0;
 }

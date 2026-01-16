@@ -5,6 +5,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -36,7 +37,7 @@ body {
 }
 
 .hero-button {
-    padding: 0.8rem 1.6rem;
+    padding: 9px 25px;
     background-color: var(--primary-color);
     color: #fff;
     text-decoration: none;
