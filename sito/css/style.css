@@ -7,12 +7,15 @@
     padding: 0;
 }
 
+body {
+    background-color: #f7f5fb;
+}
+
 .hero {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f7f5fb;
 }
 
 .hero-content {
@@ -38,4 +41,9 @@
     color: #fff;
     text-decoration: none;
     border-radius: 6px;
+    transition: all 0.3s ease 0s;
+}
+
+.hero-button:hover {
+    background-color: #8a3fb0;
 }
