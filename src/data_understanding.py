@@ -80,10 +80,7 @@ if __name__ == "__main__":
         print(f"{col}: {dep:.3f}")
 
 
-    print("\n=== DISTRIBUZIONE DELLA TARGET ===")
-    print(df[target].value_counts())
-    print(df[target].value_counts(normalize=True) * 100)
-
+    """
     print("\n=== ANALISI DISTRIBUZIONE FEATURE NUMERICHE ===")
 
     for col in numerical_cols:
@@ -93,7 +90,7 @@ if __name__ == "__main__":
         print(col_data.describe())
         print(f"Skewness: {skew(col_data):.3f}")
         print(f"Kurtosis: {kurtosis(col_data):.3f}")
-        """
+
         # Istogramma
         plt.figure(figsize=(12,4))
 
@@ -113,7 +110,6 @@ if __name__ == "__main__":
 
         plt.tight_layout()
         plt.show()
-        """
 
     print("\n=== ANALISI DISTRIBUZIONE FEATURE CATEGORICHE ===")
 
@@ -124,7 +120,7 @@ if __name__ == "__main__":
         print("Numero categorie:", col_data.nunique())
         print("Distribuzione percentuale:")
         print(col_data.value_counts(normalize=True) * 100)
-        """
+
         plt.figure(figsize=(12,4))
 
         # Barplot generale
@@ -142,7 +138,18 @@ if __name__ == "__main__":
 
         plt.tight_layout()
         plt.show()
-        """
+    """
+
+    print("\n=== CONTEGGIO OCCORRENZE (Esclusi id, Age, CGPA e City) ===")
+
+    # Lista delle colonne da escludere
+    exclude_cols = ['id', 'Age','CGPA', 'City']
+
+    for col in df.columns:
+        # Controlla se la colonna corrente NON è tra quelle da escludere
+        if col not in exclude_cols:
+            print(f"\n--- Valori per la feature: {col} ---")
+            print(df[col].value_counts()) # Stampa solo i conteggi assoluti
 
     # --- IDENTIFICAZIONE CANDIDATI ALLA RIMOZIONE ---
     numerical_candidates = [col for col in numerical_cols if numerical_anomaly[col] or abs(numerical_corr[col]) < 0.05]
@@ -158,4 +165,3 @@ if __name__ == "__main__":
         normalize='index'
         )
         print("\n", ct)
-

@@ -67,9 +67,9 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
 
     print(" ...GridSearch in corso")
     param_grid = {
-        'model__max_depth': [None, 5, 10, 15],
-        'model__min_samples_split': [2, 5, 10],
-        'model__min_samples_leaf': [1, 2, 4],
+        'model__max_depth': [None, 8, 10, 15],
+        'model__min_samples_split': [3, 5, 10],
+        'model__min_samples_leaf': [5, 10, 14],
         'model__criterion': ['gini', 'entropy']
     }
 
@@ -154,7 +154,7 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
         ('preprocess', preprocessor),
         ('model', LogisticRegression(
             class_weight='balanced',
-            max_iter=1000,
+            max_iter=15,
             random_state=42
         ))
     ])

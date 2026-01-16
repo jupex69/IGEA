@@ -512,11 +512,24 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     non sono state individuate righe duplicate, confermando la coerenza e l’unicità delle istanze presenti nel dataset.
 
     È stata inoltre condotta un’analisi dei valori anomali (\textit{outlier}) sulle variabili numeriche mediante
-    il metodo dell’Interquartile Range (IQR). L’analisi ha evidenziato la presenza di 22 outlier nella variabile
-    \textit{Age}, relativi a studenti con età significativamente superiore rispetto alla distribuzione centrale,
-    3 outlier nella variabile \textit{Work Pressure}, 6 nella variabile \textit{CGPA} (valori pari a zero) e
-    2 nella variabile \textit{Job Satisfaction}. Non sono stati rilevati outlier nelle restanti variabili numeriche.
-    Complessivamente, la rimozione dei valori anomali ha comportato l’eliminazione di 33 osservazioni dal dataset.
+    il metodo dell’\textit{Interquartile Range} (IQR). Tale analisi ha evidenziato la presenza di 22 \textit{outlier}
+    nella variabile \textit{Age}, riferibili a studenti con età significativamente superiore rispetto alla
+    distribuzione centrale, 3 \textit{outlier} nella variabile \textit{Work Pressure}, 6 nella variabile
+    \textit{CGPA} (corrispondenti a valori pari a zero) e 2 nella variabile \textit{Job Satisfaction}.
+
+    Per quanto riguarda le variabili categoriche, sono state considerate come valori anomali quelli con
+    una frequenza inferiore all’1\% del totale delle osservazioni. In base a questo criterio, sono stati
+    individuati 31 \textit{outlier} nella variabile \textit{Profession}, 18 nella variabile
+    \textit{Sleep Duration}, 12 nella variabile \textit{Dietary Habits} e 3 nella variabile
+    \textit{Financial Stress}.
+
+    Inoltre, sono state eliminate 35 occorrenze con valore \textit{Others} nella variabile categorica
+    \textit{Degree}, in quanto poco rappresentative e potenzialmente distorsive per l’analisi.
+
+    Complessivamente, il processo di identificazione e rimozione dei valori anomali ha comportato
+    l’eliminazione di 132 osservazioni dal dataset, consentendo di ottenere un insieme di dati più coerente e
+    rappresentativo ai fini delle successive analisi statistiche.
+
 
 
 
