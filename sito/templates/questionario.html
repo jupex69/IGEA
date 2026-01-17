@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IGEA</title>
+    <title>IGEA - Questionario</title>
 
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/navbar.css">
-    <link rel="stylesheet" href="../static/css/footer.css">
-    <link rel="stylesheet" href="../static/css/questionario.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/questionario.css') }}">
 </head>
 <body>
 
-<div data-include="partials/navbar.html"></div>
+{% include 'partials/navbar.html' %}
 
 <main>
-    <form action="#" id="questionarioForm">
+    <form action="{{ url_for('predict') }}" method="POST" id="questionarioForm">
         <fieldset>
             <label for="matricola">Matricola</label>
             <input type="text" id="matricola" name="matricola" required>
@@ -27,18 +27,18 @@
             </select>
 
             <label for="age">Età</label>
-            <input type="number" id="age" name="age" min="18" max="99">
+            <input type="number" id="age" name="age" min="18" max="99" required>
         </fieldset>
 
         <fieldset>
             <label for="academic_pressure">Pressione Accademica (1-5):</label>
-            <input type="number" id="academic_pressure" name="academic_pressure" min="1" max="5">
+            <input type="number" id="academic_pressure" name="academic_pressure" min="1" max="5" required>
 
             <label for="study_satisfaction">Soddisfazione nello studio (1-5):</label>
-            <input type="number" id="study_satisfaction" name="study_satisfaction" min="1" max="5">
+            <input type="number" id="study_satisfaction" name="study_satisfaction" min="1" max="5" required>
 
             <label for="financial_stress">Stress Finanziario (1-5):</label>
-            <input type="number" id="financial_stress" name="financial_stress" min="1" max="5">
+            <input type="number" id="financial_stress" name="financial_stress" min="1" max="5" required>
         </fieldset>
 
         <fieldset>
@@ -50,10 +50,10 @@
             </select>
 
             <label for="cgpa">Media accademica:</label>
-            <input type="number" step="0.01" id="cgpa" name="cgpa" min="18" max="30">
+            <input type="number" step="0.01" id="cgpa" name="cgpa" min="18" max="30" required>
 
             <label for="study_hours">Ore di studio/lavoro:</label>
-            <input type="number" id="study_hours" name="study_hours" min="0" max="12">
+            <input type="number" id="study_hours" name="study_hours" min="0" max="12" required>
         </fieldset>
 
         <fieldset>
@@ -70,7 +70,6 @@
                 <option value="Unhealthy">Malsano</option>
                 <option value="Moderate">Moderato</option>
                 <option value="Healthy">Salutare</option>
-                <option value="Others">Altro</option>
             </select>
 
             <label for="family_history_mental_illness">Storia familiare di malattia mentale:</label>
@@ -80,14 +79,11 @@
             </select>
         </fieldset>
 
-        <button type="submit">Invia</button>
-
-        <div id="risultato" style="margin-top: 20px; font-weight: bold;"></div>
+        <button type="submit">Invia Analisi</button>
     </form>
 </main>
 
-<div data-include="partials/footer.html"></div>
+{% include 'partials/footer.html' %}
 
-<script src="../static/js/include.js"></script>
 </body>
 </html>
