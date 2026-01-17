@@ -4,9 +4,11 @@ import warnings
 import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
 import numpy as np
+import os
 warnings.filterwarnings("ignore")
 
 from sklearn.model_selection import StratifiedKFold, GridSearchCV, cross_validate
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from sklearn.tree import DecisionTreeClassifier, export_text
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
@@ -167,8 +169,59 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
         X, y,
         cv=cv,
         scoring=['accuracy', 'precision', 'recall', 'f1', 'roc_auc'],
-        n_jobs=-1
+        n_jobs=-1,
+        return_estimator=True
     )
+
+    """
+    print("\n📊 Confusion Matrix aggregata (Logistic Regression)")
+
+    cm_total = np.zeros((2, 2), dtype=int)
+
+    for fold_idx, estimator in enumerate(scores_log['estimator']):
+        train_idx, test_idx = list(cv.split(X, y))[fold_idx]
+        X_test, y_test = X.iloc[test_idx], y.iloc[test_idx]
+
+        y_pred = estimator.predict(X_test)
+        cm = confusion_matrix(y_test, y_pred)
+
+        cm_total += cm
+
+    print(cm_total)
+
+    # === LABEL PIPELINE ===
+    pipeline_label = (
+        f"Pipeline: {pipe_name}\n"
+        f"Model: {algo_name}"
+    )
+
+    disp = ConfusionMatrixDisplay(
+        confusion_matrix=cm_total,
+        display_labels=['No Depression', 'Depression']
+    )
+
+    disp.plot(cmap='Blues')
+    plt.title("Aggregated Confusion Matrix", fontsize=13)
+    plt.suptitle(pipeline_label, fontsize=10)
+    plt.tight_layout()
+
+
+    # Percorso base
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    OUTPUT_DIR = os.path.join(BASE_DIR, "..", "docs", "images")
+
+    # Crea cartella se manca
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+    # Nome file "sicuro" (senza spazi, senza caratteri strani)
+    safe_pipe = pipe_name.replace(" ", "_")
+    safe_algo = algo_name.replace(" ", "_")
+    filename = os.path.join(OUTPUT_DIR, f"confusion_matrix_{safe_pipe}_{safe_algo}.png")
+
+    # Salva il grafico
+    plt.savefig(filename, dpi=300, bbox_inches="tight")
+    plt.show()
+    """
 
     # === STAMPE RISULTATI ===
     for metric in ['accuracy', 'precision', 'recall', 'f1', 'roc_auc']:

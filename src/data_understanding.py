@@ -2,6 +2,7 @@ import pandas as pd
 from scipy.stats import skew, kurtosis
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
 
 # ========================
  #  DATA UNDERSTANDING
@@ -81,9 +82,19 @@ if __name__ == "__main__":
 
 
     """
-    print("\n=== ANALISI DISTRIBUZIONE FEATURE NUMERICHE ===")
+    exclude_cols = ["id", "City", "Work Pressure", "Profession", "Job Satisfaction"]
+
+    # Percorso base e cartella output (una volta sola)
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    OUTPUT_DIR = os.path.join(BASE_DIR, "..", "docs", "images", "graphs")
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+    print("\n=== NUMERICAL FEATURE DISTRIBUTION ===")
 
     for col in numerical_cols:
+        if col in exclude_cols:
+            continue
+
         col_data = df[col].dropna()
 
         print(f"\n--- {col} ---")
@@ -91,52 +102,58 @@ if __name__ == "__main__":
         print(f"Skewness: {skew(col_data):.3f}")
         print(f"Kurtosis: {kurtosis(col_data):.3f}")
 
-        # Istogramma
-        plt.figure(figsize=(12,4))
-
-        plt.subplot(1,3,1)
-        sns.histplot(col_data, kde=True)
-        plt.title(f"Distribuzione {col}")
+        # Figura con 2 subplot: boxplot + boxplot vs target
+        plt.figure(figsize=(10,4))
 
         # Boxplot
-        plt.subplot(1,3,2)
+        plt.subplot(1,2,1)
         sns.boxplot(x=col_data)
-        plt.title(f"Boxplot {col}")
+        plt.title(f"Boxplot of {col}")
+        plt.xlabel(col)
 
-        # Distribuzione rispetto alla target
-        plt.subplot(1,3,3)
+        # Boxplot vs target
+        plt.subplot(1,2,2)
         sns.boxplot(x=df[target], y=df[col])
-        plt.title(f"{col} vs {target}")
+        plt.title(f"{col} by {target}")
+        plt.xlabel(target)
+        plt.ylabel(col)
 
         plt.tight_layout()
+
+        # Salvataggio grafico
+        safe_name = col.replace(" ", "_").replace("/", "_").replace("\\", "_").replace(":", "_").replace("?", "_")
+        filename = os.path.join(OUTPUT_DIR, f"{safe_name}_boxplot_vs_target.png")
+        plt.savefig(filename, dpi=300, bbox_inches="tight")
         plt.show()
 
-    print("\n=== ANALISI DISTRIBUZIONE FEATURE CATEGORICHE ===")
+
+    print("\n=== CATEGORICAL FEATURE DISTRIBUTION ===")
 
     for col in categorical_cols:
+        if col in exclude_cols:
+            continue
+
         col_data = df[col].dropna()
 
         print(f"\n--- {col} ---")
-        print("Numero categorie:", col_data.nunique())
-        print("Distribuzione percentuale:")
+        print("Number of categories:", col_data.nunique())
+        print("Percentage distribution:")
         print(col_data.value_counts(normalize=True) * 100)
 
-        plt.figure(figsize=(12,4))
+        plt.figure(figsize=(8,4))
 
-        # Barplot generale
-        plt.subplot(1,2,1)
-        sns.countplot(x=col_data, order=col_data.value_counts().index)
-        plt.title(f"Distribuzione {col}")
-        plt.xticks(rotation=45)
-
-        # Barplot rispetto alla target
-        plt.subplot(1,2,2)
+        # Barplot stacked vs target
         ct = pd.crosstab(df[col], df[target], normalize='index')
         ct.plot(kind='bar', stacked=True, ax=plt.gca())
-        plt.title(f"{col} vs {target}")
+        plt.title(f"{col} by {target}")
+        plt.xlabel(col)
+        plt.ylabel("Proportion")
         plt.xticks(rotation=45)
 
         plt.tight_layout()
+        safe_name = col.replace(" ", "_").replace("/", "_").replace("\\", "_").replace(":", "_").replace("?", "_")
+        filename = os.path.join(OUTPUT_DIR, f"{safe_name}_bar_vs_target.png")
+        plt.savefig(filename, dpi=300, bbox_inches="tight")
         plt.show()
     """
 
