@@ -98,7 +98,7 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
         return_estimator=True
     )
 
-    # === STAMPE ORIGINALI ===
+    # === STAMPE ===
     for metric in ['accuracy', 'precision', 'recall', 'f1', 'roc_auc']:
         print(f" {metric:10s}: {scores_tree[f'test_{metric}'].mean():.3f}")
 
@@ -118,28 +118,30 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
         'ROC AUC': scores_tree['test_roc_auc'].mean()
     })
 
+
     # === ANALISI REGOLE DECISIONALI ===
-    print("\n📜 Regole decisionali (Decision Tree)")
+
     tree_model = best_tree.named_steps['model']
     feature_names = best_tree.named_steps['preprocess'].get_feature_names_out()
-    #rules = export_text(tree_model, feature_names=feature_names)
-    #print(rules)
-
-    #print("\n🌳 Visualizzazione Decision Tree (profondità limitata)")
-    #
-    #plt.figure(figsize=(20, 10))
-    #plot_tree(
-    #    tree_model,
-    #    feature_names=feature_names,
-    #    class_names=['No Depression', 'Depression'],
-    #    filled=True,
-    #    rounded=True,
-    #    fontsize=9,
-    #    max_depth=3     # ← SOLO VISUALIZZAZIONE
-    #)
-    #plt.title(f"Decision Tree (depth ≤ 3) – {pipe_name}")
-    #plt.show()
-
+    """
+    print("\n📜 Regole decisionali (Decision Tree)")
+    rules = export_text(tree_model, feature_names=feature_names)
+    print(rules)
+    
+    print("\n🌳 Visualizzazione Decision Tree (profondità limitata)")
+    plt.figure(figsize=(20, 10))
+    plot_tree(
+        tree_model,
+        feature_names=feature_names,
+        class_names=['No Depression', 'Depression'],
+        filled=True,
+        rounded=True,
+        fontsize=9,
+        max_depth=3     # ← SOLO VISUALIZZAZIONE
+    )
+    plt.title(f"Decision Tree (depth ≤ 3) – {pipe_name}")
+    plt.show()
+    """
 
 # === FEATURE IMPORTANCE ===
     print("\n⭐ Feature Importance (Decision Tree)")
@@ -253,6 +255,12 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
 
     print(coef_df)
 
+    # === STAMPA FUNZIONE LOGISTIC REGRESSION ===
+    #print("\n🧮 Funzione del modello (logit):")
+    #print(f"Logit(p) = {model.intercept_[0]:.3f}")
+    #for name, coef in zip(feature_names, model.coef_[0]):
+    #    print(f" + ({coef:.3f}) * {name}")
+
 # ==============================================================================
 # 4. LEADERBOARD FINALE
 # ==============================================================================
@@ -263,6 +271,7 @@ print("🏆 CLASSIFICA FINALE")
 print("=" * 80)
 print(df_results.to_string(index=False, float_format="%.4f"))
 
+"""
 # ==============================================================================
 # 5. VISUALIZZAZIONE GRAFICA DEI RISULTATI
 # ==============================================================================
@@ -312,4 +321,4 @@ for container in ax.containers:
 
 plt.tight_layout()
 plt.show()
-
+"""

@@ -791,7 +791,6 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
         Il processo viene ripetuto $k$ volte, consentendo a ciascun sottoinsieme di essere utilizzato
         esattamente una volta come dati di validazione.
 
-        \paragraph{Riproducibilità}
 
     \subsection{Addestramento}
 
@@ -812,12 +811,25 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     correttamente i casi positivi.
 
     Nel caso del \textbf{Decision Tree}, l’addestramento è stato preceduto da una fase di
-    \textbf{ottimizzazione degli iperparametri} mediante \textit{Grid Search}, integrata nel processo di
-    cross-validation. Sono state esplorate diverse configurazioni relative alla profondità massima
+    \textbf{ottimizzazione degli iperparametri} mediante \textit{Grid Search} (integrata nel processo di
+    cross-validation), grazie al quale sono state esplorate diverse configurazioni relative alla profondità massima
     dell’albero, al numero minimo di campioni richiesti per effettuare uno split e per la creazione delle
     foglie, nonché al criterio di impurità adottato.
-    La configurazione ottimale è stata selezionata sulla base delle prestazioni medie ottenute sui fold di
-    validazione.
+    Di seguito le configurazioni ottimali trovate per entrambe le pipeline che risultano essere motlo simili.
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{lcccc}
+            \hline
+            \textbf{Pipeline} & \textbf{Criterion} & \textbf{Max Depth} & \textbf{Min Samples Leaf} & \textbf{Min Samples Split} \\
+            \hline
+            Pipeline 1 & gini     & 8 & 14 & 3 \\
+            Pipeline 2 & entropy  & 8 & 14 & 3 \\
+            \hline
+        \end{tabular}
+        \caption{Configurazioni ottimali degli iperparametri del Decision Tree ottenute tramite Grid Search}
+        \label{tab:dt_hyperparameters}
+    \end{table}
+
 
     Per la \textbf{Logistic Regression}, il processo di addestramento è stato condotto fissando un numero
     contenuto di iterazioni dell’algoritmo di ottimizzazione. In particolare, sono state effettuate
@@ -825,11 +837,6 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     modello e l’assenza di variazioni apprezzabili nelle prestazioni e nei coefficienti stimati al crescere
     del numero di iterazioni. Tale scelta permette di contenere il costo computazionale senza compromettere
     l’affidabilità del modello.
-
-    Al termine dell’addestramento, ciascun modello è stato valutato tramite cross-validation utilizzando
-    un insieme di metriche complementari, includendo accuracy, precision, recall, F1-score e ROC AUC, al
-    fine di fornire una valutazione completa delle prestazioni predittive e dei diversi tipi di errore.
-
 
 % ------------------------------------------
 
@@ -854,7 +861,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     \textbf{Pipeline 2 + Logistic Regression} offre le prestazioni migliori in assoluto,
     raggiungendo una \textit{Precision} del \textbf{84.43\%} e una \textit{Recall} di \textbf{79.43\%}.
 
-    \includegraphics[width=1.1\textwidth]{images/graphs/graficoPrestazioni} \\[0.4cm]
+    \includegraphics[width=1.1\textwidth]{images/graphs/graficoPrestazioni} \\
 
     \subsection{La nostra scelta: Logistic Regression (Pipeline 2)}
 
@@ -896,8 +903,6 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
         \centering
         % Assicurati di avere il file 'confusion_matrix_best.png' nella cartella immagini
         \includegraphics[width=0.6\textwidth]{images/graphs/bestConfusionMatrix}
-        \caption{Matrice di Confusione del modello Logistic Regression (Pipeline 2). Sull'asse X le classi predette,
-            sull'asse Y le classi reali.}
         \label{fig:conf_matrix}
     \end{figure}
 
@@ -909,7 +914,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 % -------------------------------------------------------------------------
 
 
-    \subsection{Considerazioni finali}
+    \subsection{Considerazioni}
 
     L'analisi comparata tra le due pipeline e i due algoritmi ci permette di trarre conclusioni non solo
     sulle performance numeriche, ma anche sulla natura stessa dei dati e su come i diversi algoritmi
@@ -918,7 +923,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     Una delle evidenze più interessanti emerge osservando quale feature viene considerata la "più importante"
     (valenza predittiva) dai due modelli nelle diverse configurazioni.
 
-    \subsubsection{Convergenza sulla Pipeline 1: La forza del Feature Engineering}
+    \paragraph{Convergenza sulla Pipeline 1}
     Nella \textbf{Pipeline 1}, entrambi gli algoritmi concordano all'unanimità. Sia il Decision Tree che la
     Logistic Regression identificano la feature ingegnerizzata \texttt{Stress\_Amplified}
     come il predittore dominante (con una \textit{Importance} del 75\%
@@ -928,9 +933,8 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     \textit{Stress Finanziario} e \textit{Debito di Sonno} in un unico indicatore ha catturato con successo
     la complessità del fenomeno.
 
-    \subsubsection{Divergenza sulla Pipeline 2: Logica "Globale" vs "Puntuale"}
-    Nella \textbf{Pipeline 2}, dove le variabili sono state trattate singolarmente
-    (senza feature engineering combinata), i due modelli mostrano una significativa differenza
+    \paragraph{Divergenza sulla Pipeline 2}
+    Nella \textbf{Pipeline 2} invece i due modelli mostrano una significativa differenza
     nell'identificazione del fattore principale:
 
     \begin{itemize}
@@ -940,13 +944,11 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     \end{itemize}
 
     Questa discrepanza riflette la diversa natura matematica degli algoritmi:
-        Il \textbf{Decision Tree} trova nella \textit{Pressione Accademica}
-            la variabile che meglio "divide" la popolazione in due
-            grandi gruppi omogenei (miglior \textit{split}), mentre per
+    il Decision Tree privilegia la variabile che consente la migliore separazione
+    globale della popolazione, mentre la Logistic Regression enfatizza condizioni
+    meno frequenti ma associate a un forte incremento della probabilità di depressione.
 
-        la \textbf{Logistic Regression}, anche se avere
-        \textit{Stress Finanziario a livello 5} è una condizione meno frequente rispetto ad
-            avere pressione accademica, quando essa si verifica, la probabilità di depressione schizza
-            alle stelle.
+
+    \section{Interface}
 
 \end{document}

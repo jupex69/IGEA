@@ -82,6 +82,7 @@ print("\n--- FASE 5: Split X / y (RAW) ---")
 
 X = df.drop(columns=[TARGET])
 y = df[TARGET]
+print("Split effettuato.")
 
 # =================================================================
 # FASE 6: DEFINIZIONE PREPROCESSOR (NON FITTATO)
