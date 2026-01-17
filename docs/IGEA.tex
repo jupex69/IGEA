@@ -834,15 +834,119 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 % ------------------------------------------
 
     \section{Conclusioni}
-    Scrivere qui le conclusioni...
+    L'analisi condotta attraverso le due pipeline di preparation e i due algoritmi di classificazione
+    ha permesso di identificare i fattori più
+    influenti nella previsione della depressione studentesca e di selezionare il modello più performante.
 
-    \subsection{Metriche di valutazioni}
-    Scrivere qui le metriche...
+    \subsection{Metriche di valutazione}
+    Le metriche selezionate per valutare la qualità dei classificatori sono state:
+
+    \begin{itemize}
+        \item \textbf{Recall:} Misura la capacità del modello di individuare tutti i casi reali di depressione.
+        In ambito medico, è fondamentale massimizzare questa metrica per non ignorare studenti a rischio (pochi falsi negativi).
+    \item \textbf{Precision:}  Indica l'affidabilità delle previsioni positive.
+        Una precision alta significa che quando il modello prevede "Depressione",
+        è molto probabile che lo studente sia effettivamente depresso (pochi falsi positivi).
+    \end{itemize}
 
     \subsection{Valutazioni}
-    Scrivere qui le valutazioni...
+    L'analisi comparativa dei modelli, riassunta nel grafico di performance, evidenzia che la combinazione
+    \textbf{Pipeline 2 + Logistic Regression} offre le prestazioni migliori in assoluto,
+    raggiungendo una \textit{Precision} del \textbf{84.43\%} e una \textit{Recall} di \textbf{79.43\%}.
+
+    \includegraphics[width=1.1\textwidth]{images/graphs/graficoPrestazioni} \\[0.4cm]
+
+    \subsection{La nostra scelta: Logistic Regression (Pipeline 2)}
+
+    Alla luce dei risultati ottenuti, il modello selezionato per la fase di deployment è la \textbf{Logistic Regression}
+    addestrata sui dati processati dalla \textbf{Pipeline 2}.
+    Questa combinazione ha garantito il miglior compromesso tra capacità di generalizzazione
+    e affidabilità nelle predizioni positive.
+
+    \subsubsection{Analisi dei Coefficienti Beta ($\beta$)}
+    L'analisi dei pesi assegnati dal modello ci permette di comprendere quali variabili influenzano
+    maggiormente la decisione.
+    I coefficienti con valore assoluto più alto indicano i predittori più forti.
+    Di seguito riportiamo le 5 feature più determinanti estratte dal modello finale:
+
+    \begin{table}[h!]
+        \centering
+        \caption{Top 5 Feature per impatto sulla predizione (Logistic Regression)}
+        \label{tab:beta_coeffs}
+        \renewcommand{\arraystretch}{1.2}
+        \begin{tabular}{|l|c|c|l|}
+            \hline
+            \textbf{Feature} & \textbf{Coeff. ($\beta$)} & \textbf{Odds Ratio}  \\
+            \hline
+            Financial Stress (Level 5) & +2.27 & 9.70 \\
+            Financial Stress (Level 4) & +1.63 & 5.10 \\
+            Academic Pressure & +1.16 & 3.19 \\
+            Dietary Habits (Unhealthy) & +1.05 & 2.85 \\
+            Age & -0.54 & 0.58 \\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    \subsubsection{Matrice di Confusione}
+    Per valutare gli errori commessi dal modello, riportiamo la Matrice di Confusione.
+    Essa mostra la distribuzione tra predizioni corrette (sulla diagonale principale)
+    ed errori di classificazione.
+
+    \begin{figure}[h!]
+        \centering
+        % Assicurati di avere il file 'confusion_matrix_best.png' nella cartella immagini
+        \includegraphics[width=0.6\textwidth]{images/graphs/bestConfusionMatrix}
+        \caption{Matrice di Confusione del modello Logistic Regression (Pipeline 2). Sull'asse X le classi predette,
+            sull'asse Y le classi reali.}
+        \label{fig:conf_matrix}
+    \end{figure}
+
+    Il modello dimostra una solida capacità di distinguere le classi, minimizzando i Falsi Positivi
+    (alta Precision), aspetto cruciale per evitare di segnalare erroneamente come a rischio studenti che non
+    lo sono.
+
+
+% -------------------------------------------------------------------------
+
 
     \subsection{Considerazioni finali}
-    Scrivere qui le considerazioni...
+
+    L'analisi comparata tra le due pipeline e i due algoritmi ci permette di trarre conclusioni non solo
+    sulle performance numeriche, ma anche sulla natura stessa dei dati e su come i diversi algoritmi
+    "ragionano" sulle cause della depressione.
+
+    Una delle evidenze più interessanti emerge osservando quale feature viene considerata la "più importante"
+    (valenza predittiva) dai due modelli nelle diverse configurazioni.
+
+    \subsubsection{Convergenza sulla Pipeline 1: La forza del Feature Engineering}
+    Nella \textbf{Pipeline 1}, entrambi gli algoritmi concordano all'unanimità. Sia il Decision Tree che la
+    Logistic Regression identificano la feature ingegnerizzata \texttt{Stress\_Amplified}
+    come il predittore dominante (con una \textit{Importance} del 75\%
+    per il Tree e un \textit{Beta} di 1.47 per la Logistic).
+
+    Questo dimostra che la nostra intuizione di combinare \textit{Pressione Accademica},
+    \textit{Stress Finanziario} e \textit{Debito di Sonno} in un unico indicatore ha catturato con successo
+    la complessità del fenomeno.
+
+    \subsubsection{Divergenza sulla Pipeline 2: Logica "Globale" vs "Puntuale"}
+    Nella \textbf{Pipeline 2}, dove le variabili sono state trattate singolarmente
+    (senza feature engineering combinata), i due modelli mostrano una significativa differenza
+    nell'identificazione del fattore principale:
+
+    \begin{itemize}
+        \item \textbf{Il Decision Tree} privilegia \texttt{Academic Pressure} (Importance: 0.48).
+        \item \textbf{La Logistic Regression} privilegia \texttt{Financial Stress (Level 5)}
+            ($\beta$: 2.27, Odds Ratio: 9.70).
+    \end{itemize}
+
+    Questa discrepanza riflette la diversa natura matematica degli algoritmi:
+        Il \textbf{Decision Tree} trova nella \textit{Pressione Accademica}
+            la variabile che meglio "divide" la popolazione in due
+            grandi gruppi omogenei (miglior \textit{split}), mentre per
+
+        la \textbf{Logistic Regression}, anche se avere
+        \textit{Stress Finanziario a livello 5} è una condizione meno frequente rispetto ad
+            avere pressione accademica, quando essa si verifica, la probabilità di depressione schizza
+            alle stelle.
 
 \end{document}

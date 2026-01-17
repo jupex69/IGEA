@@ -263,3 +263,53 @@ print("🏆 CLASSIFICA FINALE")
 print("=" * 80)
 print(df_results.to_string(index=False, float_format="%.4f"))
 
+# ==============================================================================
+# 5. VISUALIZZAZIONE GRAFICA DEI RISULTATI
+# ==============================================================================
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+print("\n📊 Generazione grafico riassuntivo...")
+
+# 1. Preparazione Dati per il Plot (Trasformazione in formato "Long")
+# Creiamo una colonna unica per identificare la combinazione Pipeline + Modello
+df_results['Model_ID'] = df_results['Source'] + "\n" + df_results['Algorithm']
+
+# "Sciogliamo" il dataframe per avere le metriche sulle righe (formato ideale per seaborn)
+df_long = df_results.melt(
+    id_vars=['Model_ID'],
+    value_vars=['Accuracy', 'Precision', 'Recall', 'F1', 'ROC AUC'],
+    var_name='Metrica',
+    value_name='Score'
+)
+
+# 2. Configurazione Plot
+plt.figure(figsize=(14, 7))
+sns.set_style("whitegrid")
+
+# Creazione Barplot
+ax = sns.barplot(
+    data=df_long,
+    x='Metrica',
+    y='Score',
+    hue='Model_ID',
+    palette='viridis' # Usa 'rocket', 'mako' o 'viridis'
+)
+
+# 3. Etichette e Titoli
+plt.title('Confronto Performance: Pipeline 1 vs Pipeline 2', fontsize=16, pad=20)
+plt.ylabel('Punteggio (Score)', fontsize=12)
+plt.xlabel('Metrica di Valutazione', fontsize=12)
+plt.legend(title='Configurazione Modello', bbox_to_anchor=(1.02, 1), loc='upper left')
+
+# 4. Zoom sull'asse Y per evidenziare le differenze
+# Dato che i valori sono tutti vicini (0.77 - 0.85), partiamo da 0.70 per vedere meglio il distacco
+plt.ylim(0.70, 0.90)
+
+# 5. Aggiunta dei valori sopra le barre
+for container in ax.containers:
+    ax.bar_label(container, fmt='%.3f', padding=3, fontsize=9, rotation=90)
+
+plt.tight_layout()
+plt.show()
+
