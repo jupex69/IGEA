@@ -705,6 +705,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
             \textit{Study Satisfaction} & \textit{Study Satisfaction} \\
             \textit{Work/Study Hours} & \textit{Work/Study Hours} \\
             \textit{Stress\_Amplified} & \textit{Academic Pressure} \\
+            & \textit{Financial Stress} \\
             & \textit{CGPA\_30} \\
             \hline
         \end{tabular}
@@ -730,7 +731,6 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
             \textit{Dietary Habits} & \textit{Dietary Habits} \\
             \textit{Family History of Mental Illness} & \textit{Family History of Mental Illness} \\
             & \textit{Sleep Duration} \\
-            & \textit{Financial Stress} \\
             & \textit{Degree\_level} \\
             \hline
         \end{tabular}
@@ -859,7 +859,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     \subsection{Valutazioni}
     L'analisi comparativa dei modelli, riassunta nel grafico di performance, evidenzia che la combinazione
     \textbf{Pipeline 2 + Logistic Regression} offre le prestazioni migliori in assoluto,
-    raggiungendo una \textit{Precision} del \textbf{84.43\%} e una \textit{Recall} di \textbf{79.43\%}.
+    raggiungendo una \textit{Precision} del \textbf{84.45\%} e una \textit{Recall} di \textbf{79.50\%}.
 
     \includegraphics[width=1.1\textwidth]{images/graphs/graficoPrestazioni} \\
 
@@ -885,11 +885,11 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
             \hline
             \textbf{Feature} & \textbf{Coeff. ($\beta$)} & \textbf{Odds Ratio}  \\
             \hline
-            Financial Stress (Level 5) & +2.27 & 9.70 \\
-            Financial Stress (Level 4) & +1.63 & 5.10 \\
-            Academic Pressure & +1.16 & 3.19 \\
-            Dietary Habits (Unhealthy) & +1.05 & 2.85 \\
-            Age & -0.54 & 0.58 \\
+            Academic Pressure & +1.16 & 3.20 \\
+            Dietary Habits (Unhealthy) & +1.09 & 2.97 \\
+            Financial Stress & +0.81 & 2.26 \\
+            Age & -0.56 & 0.57 \\
+            Dietary Habits (Moderate) & +0.51 & 1.67 \\
             \hline
         \end{tabular}
     \end{table}
@@ -916,37 +916,6 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
     \subsection{Considerazioni}
 
-    L'analisi comparata tra le due pipeline e i due algoritmi ci permette di trarre conclusioni non solo
-    sulle performance numeriche, ma anche sulla natura stessa dei dati e su come i diversi algoritmi
-    "ragionano" sulle cause della depressione.
-
-    Una delle evidenze più interessanti emerge osservando quale feature viene considerata la "più importante"
-    (valenza predittiva) dai due modelli nelle diverse configurazioni.
-
-    \paragraph{Convergenza sulla Pipeline 1}
-    Nella \textbf{Pipeline 1}, entrambi gli algoritmi concordano all'unanimità. Sia il Decision Tree che la
-    Logistic Regression identificano la feature ingegnerizzata \texttt{Stress\_Amplified}
-    come il predittore dominante (con una \textit{Importance} del 75\%
-    per il Tree e un \textit{Beta} di 1.47 per la Logistic).
-
-    Questo dimostra che la nostra intuizione di combinare \textit{Pressione Accademica},
-    \textit{Stress Finanziario} e \textit{Debito di Sonno} in un unico indicatore ha catturato con successo
-    la complessità del fenomeno.
-
-    \paragraph{Divergenza sulla Pipeline 2}
-    Nella \textbf{Pipeline 2} invece i due modelli mostrano una significativa differenza
-    nell'identificazione del fattore principale:
-
-    \begin{itemize}
-        \item \textbf{Il Decision Tree} privilegia \texttt{Academic Pressure} (Importance: 0.48).
-        \item \textbf{La Logistic Regression} privilegia \texttt{Financial Stress (Level 5)}
-            ($\beta$: 2.27, Odds Ratio: 9.70).
-    \end{itemize}
-
-    Questa discrepanza riflette la diversa natura matematica degli algoritmi:
-    il Decision Tree privilegia la variabile che consente la migliore separazione
-    globale della popolazione, mentre la Logistic Regression enfatizza condizioni
-    meno frequenti ma associate a un forte incremento della probabilità di depressione.
 
 
     \section{Interface}

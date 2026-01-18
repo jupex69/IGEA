@@ -76,6 +76,11 @@ print(f"Feature rimosse: {columns_to_drop}")
 print(f"Dimensioni dopo Feature Selection: {df.shape}")
 
 # =================================================================
+# FIX: Financial Stress come numerica
+# =================================================================
+df['Financial Stress'] = pd.to_numeric(df['Financial Stress'], errors='coerce')
+
+# =================================================================
 # FASE 5: SPLIT X / y (RAW)
 # =================================================================
 print("\n--- FASE 5: Split X / y (RAW) ---")
