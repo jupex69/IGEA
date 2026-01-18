@@ -24,24 +24,6 @@ except Exception as e:
     print(f"❌ Errore caricamento modello: {e}")
 
 # =========================
-# FUNZIONI DI TRASFORMAZIONE (Identiche a Pipeline 2)
-# =========================
-
-def map_degree_pipeline2(deg):
-    """
-    Replica la logica di pipeline2.py per Degree_level
-    """
-    deg = str(deg).strip()
-    if deg == "'Class 12'" or 'Diploma' in deg:
-        return 'Diploma'
-    elif deg.startswith('B') or 'Bachelor' in deg:
-        return 'Titolo_primo_livello'
-    elif deg.startswith('M') or 'Master' in deg or deg in ['PhD', 'MD']:
-        return 'Titolo_secondo_livello'
-    else:
-        return 'Titolo_secondo_livello'  # fallback sicuro
-
-# =========================
 # ROUTES
 # =========================
 @app.route('/')
@@ -61,17 +43,17 @@ def predict():
         # 1. RAW INPUT
         # -----------------------------
         raw_input = {
-            'Gender': str(data.get('gender', 'Male')),
-            'Age': float(data.get('age', 20)),
-            'Academic Pressure': float(data.get('academic_pressure', 3)),
-            'Study Satisfaction': float(data.get('study_satisfaction', 3)),
-            'Financial Stress': str(float(data.get('financial_stress', 3))),
+            'Gender': str(data.get('gender')),
+            'Age': float(data.get('age')),
+            'Academic Pressure': float(data.get('academic_pressure')),
+            'Study Satisfaction': float(data.get('study_satisfaction')),
+            'Financial Stress': str(float(data.get('financial_stress'))),
             'Degree_level': str(data.get('degree', 'Diploma')),
-            'CGPA_30': float(data.get('cgpa', 25)),
-            'Work/Study Hours': float(data.get('study_hours', 4)),
-            'Sleep Duration': str(data.get('sleep_duration', "'7-8 hours'")),
-            'Dietary Habits': str(data.get('dietary_habits', 'Moderate')),
-            'Family History of Mental Illness': str(data.get('family_history_mental_illness', 'No'))
+            'CGPA_30': float(data.get('cgpa')),
+            'Work/Study Hours': float(data.get('study_hours')),
+            'Sleep Duration': str(data.get('sleep_duration')),
+            'Dietary Habits': str(data.get('dietary_habits')),
+            'Family History of Mental Illness': str(data.get('family_history_mental_illness'))
         }
 
         input_df = pd.DataFrame([raw_input])
