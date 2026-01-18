@@ -46,6 +46,10 @@ def map_degree_pipeline2(deg):
 # =========================
 @app.route('/')
 def home():
+    return render_template('index.html')
+
+@app.route('/questionario')
+def questionario():
     return render_template('questionario.html')
 
 @app.route('/predict', methods=['POST'])

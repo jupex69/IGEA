@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IGEA</title>
 
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/navbar.css">
-    <link rel="stylesheet" href="../static/css/footer.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
 </head>
 <body class="home">
 
-<div data-include="partials/navbar.html"></div>
+{% include 'partials/navbar.html' %}
 
 <main>
     <section class="hero">
@@ -20,15 +20,14 @@
             <p class="hero-description">
                 IGEA aiuta gli studenti a riconoscere possibili segnali di disagio e a favorire un supporto tempestivo.
             </p>
-            <a href="questionario.html" class="hero-button">
+            <a href="{{ url_for('questionario') }}" class="hero-button">
                 Vai al questionario
             </a>
         </div>
     </section>
 </main>
 
-<div data-include="partials/footer.html"></div>
+{% include 'partials/footer.html' %}
 
-<script src="../static/js/include.js"></script>
 </body>
 </html>
