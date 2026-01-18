@@ -47,7 +47,7 @@ def predict():
             'Age': float(data.get('age')),
             'Academic Pressure': float(data.get('academic_pressure')),
             'Study Satisfaction': float(data.get('study_satisfaction')),
-            'Financial Stress': str(float(data.get('financial_stress'))),
+            'Financial Stress': float(data.get('financial_stress')),
             'Degree_level': str(data.get('degree', 'Diploma')),
             'CGPA_30': float(data.get('cgpa')),
             'Work/Study Hours': float(data.get('study_hours')),
