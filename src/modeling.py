@@ -76,13 +76,24 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
         'model__criterion': ['gini', 'entropy']
     }
 
+    scoring = {
+        'accuracy': 'accuracy',
+        'precision': 'precision',
+        'recall': 'recall',
+        'f1': 'f1',
+        'roc_auc': 'roc_auc'
+    }
+
     grid = GridSearchCV(
         pipe_tree,
         param_grid,
         cv=cv,
-        scoring='accuracy',
-        n_jobs=-1
+        scoring=scoring,
+        refit='accuracy',   # ← scegli una metrica primaria
+        n_jobs=-1,
+        return_train_score=False
     )
+
 
     grid.fit(X, y)
     best_tree = grid.best_estimator_
@@ -90,33 +101,20 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
     for param, value in grid.best_params_.items():
         print(f"  {param}: {value}")
 
-    scores_tree = cross_validate(
-        best_tree,
-        X, y,
-        cv=cv,
-        scoring=['accuracy', 'precision', 'recall', 'f1', 'roc_auc'],
-        n_jobs=-1,
-        return_estimator=True
-    )
-
     # === STAMPE ===
     for metric in ['accuracy', 'precision', 'recall', 'f1', 'roc_auc']:
-        print(f" {metric:10s}: {scores_tree[f'test_{metric}'].mean():.3f}")
+        mean_score = grid.cv_results_[f'mean_test_{metric}'][grid.best_index_]
+        print(f" {metric:10s}: {mean_score:.3f}")
 
-    # === ANALISI K-FOLD ===
-    print("\n📊 Analisi Fold-by-Fold (Decision Tree)")
-    for i, acc in enumerate(scores_tree['test_accuracy']):
-        print(f" Fold {i+1} accuracy: {acc:.3f}")
-    print(f" Std accuracy: {scores_tree['test_accuracy'].std():.4f}")
 
     leaderboard_data.append({
         'Source': pipe_name,
         'Algorithm': algo_name,
-        'Accuracy': scores_tree['test_accuracy'].mean(),
-        'Precision': scores_tree['test_precision'].mean(),
-        'Recall': scores_tree['test_recall'].mean(),
-        'F1': scores_tree['test_f1'].mean(),
-        'ROC AUC': scores_tree['test_roc_auc'].mean()
+        'Accuracy': grid.cv_results_['mean_test_accuracy'][grid.best_index_],
+        'Precision': grid.cv_results_['mean_test_precision'][grid.best_index_],
+        'Recall': grid.cv_results_['mean_test_recall'][grid.best_index_],
+        'F1': grid.cv_results_['mean_test_f1'][grid.best_index_],
+        'ROC AUC': grid.cv_results_['mean_test_roc_auc'][grid.best_index_]
     })
 
 
