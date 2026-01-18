@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
 import numpy as np
 import os
+import joblib
 warnings.filterwarnings("ignore")
 
 from sklearn.model_selection import StratifiedKFold, GridSearchCV, cross_validate
@@ -322,3 +323,24 @@ for container in ax.containers:
 plt.tight_layout()
 plt.show()
 """
+
+print("\n💾 Salvataggio del modello finale (PIPELINE 2)...")
+
+# Forziamo esplicitamente Pipeline 2
+X, y, preprocessor = datasets['Pipeline 2']
+
+pipe_log = Pipeline(steps=[
+    ('preprocess', preprocessor),
+    ('model', LogisticRegression(
+        class_weight='balanced',
+        max_iter=100,
+        random_state=42
+    ))
+])
+
+pipe_log.fit(X, y)
+
+filename = 'modello_depressione_finale.pkl'
+joblib.dump(pipe_log, filename)
+
+print(f"✅ Modello PIPELINE 2 salvato come {filename}")
