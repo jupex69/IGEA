@@ -5,7 +5,8 @@ li, a, button {
     text-decoration: none;
 }
 
-body.home header {
+body.home header,
+body.prediction header {
     position: absolute;
     top: 0;
     left: 0;

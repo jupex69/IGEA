@@ -7,47 +7,27 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
-    <style>
-        .result-container {
-            max-width: 600px;
-            margin: 50px auto;
-            text-align: center;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            background-color: #fff;
-        }
-        .prediction-title { font-size: 2em; margin-bottom: 10px; }
-        .prob-text { font-size: 1.2em; color: #555; }
-        .btn-back {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        .btn-back:hover { background-color: #0056b3; }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/risultato.css') }}">
 </head>
-<body>
+<body class="prediction">
 
 {% include 'partials/navbar.html' %}
 
 <main>
-    <div class="result-container">
-        <h1>Esito Analisi</h1>
-        <hr>
+    <div class="result">
+        <div class="result-container">
+            <h1>Esito Analisi</h1>
+            <hr>
 
-        <h2 class="prediction-title" style="color: {{ color }};">
-            {{ prediction }}
-        </h2>
+            <h2 class="prediction-title" style="color: {{ color }};">
+                {{ prediction }}
+            </h2>
 
-        <p class="prob-text">Affidabilità del modello: <strong>{{ prob }}%</strong></p>
+            <p class="prob-text">Affidabilità del modello: <strong>{{ prob }}%</strong></p>
 
-        <br>
-        <a href="/" class="btn-back">Nuova Analisi</a>
+            <br>
+            <a href="/" class="btn-back">Nuova Analisi</a>
+        </div>
     </div>
 </main>
 
