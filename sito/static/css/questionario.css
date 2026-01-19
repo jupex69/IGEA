@@ -5,10 +5,16 @@ body.questionnaire main {
 form {
     max-width: 700px;
     margin: auto;
-    padding: 9px 25px;
+    padding: 25px 25px;
     background: #fff;
     border-radius: 6px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+form h2 {
+    font-family: var(--font-title);
+    font-weight: lighter;
+    font-size: 2rem;
 }
 
 fieldset {
@@ -18,9 +24,9 @@ fieldset {
 
 label {
     display: block;
-    font-weight: 500;
     margin-bottom: 8px;
     margin-top: 15px;
+    font-weight: lighter;
 }
 
 input[type="text"],
@@ -31,6 +37,7 @@ select {
     margin-bottom: 5px;
     border: 1px solid #dcdcdc;
     border-radius: 6px;
+    font-weight: lighter;
     font-size: 16px;
     transition: border-color 0.2s, box-shadow 0.2s;
 }

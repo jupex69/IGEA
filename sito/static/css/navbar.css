@@ -33,6 +33,7 @@ header {
 }
 
 .logo h1 {
+    font-family: var(--font-title);
     font-weight: 500;
     font-size: 22px;
     color: var(--primary-color);
@@ -48,6 +49,7 @@ header {
 }
 
 .nav__links li a {
+    font-weight: lighter;
     transition: all 0.3s ease 0s;
 }
 
@@ -56,6 +58,7 @@ header {
 }
 
 .cta {
+    font-weight: lighter;
     margin-left: 20px;
     padding: 9px 25px;
     background-color: var(--primary-color);

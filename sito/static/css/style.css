@@ -1,5 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
 :root {
     --primary-color: #AE4FDD;
+
+    --font-title: 'Playfair Display', serif;
+    --font-body: 'Inter', sanf-serif;
 }
 
 * {
@@ -9,6 +14,7 @@
 }
 
 body {
+    font-family: var(--font-body);
     background-color: #f7f5fb;
 }
 
@@ -20,23 +26,26 @@ body {
 }
 
 .hero-content {
-    max-width: 600px;
     text-align: center;
     padding: 2rem;
 }
 
 .hero-title {
+    font-family: var(--font-title);
+    font-weight: lighter;
     font-size: 2.2rem;
     margin-bottom: 1rem;
 }
 
 .hero-description {
+    font-weight: lighter;
     font-size: 1.1rem;
     margin-bottom: 2rem;
     color: #555;
 }
 
 .hero-button {
+    font-weight: lighter;
     padding: 9px 25px;
     background-color: var(--primary-color);
     color: #fff;
