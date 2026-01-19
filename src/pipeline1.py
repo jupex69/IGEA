@@ -6,8 +6,6 @@ from pathlib import Path
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
 
-sys.path.append('.')
-
 # ==============================================================================
 # CONFIGURAZIONE
 # ==============================================================================
