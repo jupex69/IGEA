@@ -7,7 +7,7 @@
 
 .result-container {
     max-width: 600px;
-    margin: 50px auto;
+    margin: 20px;
     text-align: center;
     padding: 30px;
     border-radius: 6px;
@@ -18,7 +18,6 @@
 .prob-text { font-size: 1.2em; color: #555; }
 .btn-back {
     display: inline-block;
-    margin-top: 20px;
     padding: 10px 20px;
     background-color: var(--primary-color);
     color: white;
@@ -26,3 +25,53 @@
     border-radius: 5px;
 }
 .btn-back:hover { background-color: #8a3fb0; }
+
+.skill {
+    width: 160px;
+    height: 160px;
+    position: relative;
+    margin: 20px auto;
+}
+
+.outer {
+    height: 160px;
+    width: 160px;
+    padding: 20px;
+    box-shadow: 6px 6px 10px -1px rgba(0, 0, 0, 0.15),
+    -6px -6px 10px -1px rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+}
+
+.inner {
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 4px 4px 6px -1px rgba(0, 0, 0, 0.2),
+    inset -4px -4px 6px -1px rgba(255, 255, 255, 0.7),
+    -0.5px -0.5px 0px rgba(255, 255, 255, 1),
+    0.5px 0.5px 0px rgba(0, 0, 0, 0.15),
+    0px 12px 10px -10px rgba(0, 0, 0, 0.05);
+}
+
+#number {
+    font-weight: 600;
+    color: #555;
+    font-size: 30px;
+}
+
+circle {
+    fill: none;
+    stroke: url(#GradientColor);
+    stroke-width: 20px;
+    stroke-dasharray: 450;
+    stroke-dashoffset: 450;
+}
+
+svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+}

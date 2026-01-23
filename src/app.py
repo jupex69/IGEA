@@ -72,11 +72,11 @@ def predict():
         prob = model.predict_proba(input_df)[0][1]
 
         if prediction == 1 and prob >= 0.80:
-            msg = "Rischio Depressione Rilevato"
+            msg = "Contatta uno specialista"
             color = "#dc3545"
             tips = "Ti consigliamo di parlarne con uno specialista."
         else:
-            msg = "Nessun Rischio Rilevato"
+            msg = "Staij senza pensier bro"
             color = "#28a745"
             tips = "Continua così!"
 

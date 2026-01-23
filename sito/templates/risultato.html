@@ -16,14 +16,35 @@
 <main>
     <div class="result">
         <div class="result-container">
-            <h1>Esito Analisi</h1>
-            <hr>
-
             <h2 class="prediction-title" style="color: {{ color }};">
                 {{ prediction }}
             </h2>
 
-            <p class="prob-text">Affidabilità del modello: <strong>{{ prob }}%</strong></p>
+            <p class="prob-text">Probabilità di rischio</p>
+
+            <div class="skill">
+                <div class="outer">
+                    <div class="inner">
+                        <div id="number">
+                            65%
+                        </div>
+                    </div>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     version="1.1" width="160px" height="160px">
+                    <defs>
+                        <lineargradient id="GradientColor">
+                            <stop offset="0%"
+                                  stop-color="#DA22FF">
+                            </stop>
+                            <stop offset="100%"
+                                  stop-color="#9733EE">
+                            </stop>
+                        </lineargradient>
+                    </defs>
+                    <circle id="progress-circle" cx="80" cy="80" r="70" stroke-linecap="round"></circle>
+                </svg>
+            </div>
 
             <br>
             <a href="/questionario" class="btn-back">Nuova Analisi</a>
@@ -32,6 +53,42 @@
 </main>
 
 {% include 'partials/footer.html' %}
+
+<script>
+    let number = document.getElementById('number');
+    let circle = document.getElementById('progress-circle');
+
+    // Assicuriamoci che il valore da Flask sia letto come decimale
+    let target = parseFloat({{ prob }});
+
+    let counter = 0;
+
+    // NOTA: Questo valore deve essere identico al 'stroke-dasharray' nel tuo CSS.
+    // Se nel CSS hai messo 440, metti 440 anche qui. Se hai lasciato 450, lascia 450.
+    let circumference = 440;
+
+    // Velocità dell'animazione (più basso = più veloce)
+    // Abbassiamo a 10ms perché facendo passi piccoli ci mette più tempo
+    const interval = setInterval(() => {
+
+        // 1. Incremento: aggiungiamo 0.5 alla volta (puoi mettere 0.1 per più precisione)
+        counter += 0.5;
+
+        // 2. Controllo se abbiamo raggiunto o superato il target
+        if (counter >= target) {
+            counter = target; // Blocchiamo il valore al target esatto
+            clearInterval(interval); // Fermiamo l'animazione
+        }
+
+        // 3. Aggiornamento Testo: toFixed(1) mostra 1 decimale (es. "65.5%")
+        number.innerHTML = `${counter.toFixed(1)}%`;
+
+        // 4. Aggiornamento Cerchio
+        let offset = circumference - (circumference * counter / 100);
+        circle.style.strokeDashoffset = offset;
+
+    }, 20);
+</script>
 
 </body>
 </html>
