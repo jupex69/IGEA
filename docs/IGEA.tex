@@ -537,7 +537,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     rappresentativo ai fini delle successive analisi statistiche.
 
 
-
+    \newpage
 
     % ==========================================
     %              PIPELINE 1
@@ -546,6 +546,25 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     \subsection{Pipeline 1}
 
     \subsubsection{Feature engineering}
+
+
+
+    \paragraph{Feature Trasformation}
+
+    La variabile continua \textit{Age} è stata discretizzata nella nuova feature \texttt{Age\_group}
+    sulla base dell’analisi della sua distribuzione.
+    Tale scelta è motivata dal fatto che la rappresentazione puramente numerica
+    può amplificare il peso di osservazioni con età più elevate, introducendo effetti distorsivi nella
+    stima del rischio.
+    La categorizzazione dell’età consente invece di ridurre l’influenza di valori anomali, preservando al
+    contempo l’informazione semantica associata alle diverse fasi della vita universitaria. Di seguito il
+    grafico rappresenta il numero di osservazioni per ogni classe.
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.8\textwidth]{images/graphs/distribuzioniAge}
+    \end{figure}
+
 
     \paragraph{Feature Construction}
     In questa fase, l'analisi si è spostata dalla semplice selezione delle variabili esistenti alla generazione di nuove feature sintetiche (\textit{Derived Features}). L'obiettivo è stato quello di catturare relazioni non lineari e interazioni complesse tra le variabili, basandosi su ipotesi derivanti dalla conoscenza del dominio psicologico (\textit{Domain Knowledge}).
