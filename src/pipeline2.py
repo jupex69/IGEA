@@ -48,6 +48,10 @@ df['Degree_level'] = df['Degree'].apply(map_degree)
 print("Distribuzione Degree_level:")
 print(df['Degree_level'].value_counts())
 
+# =================================================================
+# FASE 3: FEATURE ENGINEERING – AGE
+# =================================================================
+
 print("\n--- FASE 3: TRASFORMAZIONE AGE ---")
 
 def map_age_custom(age):
@@ -100,9 +104,9 @@ plt.show()
 """
 
 # =================================================================
-# FASE 3: FEATURE ENGINEERING – CGPA
+# FASE 4: FEATURE ENGINEERING – CGPA
 # =================================================================
-print("\n--- FASE 3: TRASFORMAZIONE CGPA ---")
+print("\n--- FASE 4: TRASFORMAZIONE CGPA ---")
 
 df['CGPA_30'] = 2.4 * df['CGPA'] + 6
 
@@ -110,9 +114,9 @@ print("Statistiche CGPA_30:")
 print(df['CGPA_30'].describe())
 
 # =================================================================
-# FASE 4: FEATURE SELECTION
+# FASE 5: FEATURE SELECTION
 # =================================================================
-print("\n--- FASE 4: FEATURE SELECTION ---")
+print("\n--- FASE 5: FEATURE SELECTION ---")
 
 columns_to_drop = [
     'City',
@@ -134,18 +138,18 @@ print(f"Dimensioni dopo Feature Selection: {df.shape}")
 df['Financial Stress'] = pd.to_numeric(df['Financial Stress'], errors='coerce')
 
 # =================================================================
-# FASE 5: SPLIT X / y (RAW)
+# FASE 6: SPLIT X / y (RAW)
 # =================================================================
-print("\n--- FASE 5: Split X / y (RAW) ---")
+print("\n--- FASE 6: Split X / y (RAW) ---")
 
 X = df.drop(columns=[TARGET])
 y = df[TARGET]
 print("Split effettuato.")
 
 # =================================================================
-# FASE 6: DEFINIZIONE PREPROCESSOR (NON FITTATO)
+# FASE 7: DEFINIZIONE PREPROCESSOR (NON FITTATO)
 # =================================================================
-print("\n--- FASE 6: DEFINIZIONE PREPROCESSING ---")
+print("\n--- FASE 7: DEFINIZIONE PREPROCESSING ---")
 
 categorical_features = X.select_dtypes(include=['object']).columns.tolist()
 numeric_features = X.select_dtypes(include=['int64', 'float64']).columns.tolist()

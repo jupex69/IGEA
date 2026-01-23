@@ -29,7 +29,7 @@ df = getCleanedData(df_raw)
 print(f"Dataet Ricevuto!: {df.shape}")
 print(df.head())
 
-print("\n--- FASE 3: TRASFORMAZIONE AGE ---")
+print("\n--- FASE 2: TRASFORMAZIONE AGE ---")
 
 def map_age_custom(age):
     if age < 22:
@@ -46,9 +46,9 @@ df['Age_group'] = df['Age'].apply(map_age_custom)
 
 
 # ==============================================================================
-# FASE 2: FEATURE ENGINEERING
+# FASE 3: FEATURE ENGINEERING
 # ==============================================================================
-print("\n--- FASE 2: FEATURE ENGINEERING ---")
+print("\n--- FASE 3: FEATURE ENGINEERING ---")
 # 1. Pulizia preventiva numerica
 cols_to_fix = ['Sleep Duration', 'Academic Pressure', 'Financial Stress']
 for col in cols_to_fix:
@@ -69,9 +69,9 @@ else:
     print(f"⚠️ Attenzione impossibile creare 'Stress_Amplified'. Mancano colonne  base: {required_cols}.")
 
 # ==============================================================================
-# FASE 3: FEATURE SELECTION
+# FASE 4: FEATURE SELECTION
 # ==============================================================================
-print("\n---FASE 3:FEATURE SELECTION---")
+print("\n---FASE 4:FEATURE SELECTION---")
 
 cols_noise = ['Profession', 'CGPA', 'Job Satisfaction', 'Work Pressure']
 cols_redundant = ['Academic Pressure', 'Financial Stress', 'Sleep Duration', 'Sleep_Debt', 'Age']
@@ -82,7 +82,7 @@ print(f"📉 Rimozione manuale feature: {cols_to_drop}")
 df = df.drop(columns=cols_to_drop, errors='ignore')
 
 # ==============================================================================
-# FASE 4: SPLIT X / y
+# FASE 5: SPLIT X / y
 # ==============================================================================
 # Resettiamo l'indice ORA per entrambi, così siamo sicuri che
 # la riga 0 di X corrisponda alla riga 0 di y.
@@ -94,9 +94,9 @@ y = df[TARGET]
 print(f"Dimensioni finali X: {X.shape}")
 
 # ==============================================================================
-# FASE 5: DEFINIZIONE PREPROCESSOR
+# FASE 6: DEFINIZIONE PREPROCESSOR
 # ==============================================================================
-print("\n---FASE 5: DEFINIZIONE PREPROCESSOR---")
+print("\n---FASE 6: DEFINIZIONE PREPROCESSOR---")
 categorical_features = X.select_dtypes(include=['object', 'bool']).columns.tolist()
 numeric_features = X.select_dtypes(include=['int64', 'float64']).columns.tolist()
 
