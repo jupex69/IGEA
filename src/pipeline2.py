@@ -4,7 +4,7 @@ from pathlib import Path
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
 import matplotlib.pyplot as plt
-
+import seaborn as sns
 # =================================================================
 # CONFIGURAZIONE
 # =================================================================
@@ -62,6 +62,40 @@ def map_age_custom(age):
 
 # Applicazione della trasformazione
 df['Age_group'] = df['Age'].apply(map_age_custom)
+
+"""
+# 1. Definiamo l'ordine logico delle fasce
+age_order = ['18-21', '22-25', '26-29', '30+']
+
+# 2. Configurazione estetica
+plt.figure(figsize=(10, 6))
+sns.set_style("whitegrid")
+
+# 3. Creazione del grafico
+ax = sns.countplot(
+    data=df,
+    x='Age_group',
+    order=age_order,
+    palette='viridis'
+)
+
+# 4. Aggiunta dei titoli e dei valori sopra le barre
+plt.title('Distribuzione degli Studenti per Fascia d\'Età', fontsize=15, pad=15)
+plt.xlabel('Fascia d\'Età', fontsize=12)
+plt.ylabel('Numero di Studenti', fontsize=12)
+
+# Inseriamo il conteggio esatto sopra ogni barra
+for p in ax.patches:
+    ax.annotate(f'{int(p.get_height())}',
+                (p.get_x() + p.get_width() / 2., p.get_height()),
+                ha = 'center', va = 'center',
+                xytext = (0, 9),
+                textcoords = 'offset points',
+                fontsize=11, fontweight='bold')
+
+plt.tight_layout()
+plt.show()
+"""
 
 # =================================================================
 # FASE 3: FEATURE ENGINEERING – CGPA

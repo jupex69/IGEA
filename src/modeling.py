@@ -4,8 +4,8 @@ import warnings
 import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
 import numpy as np
-import os
 import joblib
+import seaborn as sns
 warnings.filterwarnings("ignore")
 
 from sklearn.model_selection import StratifiedKFold, GridSearchCV, cross_validate
@@ -126,7 +126,7 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
     print("\n📜 Regole decisionali (Decision Tree)")
     rules = export_text(tree_model, feature_names=feature_names)
     print(rules)
-    
+
     print("\n🌳 Visualizzazione Decision Tree (profondità limitata)")
     plt.figure(figsize=(20, 10))
     plot_tree(
@@ -206,23 +206,9 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
     plt.suptitle(pipeline_label, fontsize=10)
     plt.tight_layout()
 
-
-    # Percorso base
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    OUTPUT_DIR = os.path.join(BASE_DIR, "..", "docs", "images")
-
-    # Crea cartella se manca
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-
-    # Nome file "sicuro" (senza spazi, senza caratteri strani)
-    safe_pipe = pipe_name.replace(" ", "_")
-    safe_algo = algo_name.replace(" ", "_")
-    filename = os.path.join(OUTPUT_DIR, f"confusion_matrix_{safe_pipe}_{safe_algo}.png")
-
-    # Salva il grafico
-    plt.savefig(filename, dpi=300, bbox_inches="tight")
     plt.show()
     """
+
 
     # === STAMPE RISULTATI ===
     for metric in ['accuracy', 'precision', 'recall', 'f1', 'roc_auc']:
@@ -263,7 +249,8 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
 # ==============================================================================
 # 4. LEADERBOARD FINALE
 # ==============================================================================
-df_results = pd.DataFrame(leaderboard_data).sort_values(by='Precision', ascending=False)
+# AGGIUNTO: .reset_index(drop=True) per allineare i dati al grafico
+df_results = pd.DataFrame(leaderboard_data).sort_values(by='Precision', ascending=False).reset_index(drop=True)
 
 print("\n" + "=" * 80)
 print("🏆 CLASSIFICA FINALE")
@@ -274,16 +261,11 @@ print(df_results.to_string(index=False, float_format="%.4f"))
 # ==============================================================================
 # 5. VISUALIZZAZIONE GRAFICA DEI RISULTATI
 # ==============================================================================
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 print("\n📊 Generazione grafico riassuntivo...")
 
-# 1. Preparazione Dati per il Plot (Trasformazione in formato "Long")
-# Creiamo una colonna unica per identificare la combinazione Pipeline + Modello
 df_results['Model_ID'] = df_results['Source'] + "\n" + df_results['Algorithm']
 
-# "Sciogliamo" il dataframe per avere le metriche sulle righe (formato ideale per seaborn)
 df_long = df_results.melt(
     id_vars=['Model_ID'],
     value_vars=['Accuracy', 'Precision', 'Recall', 'F1', 'ROC AUC'],
@@ -291,17 +273,17 @@ df_long = df_results.melt(
     value_name='Score'
 )
 
-# 2. Configurazione Plot
 plt.figure(figsize=(14, 7))
 sns.set_style("whitegrid")
 
-# Creazione Barplot
+# MODIFICATO: aggiunto hue_order per forzare l'ordine della tabella nel grafico
 ax = sns.barplot(
     data=df_long,
     x='Metrica',
     y='Score',
     hue='Model_ID',
-    palette='viridis' # Usa 'rocket', 'mako' o 'viridis'
+    hue_order=df_results['Model_ID'], # <--- RIGA CHIAVE
+    palette='viridis'
 )
 
 # 3. Etichette e Titoli
