@@ -3,6 +3,7 @@ import pandas as pd
 from pathlib import Path
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
+import matplotlib.pyplot as plt
 
 # =================================================================
 # CONFIGURAZIONE
@@ -47,6 +48,21 @@ df['Degree_level'] = df['Degree'].apply(map_degree)
 print("Distribuzione Degree_level:")
 print(df['Degree_level'].value_counts())
 
+print("\n--- FASE 3: TRASFORMAZIONE AGE (Range Ottimizzati) ---")
+
+def map_age_custom(age):
+    if age < 22:
+        return '18-21'
+    elif age < 26:
+        return '22-25'
+    elif age < 30:
+        return '26-29'
+    else:
+        return '30+'
+
+# Applicazione della trasformazione
+df['Age_group'] = df['Age'].apply(map_age_custom)
+
 # =================================================================
 # FASE 3: FEATURE ENGINEERING – CGPA
 # =================================================================
@@ -68,7 +84,8 @@ columns_to_drop = [
     'Job Satisfaction',
     'Profession',
     'Degree',
-    'CGPA'
+    'CGPA',
+    'Age'
 ]
 
 df = df.drop(columns=columns_to_drop, errors='ignore')

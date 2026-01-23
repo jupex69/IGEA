@@ -44,12 +44,12 @@ def predict():
         # -----------------------------
         raw_input = {
             'Gender': str(data.get('gender')),
-            'Age': float(data.get('age')),
+            'Age_group': str(data.get('age_group')),
+            'CGPA_30': float(data.get('cgpa')),
             'Academic Pressure': float(data.get('academic_pressure')),
             'Study Satisfaction': float(data.get('study_satisfaction')),
             'Financial Stress': float(data.get('financial_stress')),
             'Degree_level': str(data.get('degree', 'Diploma')),
-            'CGPA_30': float(data.get('cgpa')),
             'Work/Study Hours': float(data.get('study_hours')),
             'Sleep Duration': str(data.get('sleep_duration')),
             'Dietary Habits': str(data.get('dietary_habits')),
@@ -58,9 +58,9 @@ def predict():
 
         input_df = pd.DataFrame([raw_input])
 
-        categorical_cols = ['Gender', 'Sleep Duration', 'Dietary Habits',
+        categorical_cols = ['Age_group', 'Gender', 'Sleep Duration', 'Dietary Habits',
                             'Family History of Mental Illness', 'Degree_level']
-        numeric_cols = ['Age', 'Academic Pressure', 'Study Satisfaction',
+        numeric_cols = ['Academic Pressure', 'Study Satisfaction',
                         'Financial Stress', 'Work/Study Hours', 'CGPA_30']
 
         input_df = input_df[categorical_cols + numeric_cols]
@@ -71,7 +71,7 @@ def predict():
         prediction = model.predict(input_df)[0]
         prob = model.predict_proba(input_df)[0][1]
 
-        if prediction == 1:
+        if prediction == 1 and prob >= 0.80:
             msg = "Rischio Depressione Rilevato"
             color = "#dc3545"
             tips = "Ti consigliamo di parlarne con uno specialista."

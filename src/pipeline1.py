@@ -29,6 +29,22 @@ df = getCleanedData(df_raw)
 print(f"Dataet Ricevuto!: {df.shape}")
 print(df.head())
 
+print("\n--- FASE 3: TRASFORMAZIONE AGE (Range Ottimizzati) ---")
+
+def map_age_custom(age):
+    if age < 22:
+        return '18-21'
+    elif age < 26:
+        return '22-25'
+    elif age < 30:
+        return '26-29'
+    else:
+        return '30+'
+
+# Applicazione della trasformazione
+df['Age_group'] = df['Age'].apply(map_age_custom)
+
+
 # ==============================================================================
 # FASE 2: FEATURE ENGINEERING
 # ==============================================================================
@@ -58,7 +74,7 @@ else:
 print("\n---FASE 3:FEATURE SELECTION---")
 
 cols_noise = ['Profession', 'CGPA', 'Job Satisfaction', 'Work Pressure']
-cols_redundant = ['Academic Pressure', 'Financial Stress', 'Sleep Duration', 'Sleep_Debt']
+cols_redundant = ['Academic Pressure', 'Financial Stress', 'Sleep Duration', 'Sleep_Debt', 'Age']
 cols_low_info = ['Degree', 'City']
 
 cols_to_drop = cols_noise + cols_redundant + cols_low_info

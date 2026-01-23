@@ -60,9 +60,9 @@ def getCleanedData(df_input):
     # 5. Rimozione righe con CGPA < 4
     if 'CGPA' in df.columns:
         n_before = len(df)
-        df = df[df['CGPA'] >= 4]
+        df = df[df['CGPA'] >= 5]
         if len(df) < n_before:
-            print(f"Filtro CGPA < 4: rimossi {n_before - len(df)} studenti.")
+            print(f"Filtro CGPA < 5: rimossi {n_before - len(df)} studenti.")
 
     # 6. Rimozione Outlier Categorici (Freq < 1%)
     print("\n--- RIMOZIONE OUTLIER CATEGORICI (< 1%) ---")
