@@ -48,7 +48,7 @@ df['Degree_level'] = df['Degree'].apply(map_degree)
 print("Distribuzione Degree_level:")
 print(df['Degree_level'].value_counts())
 
-print("\n--- FASE 3: TRASFORMAZIONE AGE (Range Ottimizzati) ---")
+print("\n--- FASE 3: TRASFORMAZIONE AGE ---")
 
 def map_age_custom(age):
     if age < 22:
@@ -62,6 +62,8 @@ def map_age_custom(age):
 
 # Applicazione della trasformazione
 df['Age_group'] = df['Age'].apply(map_age_custom)
+print("Statistiche Age_group:")
+print(df['Age_group'].describe())
 
 """
 # 1. Definiamo l'ordine logico delle fasce

@@ -162,7 +162,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
                 \textbf{Performance} & La misura di performance del sistema si basa sulla capacità
                                        dell'agente di distinguere correttamente studenti inclini alla
                                        depressione e studenti non inclini, con particolare attenzione
-                                       all'identificazione accurata della classe Depressione (True). \\
+                                       all'identificazione accurata della classe Depressione=True. \\
 
                 \hline
                 \textbf{Environment} & L'ambiente consiste negli studenti universitari, i quali
@@ -170,7 +170,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
                 \hline
                 \textbf{Actuators} & Gli attuatori consistono in un sistema di classificazione che
-                                     assegna un'etichetta (\("\)Rischio Depressione Rilevat\("\) o \("\)Nessun Rischio Rilevato\("\)) e segnala
+                                     assegna un'etichetta (\("\)Rischio Depressione Rilevato\("\) o \("\)Nessun Rischio Rilevato\("\)) e segnala
                                      gli studenti identificati come a rischio con una panoramica chiara dei diversi report.
                                      Questi attuatori permettono di attivare interventi per supportare gli studenti. \\
 
@@ -188,8 +188,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
         L’ambiente operativo in cui agisce il sistema \textit{IGEA}
         è costituito dall’insieme dei dati relativi agli studenti universitari, provenienti da questionari
         autocompilati. Il modello di machine learning interagisce con tale ambiente analizzando i dati disponibili
-        al fine di stimare il livello di rischio di disagio psicologico, con particolare riferimento a stati
-        depressivi.
+        al fine di stimare la presenza o meno del rischio di disagio psicologico.
 
         L’ambiente di IGEA può essere classificato come segue:
 
@@ -721,7 +720,6 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
             \hline
             \textbf{Pipeline 1} & \textbf{Pipeline 2} \\
             \hline
-            \textit{Age} & \textit{Age} \\
             \textit{Study Satisfaction} & \textit{Study Satisfaction} \\
             \textit{Work/Study Hours} & \textit{Work/Study Hours} \\
             \textit{Stress\_Amplified} & \textit{Academic Pressure} \\
@@ -748,6 +746,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
             \textbf{Pipeline 1} & \textbf{Pipeline 2} \\
             \hline
             \textit{Gender} & \textit{Gender} \\
+            \textit{Age\_group} & \textit{Age\_group} \\
             \textit{Dietary Habits} & \textit{Dietary Habits} \\
             \textit{Family History of Mental Illness} & \textit{Family History of Mental Illness} \\
             & \textit{Sleep Duration} \\
@@ -832,9 +831,9 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
     Nel caso del \textbf{Decision Tree}, l’addestramento è stato preceduto da una fase di
     \textbf{ottimizzazione degli iperparametri} mediante \textit{Grid Search} (integrata nel processo di
-    cross-validation), grazie al quale sono state esplorate diverse configurazioni relative alla profondità massima
-    dell’albero, al numero minimo di campioni richiesti per effettuare uno split e per la creazione delle
-    foglie, nonché al criterio di impurità adottato.
+    cross-validation), grazie al quale sono state esplorate diverse configurazioni. Gli iperparametri esplorati sono stati: profondità massima
+    dell’albero, numero minimo di campioni richiesti per effettuare uno split, numero minimo di campioni richiesti per la creazione delle
+    foglie e criterio di impurità adottato.
     Di seguito le configurazioni ottimali trovate per entrambe le pipeline che risultano essere motlo simili.
     \begin{table}[h]
         \centering
@@ -879,7 +878,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     \subsection{Valutazioni}
     L'analisi comparativa dei modelli, riassunta nel grafico di performance, evidenzia che la combinazione
     \textbf{Pipeline 2 + Logistic Regression} offre le prestazioni migliori in assoluto,
-    raggiungendo una \textit{Precision} del \textbf{84.45\%} e una \textit{Recall} di \textbf{79.50\%}.
+    raggiungendo una \textit{Precision} del \textbf{84.38\%} e una \textit{Recall} di \textbf{79.48\%}.
 
     \includegraphics[width=1.1\textwidth]{images/graphs/graficoPrestazioni} \\
 
@@ -905,11 +904,11 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
             \hline
             \textbf{Feature} & \textbf{Coeff. ($\beta$)} & \textbf{Odds Ratio}  \\
             \hline
-            Academic Pressure & +1.16 & 3.20 \\
-            Dietary Habits (Unhealthy) & +1.09 & 2.97 \\
+            Age\_group (30+) & -1.29 & 0.28
+            Academic Pressure & +1.16 & 3.18 \\
+            Dietary Habits (Unhealthy) & +1.10 & 3.01 \\
             Financial Stress & +0.81 & 2.26 \\
-            Age & -0.56 & 0.57 \\
-            Dietary Habits (Moderate) & +0.51 & 1.67 \\
+            Dietary Habits (Moderate) & +0.53 & 1.69 \\
             \hline
         \end{tabular}
     \end{table}

@@ -29,7 +29,7 @@ df = getCleanedData(df_raw)
 print(f"Dataet Ricevuto!: {df.shape}")
 print(df.head())
 
-print("\n--- FASE 3: TRASFORMAZIONE AGE (Range Ottimizzati) ---")
+print("\n--- FASE 3: TRASFORMAZIONE AGE ---")
 
 def map_age_custom(age):
     if age < 22:
