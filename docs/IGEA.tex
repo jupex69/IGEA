@@ -932,8 +932,55 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
 % -------------------------------------------------------------------------
 
+    \section{Interfaccia della Demo}
+
+    \paragraph{Pagina Iniziale}
+    La pagina di benvenuto presenta un pulsante per accedere ad un questionario.
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.65\textwidth]{images/index}
+        \label{fig:index_demo}
+    \end{figure}
 
 
-    \section{Interface}
+    \paragraph{Il Questionario di Input}
+    L'interfaccia di inserimento dati consiste in un modulo da compilare.
+    In seguito è presente un esempio di compilazione del questionario.
+
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.65\textwidth]{images/form1}
+        \label{fig:form1_demo}
+    \end{figure}
+
+    \newpage
+
+    \begin{figure}[h]
+        \centering
+        \rightmargin
+        \includegraphics[width=0.65\textwidth]{images/form2}
+        \label{fig:form2_demo}
+    \end{figure}
+
+
+    \paragraph{Visualizzazione del Risultato}
+    Una volta completata la compilazione e inviato il modulo, il sistema effettua una chiamata al backend
+    dove risiede il modello di classificazione. \newline Il risultato dell'inferenza viene mostrato in una pagina di output dedicata che presenta:
+
+    \begin{enumerate}
+        \item \textbf{Esito della Classificazione}.
+        \item \textbf{Componente Visiva:} L'interfaccia utilizza una comunicazione visiva per rendere il responso facilmente interpretabile dall'utente finale.
+    \end{enumerate}
+    In seguito è riportato il risultato relativo alla compilazione del \hyperref[fig:form1_demo] {\underline{form}} visto in precedenza.
+
+
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.50\textwidth]{images/risultato}
+        \label{fig:risultato_demo}
+    \end{figure}
 
 \end{document}
