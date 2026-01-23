@@ -58,37 +58,51 @@
     let number = document.getElementById('number');
     let circle = document.getElementById('progress-circle');
 
-    // Assicuriamoci che il valore da Flask sia letto come decimale
     let target = parseFloat({{ prob }});
-
     let counter = 0;
-
-    // NOTA: Questo valore deve essere identico al 'stroke-dasharray' nel tuo CSS.
-    // Se nel CSS hai messo 440, metti 440 anche qui. Se hai lasciato 450, lascia 450.
     let circumference = 440;
 
-    // Velocità dell'animazione (più basso = più veloce)
-    // Abbassiamo a 10ms perché facendo passi piccoli ci mette più tempo
-    const interval = setInterval(() => {
+    // Funzione per interpolare tra verde e rosso
+    function getColor(percent) {
+        let r, g, b = 0;
 
-        // 1. Incremento: aggiungiamo 0.5 alla volta (puoi mettere 0.1 per più precisione)
-        counter += 0.5;
-
-        // 2. Controllo se abbiamo raggiunto o superato il target
-        if (counter >= target) {
-            counter = target; // Blocchiamo il valore al target esatto
-            clearInterval(interval); // Fermiamo l'animazione
+        if (percent <= 50) {
+            // Verde (0,200,0) -> Giallo (200,200,0)
+            r = Math.floor(200 * (percent / 50));
+            g = 200;
+        } else if (percent <= 80) {
+            // Giallo (200,200,0) -> Arancio (255,120,0)
+            let p = (percent - 50) / 30; // da 0 a 1
+            r = Math.floor(200 + 55 * p);
+            g = Math.floor(200 - 80 * p);
+        } else {
+            // Arancio (255,120,0) -> Rosso (255,0,0)
+            let p = (percent - 80) / 20; // da 0 a 1
+            r = 255;
+            g = Math.floor(120 * (1 - p));
         }
 
-        // 3. Aggiornamento Testo: toFixed(1) mostra 1 decimale (es. "65.5%")
+        return `rgb(${r},${g},${b})`;
+    }
+
+    const interval = setInterval(() => {
+        counter += 0.5;
+        if (counter >= target) {
+            counter = target;
+            clearInterval(interval);
+        }
+
         number.innerHTML = `${counter.toFixed(1)}%`;
 
-        // 4. Aggiornamento Cerchio
         let offset = circumference - (circumference * counter / 100);
         circle.style.strokeDashoffset = offset;
 
+        // Aggiorniamo il colore in base alla percentuale
+        circle.style.stroke = getColor(counter);
+
     }, 20);
 </script>
+
 
 </body>
 </html>
