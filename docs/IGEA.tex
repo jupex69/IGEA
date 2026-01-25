@@ -307,8 +307,8 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
     \begin{itemize}
         \item \textbf{Variabili demografiche}: \textit{Gender}, \textit{Age};
-        \item \textbf{Variabili psicologiche e autovalutative}: \textit{Academic Pressure}, \textit{Study Satisfaction}, \textit{Job Satisfaction}, \textit{Have you ever had suicidal thoughts?}, \textit{Family History of Mental Illness}, \textit{Financial Stress};
-        \item \textbf{Variabili di contesto accademico e personale}: \textit{Degree}, \textit{Profession}, \textit{Work/Study Hours}, \textit{CGPA}, \textit{Sleep Duration}, \textit{Dietary Habits}, \textit{Work Pressure}, \textit{City}.
+        \item \textbf{Variabili psicologiche e autovalutative}: \textit{Academic Pressure}, \textit{Work Pressure}, \textit{Study Satisfaction}, \textit{Job Satisfaction}, \textit{Have you ever had suicidal thoughts?}, \textit{Family History of Mental Illness}, \textit{Financial Stress};
+        \item \textbf{Variabili di contesto accademico e personale}: \textit{Degree}, \textit{Profession}, \textit{Work/Study Hours}, \textit{CGPA}, \textit{Sleep Duration}, \textit{Dietary Habits}, \textit{City}.
     \end{itemize}
 
     È stata inoltre individuata la variabile target del problema di classificazione, identificata nella colonna
@@ -328,8 +328,9 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
             Gender & Genere dichiarato dallo studente. \\
             Age & Età dello studente espressa in anni. \\
             Academic Pressure & Livello di pressione percepita legata alle attività accademiche. \\
+            Work Pressure & Livello di pressione percepita legata alle attività lavorative. \\
             Study Satisfaction & Livello di soddisfazione dello studente rispetto allo studio. \\
-            Job Satisfaction & Livello di soddisfazione rispetto ad attività lavorative eventualmente svolte. \\
+            Job Satisfaction & Livello di soddisfazione rispetto ad attività lavorative. \\
             CGPA & Media accademica di tutti i voti ottenuti nel percorso di studi. \\
             Work/Study Hours & Numero medio di ore dedicate quotidianamente a studio e lavoro. \\
             Sleep Duration & Durata media del sonno giornaliero dichiarata. \\
@@ -477,6 +478,8 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     nel contesto universitario di riferimento. In particolare, tale pipeline consente di analizzare
     l’effetto di una rappresentazione più informata dei dati, pur senza introdurre assunzioni forti o
     modifiche che alterino il significato originale delle informazioni.
+
+    \newpage
 
     L’adozione di due pipeline permette quindi di:
     \begin{itemize}
@@ -691,6 +694,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     Nel dataset finale, la variabile originale \textit{CGPA} è stata sostituita dalla nuova rappresentazione
     \textit{CGPA\_30}, al fine di evitare ridondanze informative.
 
+    \newpage
 
     \paragraph{Feature Selection}
             Analogamente alla pipeline 1, è stata rimossa la feature \textbf {city}: fortemente dipendente dal contesto geografico
@@ -729,7 +733,6 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
         \end{tabular}
     \end{table}
 
-    \newpage
     \subsection{Encoding}
         Poiché la maggior parte dei modelli di machine learning opera su numeri si è deciso (per entrambe le Pipeline) di convertire
         le variabili categoriche in variabili binarie attraverso l'adozione del \textbf{One-Hot encoder}.
@@ -757,6 +760,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
 % ------------------------------------------
 
+    \newpage
     \section{Modeling}
 
     \subsection{Scelta degli Algoritmi}
@@ -858,7 +862,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
     l’affidabilità del modello.
 
 % ------------------------------------------
-
+    \newpage
     \section{Conclusioni}
     L'analisi condotta attraverso le due pipeline di preparation e i due algoritmi di classificazione
     ha permesso di identificare i fattori più
@@ -931,7 +935,7 @@ Corso di Fondamenti di Intelligenza Artificiale - Prof. F. Palomba}
 
 
 % -------------------------------------------------------------------------
-
+    \newpage
     \section{Interfaccia della Demo}
 
     \paragraph{Pagina Iniziale}
