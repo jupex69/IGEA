@@ -14,17 +14,19 @@
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     background-color: #fff;
 }
-.prediction-title { font-size: 2em; margin-bottom: 10px; }
+.prediction-title { font-family: var(--font-body); font-size: 1.8em; margin-bottom: 10px; }
 .prob-text { font-size: 1.2em; color: #555; }
 .btn-back {
     display: inline-block;
     padding: 10px 20px;
+    font-weight: normal;
     background-color: var(--primary-color);
     color: white;
     text-decoration: none;
     border-radius: 5px;
+    transition: all 0.3s ease 0s;
 }
-.btn-back:hover { background-color: #8a3fb0; }
+.btn-back:hover { background-color: var(--link-hover); }
 
 .skill {
     width: 160px;

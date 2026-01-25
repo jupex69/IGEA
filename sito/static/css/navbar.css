@@ -1,7 +1,7 @@
 li, a, button {
-    font-weight: 500;
+    font-weight: normal;
     font-size: 16px;
-    color: #1f1f1f;
+    color: var(--text-color);
     text-decoration: none;
 }
 
@@ -29,14 +29,14 @@ header {
 }
 
 .logo img {
-    width: 30px;
+    width: 50px;
 }
 
 .logo h1 {
     font-family: var(--font-title);
     font-weight: 500;
     font-size: 22px;
-    color: var(--primary-color);
+    color: var(--text-color);
 }
 
 .nav__links {
@@ -49,16 +49,16 @@ header {
 }
 
 .nav__links li a {
-    font-weight: lighter;
+    font-weight: normal;
     transition: all 0.3s ease 0s;
 }
 
 .nav__links li a:hover {
-    color: var(--primary-color);
+    color: var(--link-hover);
 }
 
 .cta {
-    font-weight: lighter;
+    font-weight: normal;
     margin-left: 20px;
     padding: 9px 25px;
     background-color: var(--primary-color);
@@ -70,5 +70,5 @@ header {
 }
 
 .cta:hover {
-    background-color: #8a3fb0;
+    background-color: var(--link-hover);
 }

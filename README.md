@@ -1,6 +1,6 @@
 # IGEA - Intelligent Guide for Emotional Assessment 🧠
 
-<img src="sito/static/assets/images/logo_IGEA.png" alt="IGEA" width="200">
+<img src="docs/images/logo-IGEA.png" alt="IGEA" width="200">
 
 ## Gruppo
 

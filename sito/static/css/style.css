@@ -1,7 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 :root {
-    --primary-color: #AE4FDD;
+    --primary-color: #936AE4;
+    --text-color: #43408F;
+    --background-color: #f2f5ffff;
+    --link-text-color: #ffffff;
+    --link-hover: #43408F;
+
 
     --font-title: 'Playfair Display', serif;
     --font-body: 'Inter', sanf-serif;
@@ -15,7 +20,7 @@
 
 body {
     font-family: var(--font-body);
-    background-color: #f7f5fb;
+    background-color: var(--background-color);
 }
 
 .hero {
@@ -32,28 +37,30 @@ body {
 
 .hero-title {
     font-family: var(--font-title);
-    font-weight: lighter;
+    font-weight: normal;
     font-size: 2.2rem;
+    color: var(--text-color);
     margin-bottom: 1rem;
 }
 
 .hero-description {
-    font-weight: lighter;
+    font-weight: normal;
     font-size: 1.1rem;
+    color: var(--text-color);
     margin-bottom: 2rem;
     color: #555;
 }
 
 .hero-button {
-    font-weight: lighter;
+    font-weight: normal;
     padding: 9px 25px;
     background-color: var(--primary-color);
-    color: #fff;
+    color: var(--link-text-color);
     text-decoration: none;
     border-radius: 6px;
     transition: all 0.3s ease 0s;
 }
 
 .hero-button:hover {
-    background-color: #8a3fb0;
+    background-color: var(--link-hover);
 }
