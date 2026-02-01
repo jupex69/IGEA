@@ -104,7 +104,9 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
     # === STAMPE ===
     for metric in ['accuracy', 'precision', 'recall', 'f1', 'roc_auc']:
         mean_score = grid.cv_results_[f'mean_test_{metric}'][grid.best_index_]
-        print(f" {metric:10s}: {mean_score:.3f}")
+        std_score  = grid.cv_results_[f'std_test_{metric}'][grid.best_index_]
+        print(f" {metric:10s}: {mean_score:.3f} ± {std_score:.3f}")
+
 
 
     leaderboard_data.append({
@@ -212,7 +214,10 @@ for pipe_name, (X, y, preprocessor) in datasets.items():
 
     # === STAMPE RISULTATI ===
     for metric in ['accuracy', 'precision', 'recall', 'f1', 'roc_auc']:
-        print(f" {metric:10s}: {scores_log[f'test_{metric}'].mean():.3f}")
+        mean_score = scores_log[f'test_{metric}'].mean()
+        std_score  = scores_log[f'test_{metric}'].std()
+        print(f" {metric:10s}: {mean_score:.3f} ± {std_score:.3f}")
+
 
     leaderboard_data.append({
         'Source': pipe_name,
